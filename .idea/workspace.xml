@@ -9,7 +9,9 @@
     <bookmark url="file://$PROJECT_DIR$/src/main/java/testjava.java" line="153" mnemonic="9" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f7d9efe0-2d5d-452d-adb8-226555b7fe03" name="Default Changelist" comment="" />
+    <list default="true" id="f7d9efe0-2d5d-452d-adb8-226555b7fe03" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -290,10 +292,10 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1814" />
-    <option name="y" value="34" />
-    <option name="width" value="1687" />
-    <option name="height" value="967" />
+    <option name="x" value="26" />
+    <option name="y" value="65" />
+    <option name="width" value="1723" />
+    <option name="height" value="1027" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -362,7 +364,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1735209162881" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1735212152547" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
@@ -470,17 +472,17 @@
       <workItem from="1734357073064" duration="27806000" />
       <workItem from="1734930692916" duration="16764000" />
       <workItem from="1735033674419" duration="4217000" />
-      <workItem from="1735039259186" duration="21835000" />
+      <workItem from="1735039259186" duration="25039000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="88045000" />
+    <option name="totallyTimeSpent" value="91249000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1814" y="34" width="1687" height="967" extended-state="0" />
+    <frame x="26" y="65" width="1723" height="1027" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4994363" visible="true" weight="0.2443769" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4994363" visible="true" weight="0.23914337" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -494,7 +496,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32911393" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.3078579" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32831" />
@@ -502,7 +504,7 @@
       <window_info anchor="bottom" id="Database Changes" order="12" />
       <window_info anchor="bottom" id="Version Control" order="13" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" sideWeight="0.4976452" visible="true" weight="0.08206687" />
+      <window_info anchor="right" id="Ant Build" order="1" sideWeight="0.4976452" visible="true" weight="0.08030934" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.2496318" />
       <window_info anchor="right" id="Maven" order="3" sideWeight="0.49921507" weight="0.32956573" />
       <window_info anchor="right" id="Palette" order="4" />
