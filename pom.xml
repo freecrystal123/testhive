@@ -33,6 +33,30 @@
          <version>1.1.4</version>
      </dependency>
 
+     <dependency>
+         <groupId>org.apache.poi</groupId>
+         <artifactId>poi-ooxml</artifactId>
+         <version>5.2.3</version>
+     </dependency>
+     <dependency>
+         <groupId>org.apache.poi</groupId>
+         <artifactId>poi-ooxml-schemas</artifactId>
+         <version>4.1.2</version>
+     </dependency>
+
+         <!-- MySQL JDBC Driver -->
+         <dependency>
+             <groupId>mysql</groupId>
+             <artifactId>mysql-connector-java</artifactId>
+             <version>8.0.33</version>
+         </dependency>
+
+         <dependency>
+             <groupId>org.apache.thrift</groupId>
+             <artifactId>libthrift</artifactId>
+             <version>0.16.0</version>  <!-- 请根据需要选择版本 -->
+         </dependency>
+
  </dependencies>
  <build>
 
