@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import pojp.bussinfo;
 import pojp.optdata;
 
 import java.io.*;
@@ -33,7 +34,7 @@ public class excelreader {
 
         // 遍历每个 Excel 文件并读取数据
         for (File file : files) {
-            System.out.println("Reading file: " + file.getName());git
+            System.out.println("Reading file: " + file.getName());
             try {
                 readCSVFile(file,file.getName());
             } catch (Exception e) {
@@ -43,33 +44,59 @@ public class excelreader {
     }
 
     // 读取 Excel 文件
-    private static void readCSVFile(File file,String FileName) throws  Exception{
+    private static void readCSVFile(File file,String FileName) {
         List<optdata> optdataList = new ArrayList<optdata>();
+        List<bussinfo> bussinfoList = new ArrayList<bussinfo>();
+
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             int count = 0;
             // 逐行读取 CSV 文件
-            while ((line = br.readLine()) != null) {
-                // 按逗号分隔每一行
-                String[] values = line.split(",");
-                count ++;
-                if(count ==1){
-                    continue;
+            if(FileName.contains("Buss Info")){
+
+                while ((line = br.readLine()) != null) {
+                    // 按逗号分隔每一行
+                    String[] values = line.split(",");
+                    count ++;
+                    if(count ==1){
+                        continue;
+                    }
+                    bussinfo dataLine =  new bussinfo();
+                    dataLine.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(values[0]));
+                    dataLine.setRegister_num(Integer.parseInt(values[1]));
+                    dataLine.setRecharger_num(Integer.parseInt(values[2]));
+                    dataLine.setLottery_order_num(Integer.parseInt(values[3]));
+                    dataLine.setLogin_result_num(Integer.parseInt(values[4]));
+                    dataLine.setPageview_num(Integer.parseInt(values[5]));
+                    bussinfoList.add(dataLine);
+
                 }
-                optdata dataLine =  new optdata();
-                dataLine.setData(Double.parseDouble(values[1]));
-                dataLine.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(values[0]));
-                optdataList.add(dataLine);
-                // 输出每个字段
-                for (String value : values) {
-                    System.out.print(value + "\t");  // 使用 tab 来分隔输出
+
+            } else {
+                while ((line = br.readLine()) != null) {
+                    // 按逗号分隔每一行
+                    String[] values = line.split(",");
+                    count ++;
+                    if(count ==1){
+                        continue;
+                    }
+                    optdata dataLine =  new optdata();
+                    dataLine.setData(Double.parseDouble(values[1]));
+                    dataLine.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(values[0]));
+                    optdataList.add(dataLine);
+                    // 输出每个字段
+                    for (String value : values) {
+                        System.out.print(value + "\t");  // 使用 tab 来分隔输出
+                    }
+                    System.out.println();  // 换行
                 }
-                System.out.println();  // 换行
+
             }
-        } catch (IOException e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }finally {
-            mysqljdbc.insertTable(FileName,optdataList);
+            mysqljdbc.insertTable(FileName,optdataList,bussinfoList);
         }
 
 

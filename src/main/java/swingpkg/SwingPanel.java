@@ -43,7 +43,7 @@ public class SwingPanel {
         // 创建三个按钮
         JButton button1 = new JButton("去重");
         JButton button2 = new JButton("去重&取差集");
-        JButton button3 = new JButton("Button 3");
+        JButton button3 = new JButton("执行SQL");
 
         // 添加按钮点击事件
         button1.addActionListener(new ActionListener() {
@@ -66,7 +66,13 @@ public class SwingPanel {
             }
         });
 
+        button3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // 按钮点击后弹出一个对话框
+                String inputText3 = textArea3.getText();
 
+            }
+        });
 
 
         // 设置按钮的位置和大小
