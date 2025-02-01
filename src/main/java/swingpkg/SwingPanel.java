@@ -1,6 +1,7 @@
 package swingpkg;
 
 import util.deduplication;
+import util.executesql;
 import util.minus;
 
 import javax.swing.*;
@@ -70,7 +71,7 @@ public class SwingPanel {
             public void actionPerformed(ActionEvent e) {
                 // 按钮点击后弹出一个对话框
                 String inputText3 = textArea3.getText();
-
+                executesql.voidexecutesql(inputText3);
             }
         });
 

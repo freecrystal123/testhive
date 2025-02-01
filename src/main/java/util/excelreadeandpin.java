@@ -62,7 +62,7 @@ public class excelreadeandpin {
         List<bussinfo> bussinfoList = new ArrayList<bussinfo>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-
+    
             String line;
             // 逐行读取 CSV 文件
             if(FileName.contains("lucky_day")){

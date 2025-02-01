@@ -1,9 +1,12 @@
 package jdbc;
 import pojp.bussinfo;
 import pojp.optdata;
+import pojp.orderwin0122;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,6 +57,165 @@ public class mysqljdbc {
 //            e.printStackTrace();
 //        }
 //    }
+
+    public static String loaddatafile (String path) throws  Exception {
+
+        StringBuffer logger = new StringBuffer();
+        String query = "LOAD DATA LOCAL INFILE '"+path+"' INTO TABLE incremental_allOrders " +
+                "FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' " +
+                "(order_id,uid,investment_amount,lottery_entries,ordertime,series_number,winning_flag,winning_amount ,draw_period , dateid)";
+
+        try ( Connection connection = DriverManager.getConnection("jdbc:mysql://47.99.103.128:3306/Lottery?allowLoadLocalInfile=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useCompression=true", "root", "1234");
+             Statement stmt = connection.createStatement()) {
+            String sql = "delete from incremental_allOrders where 1=1";  // 替换为你要清空的表名
+            stmt.executeUpdate(sql);
+            int rowsAffected = stmt.executeUpdate(query);
+            System.out.println(rowsAffected + " rows inserted");
+            logger.append(rowsAffected + " rows inserted");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.append(e.getMessage());
+        }
+    return logger.toString();
+    }
+
+
+    public static String insertandupdate (String etldate) throws  Exception {
+
+        StringBuffer logger = new StringBuffer();
+        String query = "INSERT INTO Lottery.fact_allOrders (\n" +
+                "order_id,    \n" +
+                "uid, \n" +
+                "    investment_amount,\n" +
+                "    lottery_entries,\n" +
+                "    ordertime,\n" +
+                "    series_number,\n" +
+                "    winning_flag,\n" +
+                "    winning_amount,\n" +
+                "    Draw_Period,\n" +
+                "    DateID\n" +
+                ") \n" +
+                "SELECT \n" +
+                "    d.order_id,\n" +
+                "    d.uid,\n" +
+                "    d.investment_amount,\n" +
+                "    d.lottery_entries,\n" +
+                "    d.ordertime,\n" +
+                "    d.series_number,\n" +
+                "    d.winning_flag,\n" +
+                "    d.winning_amount,\n" +
+                "    d.Draw_Period,\n" +
+                "    d.DateID\n" +
+                "FROM Lottery.incremental_allOrders AS d\n" +
+                "ON DUPLICATE KEY UPDATE\n" +
+                "    uid = VALUES(uid),\n" +
+                "    investment_amount = VALUES(investment_amount),\n" +
+                "    lottery_entries= VALUES(lottery_entries) ,\n" +
+                "    ordertime = VALUES(ordertime),\n" +
+                "    series_number = VALUES(series_number),\n" +
+                "    winning_flag = VALUES(winning_flag),\n" +
+                "    winning_amount = VALUES(winning_amount),\n" +
+                "    Draw_Period= VALUES(Draw_Period),\n" +
+                "    DateID = VALUES(DateID)";
+
+        try ( Connection connection = DriverManager.getConnection("jdbc:mysql://47.99.103.128:3306/Lottery?allowLoadLocalInfile=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useCompression=true", "root", "1234");
+              Statement stmt = connection.createStatement()) {
+            // 将字符串解析为 LocalDate 对象
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate date = LocalDate.parse(etldate, inputFormatter);
+
+            // 定义输出格式，不带“-”
+            DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+
+            // 格式化日期
+            String formattedDate = date.format(outputFormatter);
+
+            String sql = "create table Lottery.fact_allOrders_bak_"+ formattedDate +" as select * from Lottery.fact_allOrders";  // 新增备份表
+            stmt.executeUpdate(sql);
+            int rowsAffected = stmt.executeUpdate(query);
+            System.out.println(rowsAffected + " rows updated");
+            logger.append(rowsAffected + " rows updated");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.append(e.getMessage());
+        }
+        return logger.toString();
+
+    }
+
+
+    public  static void insertincremental_allOrdersTable(List<orderwin0122> orderwin0122s)  throws  Exception{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://47.99.103.128:3306/Lottery?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useCompression=true", "root", "1234");
+
+            // 初始化操作
+           // 执行 TRUNCATE TABLE SQL 命令
+//           String sql = "delete from incremental_allOrders where 1=1";  // 替换为你要清空的表名
+           Statement stmt = connection.createStatement();
+//           stmt.executeUpdate(sql);
+
+            connection.setAutoCommit(false);
+           // 插入操作
+            String insertSQL = "INSERT INTO incremental_allOrders (uid, " +
+                "order_id," +
+                "investment_amount," +
+                "lottery_entries," +
+                "ordertime," +
+                "series_number," +
+                "winning_flag," +
+                "winning_amount," +
+                "draw_period," +
+                "DateID) VALUES (?,?,?,?,?,?,?,?,?,?);";
+
+            int count = 0;
+           PreparedStatement preparedStatement = connection.prepareStatement(insertSQL);
+            for (orderwin0122 data : orderwin0122s) {
+
+            count ++;
+
+
+            // 设置参数
+            preparedStatement.setString(1,String.valueOf(data.uid));
+            preparedStatement.setString(2,String.valueOf(data.order_id));
+            preparedStatement.setDouble(3,data.investment_amount);
+            preparedStatement.setInt(4,data.lottery_entries);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            java.sql.Timestamp timestamp =  new java.sql.Timestamp(sdf.parse(data.ordertime).getTime());
+
+            // 将 Date 转换为 Timestamp
+
+            preparedStatement.setTimestamp(5,timestamp);
+            preparedStatement.setInt(6,data.series_number);
+            preparedStatement.setString(7,data.winning_flag);
+
+            preparedStatement.setDouble(8,data.winning_amount);
+            preparedStatement.setInt(9,data.draw_period);
+
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+            java.sql.Date date1 = new java.sql.Date(sdf1.parse(data.dateid).getTime());
+            preparedStatement.setDate(10,date1);
+
+
+            // 将插入操作添加到批处理中
+                preparedStatement.addBatch();
+            if(count%1000==0){
+                preparedStatement.executeBatch();
+                // 清空批处理队列
+                preparedStatement.clearBatch();
+            } else if(orderwin0122s.size()-1==count){
+                preparedStatement.executeBatch();
+                // 清空批处理队列
+                preparedStatement.clearBatch();
+            }
+
+            System.out.println("Inserted " + count + " row(s) into the incremental_allOrders table.");
+
+        }
+        // 提交事务
+        connection.commit();
+
+
+    }
 
     public static void insertTable(String cvsName, List<optdata> optdatas, List<bussinfo> bussinfos) {
 

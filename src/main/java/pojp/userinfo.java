@@ -2,60 +2,123 @@ package pojp;
 
 import java.util.Date;
 
-public class bussinfo {
+public class userinfo {
 
-    public java.util.Date Time;
-    public Integer register_num;
-    public Integer recharger_num;
-    public Integer lottery_order_num;
-    public Integer login_result_num;
-    public Integer pageview_num;
+    public String  uid;
+    public String first_visit_source;
+    public String register_time;
+    public String kyc_state;
+    public String ekyc_state;
+    public String first_recharge_time;
+    public String last_recharge_time;
+    public String first_order_time;
+    public String last_order_time;
+    public String first_recharge_amount;
+    public String first_winning_time;
+    public String first_withdraw_time;
+    public String last_withdraw_time;
 
-    public Date getTime() {
-        return Time;
+    public String getUid() {
+        return uid;
     }
 
-    public void setTime(Date time) {
-        Time = time;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public Integer getRegister_num() {
-        return register_num;
+    public String getFirst_visit_source() {
+        return first_visit_source;
     }
 
-    public void setRegister_num(Integer register_num) {
-        this.register_num = register_num;
+    public void setFirst_visit_source(String first_visit_source) {
+        this.first_visit_source = first_visit_source;
     }
 
-    public Integer getRecharger_num() {
-        return recharger_num;
+    public String getRegister_time() {
+        return register_time;
     }
 
-    public void setRecharger_num(Integer recharger_num) {
-        this.recharger_num = recharger_num;
+    public void setRegister_time(String register_time) {
+        this.register_time = register_time;
     }
 
-    public Integer getLottery_order_num() {
-        return lottery_order_num;
+    public String getKyc_state() {
+        return kyc_state;
     }
 
-    public void setLottery_order_num(Integer lottery_order_num) {
-        this.lottery_order_num = lottery_order_num;
+    public void setKyc_state(String kyc_state) {
+        this.kyc_state = kyc_state;
     }
 
-    public Integer getLogin_result_num() {
-        return login_result_num;
+    public String getEkyc_state() {
+        return ekyc_state;
     }
 
-    public void setLogin_result_num(Integer login_result_num) {
-        this.login_result_num = login_result_num;
+    public void setEkyc_state(String ekyc_state) {
+        this.ekyc_state = ekyc_state;
     }
 
-    public Integer getPageview_num() {
-        return pageview_num;
+    public String getFirst_recharge_time() {
+        return first_recharge_time;
     }
 
-    public void setPageview_num(Integer pageview_num) {
-        this.pageview_num = pageview_num;
+    public void setFirst_recharge_time(String first_recharge_time) {
+        this.first_recharge_time = first_recharge_time;
+    }
+
+    public String getLast_recharge_time() {
+        return last_recharge_time;
+    }
+
+    public void setLast_recharge_time(String last_recharge_time) {
+        this.last_recharge_time = last_recharge_time;
+    }
+
+    public String getFirst_order_time() {
+        return first_order_time;
+    }
+
+    public void setFirst_order_time(String first_order_time) {
+        this.first_order_time = first_order_time;
+    }
+
+    public String getLast_order_time() {
+        return last_order_time;
+    }
+
+    public void setLast_order_time(String last_order_time) {
+        this.last_order_time = last_order_time;
+    }
+
+    public String getFirst_recharge_amount() {
+        return first_recharge_amount;
+    }
+
+    public void setFirst_recharge_amount(String first_recharge_amount) {
+        this.first_recharge_amount = first_recharge_amount;
+    }
+
+    public String getFirst_winning_time() {
+        return first_winning_time;
+    }
+
+    public void setFirst_winning_time(String first_winning_time) {
+        this.first_winning_time = first_winning_time;
+    }
+
+    public String getFirst_withdraw_time() {
+        return first_withdraw_time;
+    }
+
+    public void setFirst_withdraw_time(String first_withdraw_time) {
+        this.first_withdraw_time = first_withdraw_time;
+    }
+
+    public String getLast_withdraw_time() {
+        return last_withdraw_time;
+    }
+
+    public void setLast_withdraw_time(String last_withdraw_time) {
+        this.last_withdraw_time = last_withdraw_time;
     }
 }

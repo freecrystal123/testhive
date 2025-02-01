@@ -3,7 +3,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import com.google.gson.Gson;
+import pojp.orderwin0122;
 import pojp.orderwinnowin;
+import pojp.usercnt;
+import pojp.userinfo;
 
 public class testjava {
 
@@ -72,9 +75,11 @@ public class testjava {
             int count = 0;
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath));
-            writer.write("uid,lottery_type,order_id,investment_amount,lottery_entries,order_time,series_number,winning_flag,winning_amount,winning_time");
-            writer.newLine();
+//            writer.write("uid,first_visit_source,register_time,kyc_state,ekyc_state,first_recharge_time,last_recharge_time,first_order_time,last_order_time,first_recharge_amount,first_winning_time,first_withdraw_time,last_withdraw_time");
+//            writer.newLine();
 
+            writer.write("time , cnt");
+            writer.newLine();
 
             BufferedWriter writerunmatchuserid = new BufferedWriter(new FileWriter(output_unmatchuserid));
             if(hashMap.isEmpty()){
@@ -83,51 +88,17 @@ public class testjava {
                         "curl",
                         "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
                         "-X", "POST",
-                        "--data-urlencode", "q=select \n" +
-                        "uid,\n" +
-                        "lottery_type,\n" +
-                        "order_id,\n" +
-                        "investment_amount,\n" +
-                        "lottery_entries , \n" +
-                        "order_time,\n" +
-                        "series_number,\n" +
-                        "case when uid is not null and winning_amount is null then 'no winning' else 'winning' end winning_flag,\n" +
-                        "winning_amount,\n" +
-                        "winning_time\n" +
-                        "from (\n" +
-                        "select users.uid, events.* from (\n" +
-                        "select \n" +
-                        "winning.winning_amount,\n" +
-                        "winning.winning_time,\n" +
-                        "ordered.lottery_type,\n" +
-                        "ordered.order_id,\n" +
-                        "ordered.user_id,\n" +
-                        "ordered.investment_amount,\n" +
-                        "ordered.lottery_entries,\n" +
-                        "ordered.series_number,\n" +
-                        "ordered.order_time from (\n" +
-                        " select \n" +
-                        " order_id,\n" +
-                        " user_id,\n" +
-                        " winning_amount,\n" +
-                        " `time` winning_time\n" +
-                        " from events\n" +
-                        " where event = 'winning_detail') winning\n" +
-                        " right join (\n" +
-                        " select  order_id,\n" +
-                        " user_id,\n" +
-                        " estimated_price investment_amount,\n" +
-                        " lottery_type,\n" +
-                        " lottery_entries,\n" +
-                        " `time` order_time,\n" +
-                        " case when time >= '2024-12-14 21:00:00' and  time <= '2024-12-28 19:00:00' then '20241228' \n" +
-                        "      when time < '2024-12-14 19:00:00'  then '20241214 ' \n" +
-                        "      when time > '2024-12-28 21:00:00' and  time <= '2025-01-11 19:00:00'  then '20250111' end  series_number\n" +
-                        " from events\n" +
-                        " where event = 'lottery_order_result'\n" +
-                        " and is_success = 1    ) ordered \n" +
-                        " on winning.order_id = ordered.order_id ) events \n" +
-                        " left join users on events.user_id = users.id ) abc where uid is not null",
+                        "--data-urlencode", "q= SELECT \n" +
+                        "    uid, \n" +
+                        "    first_visit_source,\n" +
+                        "    register_time,\n" +
+                        "    kyc_state, ekyc_state,\n" +
+                        "     first_recharge_time, last_recharge_time ,\n" +
+                        "   first_order_time, last_order_time , \n" +
+                        "    first_recharge_amount , first_winning_time , \n" +
+                        "    first_withdraw_time , last_withdraw_time \n" +
+                        "FROM users\n" +
+                        "WHERE first_visit_source is not null ",
                         "--data-urlencode", "format=json",
                 };
 
@@ -145,16 +116,17 @@ public class testjava {
 
                     while ((line = reader.readLine()) != null) {
 //                        System.out.println(line);  // 打印输出
-                        orderwinnowin person = gson.fromJson(line, orderwinnowin.class);
+                        userinfo person = gson.fromJson(line, userinfo.class);
                         databaseoutputcount ++;
                         if(databaseoutputcount%10==0){
                             System.out.println(" 目前是"+databaseoutputcount);
 
                         }
 
+
                         outputSet.add(person.uid);
 //                        writer.write(person.uid+","+person.first_order_time+","+person.first_order_amount+","+person.lottery_type+","+person.register_time);
-                        writer.write(person.uid+","+person.lottery_type+","+person.order_id+","+person.investment_amount+","+person.lottery_entries+","+person.order_time+","+person.series_number+","+person.winning_flag + "," + person.winning_amount + "," + person.winning_time);
+                        writer.write(person.uid+","+person.first_visit_source+","+person.register_time+","+person.kyc_state+","+person.ekyc_state+","+person.first_recharge_time+","+person.last_recharge_time+","+person.first_order_time + "," + person.last_order_time + "," + person.first_recharge_amount+ "," +person.first_winning_time + "," + person.first_withdraw_time+ "," +person.last_withdraw_time);
 //                        writer.write(person.uid+","+person.register_time);
                         writer.newLine();
                     }
@@ -176,53 +148,12 @@ public class testjava {
                 {
                     String SQLString = entry.getValue().toString().substring(0,entry.getValue().toString().length()-2);
 //                System.out.println("Key: " + entry.getKey() + ", Value: " +SQLString );
+                    //  login_result,lottery_order_result,recharge_result
                     String[] command = {
                             "curl",
                             "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
                             "-X", "POST",
-                            "--data-urlencode", "q=select \n" +
-                            "uid,\n" +
-                            "lottery_type,\n" +
-                            "order_id,\n" +
-                            "investment_amount,\n" +
-                            "lottery_entries , \n" +
-                            "order_time,\n" +
-                            "series_number,\n" +
-                            "case when uid is not null and winning_amount is null then 'no winning' else 'winning' end winning_flag,\n" +
-                            "winning_amount,\n" +
-                            "winning_time\n" +
-                            "from (\n" +
-                            "select users.uid, events.* from (\n" +
-                            "select \n" +
-                            "winning.winning_amount,\n" +
-                            "winning.winning_time,\n" +
-                            "ordered.lottery_type,\n" +
-                            "ordered.order_id,\n" +
-                            "ordered.user_id,\n" +
-                            "ordered.investment_amount,\n" +
-                            "ordered.lottery_entries,\n" +
-                            "ordered.series_number,\n" +
-                            "ordered.order_time from (\n" +
-                            " select \n" +
-                            " order_id,\n" +
-                            " user_id,\n" +
-                            " winning_amount,\n" +
-                            " `time` winning_time\n" +
-                            " from events\n" +
-                            " where event = 'winning_detail') winning\n" +
-                            " right join (\n" +
-                            " select  order_id,\n" +
-                            " user_id,\n" +
-                            " estimated_price investment_amount,\n" +
-                            " lottery_type,\n" +
-                            " lottery_entries,\n" +
-                            " `time` order_time,\n" +
-                            " series_number\n" +
-                            " from events\n" +
-                            " where event = 'lottery_order_result'\n" +
-                            " and is_success = 1   ) ordered \n" +
-                            " on winning.order_id = ordered.order_id ) events \n" +
-                            " left join users on events.user_id = users.id ) abc where uid is not null\n",
+                            "--data-urlencode", "q= SELECT count(distinct users.uid) usernum,time data1 from users join ( select user_id,substr(cast(time as string),1,10) time from events where event= 'lottery_order_result' and is_success  = 1 and time>'2025-01-23 00:00:00' ) a on users.id = a.user_id where users.uid in ( "+SQLString +" ) group by time  " ,
                             "--data-urlencode", "format=json",
                     };
 
@@ -235,16 +166,13 @@ public class testjava {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
                         String line;
                         int databaseoutputcount = 0;
-//                    writer.write("uid , first_order_time,first_order_amount,lottery_type,register_time");
-//                    writer.write("uid , register_time,order_id,lottery_type,time");
+
 
                         while ((line = reader.readLine()) != null) {
 //                        System.out.println(line);  // 打印输出
-                            orderwinnowin person = gson.fromJson(line, orderwinnowin.class);
-                            outputSet.add(person.uid);
-//                        writer.write(person.uid+","+person.first_order_time+","+person.first_order_amount+","+person.lottery_type+","+person.register_time);
-                            writer.write(person.uid+","+person.lottery_type+","+person.order_id+","+person.investment_amount+","+person.lottery_entries+","+person.order_time+","+","+person.series_number+","+person.winning_flag + "," + person.winning_amount + "," + person.winning_time);
-//                        writer.write(person.uid+","+person.register_time);
+                            usercnt person = gson.fromJson(line, usercnt.class);
+//                            outputSet.add(person.date);
+                            writer.write(person.usernum+","+person.data1);
                             writer.newLine();
                         }
 

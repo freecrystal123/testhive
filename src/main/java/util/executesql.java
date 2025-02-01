@@ -24,7 +24,8 @@ public class executesql {
 
 
         if (matcher.find()) {
-            String selectPart = matcher.group(1).trim(); // 提取
+            String selectPart = matcher.group(0).trim(); // 提取
+            System.out.println("selectPart:"+selectPart);
             try {
                 throw new Exception("");
             } catch (Exception e) {
