@@ -5,6 +5,7 @@ import util.executesql;
 import util.minus;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -40,25 +41,29 @@ public class SwingPanelEtl {
         scrollPane2.setBounds(50, 300, 500, 200); // x=50, y=160, 宽=200, 高=100
 
 
+
         // 创建三个按钮
         JButton button1 = new JButton("DATA Exp&Imp：");
         JButton button1_1 = new JButton("userinfo ");
-        JButton button1_2 = new JButton("fact_allOrders ");
-        JButton button1_3 = new JButton("-----");
+        JButton button1_2 = new JButton("factallorders ");
+        JButton button1_3 = new JButton("newregister");
 
         // 文本输入
         // 昨天日期默认
         LocalDate today = LocalDate.now();
         LocalDate yesterday = LocalDate.now().minusDays(1);
-        JTextField startField =  new JTextField(yesterday.toString());
-        JTextField endField =  new JTextField(today.toString());
+        JTextField startFieldoutput =  new JTextField(yesterday.toString());
+        JTextField endFieldoutput =  new JTextField(today.toString());
+
+        JTextField startFieldRegister =  new JTextField(yesterday.toString());
+        JTextField endFieldRegister =  new JTextField(today.toString());
 
 
         // 创建三个按钮
         JButton button2 = new JButton("DATA INGESTION：");
         JButton button2_1 = new JButton("userinfo ");
-        JButton button2_2 = new JButton("fact_allOrders");
-        JButton button2_3 = new JButton("-----");
+        JButton button2_2 = new JButton("factallorders");
+        JButton button2_3 = new JButton("newregisteredusers");
 
 
         // 添加按钮点击事件
@@ -66,14 +71,41 @@ public class SwingPanelEtl {
 
             public void actionPerformed(ActionEvent e) {
                 // 按钮点击后弹出一个对话框
+                // 沙漏
 
-
+                button1_1.setEnabled(false);
+                button1_2.setEnabled(false);
+                button1_3.setEnabled(false);
+                frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                JOptionPane.showMessageDialog(frame, "Please be patient and do not click the button again!");
                 util.etlsqls.userinfo2SQL();
+                JOptionPane.showMessageDialog(frame, "Successful! ");
+                frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 textArea2.setText( util.etlsqls.getLog());
+            }
 
-                // 数据库操作部分
+        });
 
 
+
+        // 添加按钮点击事件
+        button1_3.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                // 按钮点击后弹出一个对话框
+                // 沙漏
+
+                String starttime =  startFieldRegister.getText();
+                String endtime = endFieldRegister.getText();
+                button1_1.setEnabled(false);
+                button1_2.setEnabled(false);
+                button1_3.setEnabled(false);
+                frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                JOptionPane.showMessageDialog(frame, "Please be patient and do not click the button again!");
+                util.etlsqls.newregisteredusers(starttime, endtime);
+                JOptionPane.showMessageDialog(frame, "Successful! ");
+                frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                textArea2.setText( util.etlsqls.getLog());
             }
 
         });
@@ -83,13 +115,25 @@ public class SwingPanelEtl {
             public void actionPerformed(ActionEvent e) {
 
                 // 输入值是否合理
+                String starttime =  startFieldoutput.getText();
+                String endtime = endFieldoutput.getText();
 
-                String starttime =  startField.getText();
-                String endtime = endField.getText();
                 button1_2.setEnabled(false);
-                JOptionPane.showMessageDialog(frame, "The button cannot be clicked twice!");
-                util.etlsqls.output2SQL(starttime,endtime);
-                textArea2.setText(util.etlsqls.getLog());
+                button1_1.setEnabled(false);
+                button1_3.setEnabled(false);
+                // 沙漏
+                frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                JOptionPane.showMessageDialog(frame, "Please be patient and do not click the button again!");
+                try {
+                    util.etlsqls.output2SQL(starttime, endtime);
+                    JOptionPane.showMessageDialog(frame, "Successful! ");
+                }catch (Exception e1){
+                    JOptionPane.showMessageDialog(frame, "failed! ");
+                }
+                finally {
+                    frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                    textArea2.setText(util.etlsqls.getLog());
+                }
             }
         });
 
@@ -99,20 +143,24 @@ public class SwingPanelEtl {
         button1.setBounds(50, 50, 120, 40);  // x=300, y=50, 宽=120, 高=40
         button1_1.setBounds(50, 100, 120, 40); // x=300, y=100, 宽=120, 高=40
         button1_2.setBounds(50, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
-//        button1_3.setBounds(350, 100, 120, 40); // x=300, y=100, 宽=120, 高=40
+        button1_3.setBounds(50, 240, 120, 40); // x=300, y=100, 宽=120, 高=40
 
-        startField.setBounds(190, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
-        endField.setBounds(360, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
+        startFieldoutput.setBounds(190, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
+        endFieldoutput.setBounds(360, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
 
+        startFieldRegister.setBounds(190, 240, 120, 40); // x=300, y=100, 宽=120, 高=40
+        endFieldRegister.setBounds(360, 240, 120, 40); // x=300, y=100, 宽=120, 高=40
 
         // 将文本框和按钮添加到 JPanel
         panel.add(scrollPane2);
         panel.add(button1);
         panel.add(button1_1);
         panel.add(button1_2);
-        panel.add(startField);
-        panel.add(endField);
-//        panel.add(button1_3);
+        panel.add(startFieldoutput);
+        panel.add(endFieldoutput);
+        panel.add(startFieldRegister);
+        panel.add(endFieldRegister);
+        panel.add(button1_3);
         // 将 JPanel 添加到 JFrame
         frame.add(panel);
 

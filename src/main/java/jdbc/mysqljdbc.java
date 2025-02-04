@@ -80,6 +80,59 @@ public class mysqljdbc {
     }
 
 
+
+    public static String loadregister(String path,String starttime,String endtime) throws Exception {
+
+        StringBuffer logger = new StringBuffer();
+        String query = "LOAD DATA LOCAL INFILE '"+path+"' INTO TABLE daily_register " +
+                "FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' " +
+                "(dateid,register)";
+
+        try ( Connection connection = DriverManager.getConnection("jdbc:mysql://20.174.38.36:3306/lottery_reporting?allowLoadLocalInfile=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useCompression=true", "Viviene", "VALe@1234");
+              Statement stmt = connection.createStatement()) {
+            String sql = "delete from daily_register where dateid between '"+starttime+" 00:00:00' and '"+endtime+" 00:00:00'";  // 替换为你要清空的表名
+            stmt.executeUpdate(sql);
+            int rowsAffected = stmt.executeUpdate(query);
+            System.out.println(rowsAffected + " rows inserted");
+            logger.append(rowsAffected + " rows inserted");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.append(e.getMessage());
+            logger.append("database update failed !");
+        }
+        return logger.toString();
+
+
+    }
+
+
+
+
+
+    public static String loaddatafileUserInfo(String path) throws Exception {
+
+        StringBuffer logger = new StringBuffer();
+        String query = "LOAD DATA LOCAL INFILE '"+path+"' INTO TABLE userinfo " +
+                "FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' " +
+                "(uid,first_visit_source,register_time,kyc_state,ekyc_state,first_recharge_time,last_recharge_time,first_order_time ,last_order_time , first_winning_time , first_withdraw_time,last_withdraw_time)";
+
+        try ( Connection connection = DriverManager.getConnection("jdbc:mysql://20.174.38.36:3306/lottery_reporting?allowLoadLocalInfile=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useCompression=true", "Viviene", "VALe@1234");
+              Statement stmt = connection.createStatement()) {
+            String sql = "delete from userinfo where 1=1";  // 替换为你要清空的表名
+            stmt.executeUpdate(sql);
+            int rowsAffected = stmt.executeUpdate(query);
+            System.out.println(rowsAffected + " rows inserted");
+            logger.append(rowsAffected + " rows inserted");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.append(e.getMessage());
+            logger.append("database update failed !");
+        }
+        return logger.toString();
+
+
+    }
+
     public static String insertandupdate (String etldate) throws  Exception {
 
         StringBuffer logger = new StringBuffer();
@@ -138,6 +191,7 @@ public class mysqljdbc {
         } catch (SQLException e) {
             e.printStackTrace();
             logger.append(e.getMessage());
+            logger.append("database update failed !");
         }
         return logger.toString();
 
