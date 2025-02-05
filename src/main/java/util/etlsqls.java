@@ -66,9 +66,9 @@ public class etlsqls {
     public static String output2FilePath = basepath+"output2FilePath.csv";
 
 
-    public static String userinfo2FilePath  = basepath+"userinfo2FilePath.csv";
+    public static String userinfo2FilePath  = "C:/Users/VanAnhLe/Documents/1-Data/dailyexport/userinfo2FilePath.csv";
 
-    public static String newregister2FilePath  = basepath+"newregisteredusersFilePath.csv";
+    public static String newregister2FilePath  = "C:/Users/VanAnhLe/Documents/1-Data/dailyexport/newregisteredusersFilePath.csv";
     public static StringBuffer msg = new StringBuffer();
     public static StringBuffer logger = new StringBuffer();
 
