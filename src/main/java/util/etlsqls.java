@@ -47,8 +47,8 @@ public class etlsqls {
 
 
     // path
-    public static String macbasepath = "Users/zhihuachai/Downloads/";
-    public static String winbasepath = "C:\\Users\\VanAnhLe\\Documents\\1-Data\\dailyexport\\";
+    public static String macbasepath = "/Users/zhihuachai/Downloads/";
+    public static String winbasepath = "C:/Users/VanAnhLe/Documents/1-Data/dailyexport/";
     public static String basepath = null;
     static boolean macflag = true;
     static {
@@ -66,9 +66,9 @@ public class etlsqls {
     public static String output2FilePath = basepath+"output2FilePath.csv";
 
 
-    public static String userinfo2FilePath  = "C:/Users/VanAnhLe/Documents/1-Data/dailyexport/userinfo2FilePath.csv";
+    public static String userinfo2FilePath  = basepath+"userinfo2FilePath.csv";
 
-    public static String newregister2FilePath  = "C:/Users/VanAnhLe/Documents/1-Data/dailyexport/newregisteredusersFilePath.csv";
+    public static String newregister2FilePath  = basepath+"newregisteredusersFilePath.csv";
     public static StringBuffer msg = new StringBuffer();
     public static StringBuffer logger = new StringBuffer();
 
@@ -92,7 +92,7 @@ public class etlsqls {
 
 
 
-    public static int newregisteredusers( String starttime,String endtime ){
+    public static int newregisteredusers( String starttime,String endtime ) throws Exception{
 
 
         String[] command = {
@@ -111,8 +111,6 @@ public class etlsqls {
 
 
         // 输出 逻辑
-        try {
-
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(newregister2FilePath));
 
@@ -135,6 +133,12 @@ public class etlsqls {
             }
             InLog(msg.toString());
             // 等待命令执行完成
+
+             if(databaseoutputcount==0){
+              InLog("please check vpn !");
+                  throw new Exception("please check vpn!");
+              }
+
             int exitCode = process.waitFor();
             if (exitCode == 0) {
                 System.out.println("Curl command executed successfully ！");
@@ -155,15 +159,10 @@ public class etlsqls {
 
 
             return 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-            InLog(msg + e.getMessage());
-            return 0;
-        }
     }
 
 
-    public static int userinfo2SQL(){
+    public static int userinfo2SQL() throws Exception{
 
 
         String[] command = {
@@ -176,20 +175,22 @@ public class etlsqls {
                 "                  EPOCH_TO_TIMESTAMP(register_time ) register_time  ,\n" +
                 "                   kyc_state, ekyc_state,\n" +
                 "                  case when first_recharge_time is null then '1970-01-01 00:00:00' else substr(cast(EPOCH_TO_TIMESTAMP(first_recharge_time) as string),1,19) end first_recharge_time , \n" +
-                "                 case when last_recharge_time  is null then '1970-01-01 00:00:00' else  substr(cast(EPOCH_TO_TIMESTAMP(last_recharge_time ) as string),1,19) end last_recharge_time  ,\n" +
+                "                  case when last_recharge_time  is null then '1970-01-01 00:00:00' else  substr(cast(EPOCH_TO_TIMESTAMP(last_recharge_time ) as string),1,19) end last_recharge_time  ,\n" +
                 "                  case when first_order_time  is null then '1970-01-01 00:00:00' else substr(cast( EPOCH_TO_TIMESTAMP(first_order_time) as string),1,19) end first_order_time,\n" +
                 "                  case when last_order_time  is null then '1970-01-01 00:00:00' else   substr(cast(EPOCH_TO_TIMESTAMP( last_order_time)  as string),1,19) end last_order_time,\n" +
                 "                  case when first_winning_time  is null then '1970-01-01 00:00:00' else  substr(cast(EPOCH_TO_TIMESTAMP(first_winning_time)  as string),1,19) end first_winning_time,\n" +
-                "               case when first_withdraw_time  is null then '1970-01-01 00:00:00' else  substr(cast(EPOCH_TO_TIMESTAMP(first_withdraw_time) as string),1,19) end first_withdraw_time  ,\n" +
-                "                  case when last_withdraw_time  is null then '1970-01-01 00:00:00' else    substr(cast(EPOCH_TO_TIMESTAMP(last_withdraw_time ) as string),1,19) end last_withdraw_time  \n" +
-                "               FROM users\n" +
+                "                  case when first_withdraw_time  is null then '1970-01-01 00:00:00' else  substr(cast(EPOCH_TO_TIMESTAMP(first_withdraw_time) as string),1,19) end first_withdraw_time  ,\n" +
+                "                  case when last_withdraw_time  is null then '1970-01-01 00:00:00' else    substr(cast(EPOCH_TO_TIMESTAMP(last_withdraw_time ) as string),1,19) end last_withdraw_time,  \n" +
+                "                  country,  \n" +
+                "                  city,  \n" +
+                "                  birthday  \n" +
+                "               FROM users \n" +
                 "WHERE first_visit_source is not null  ",
                 "--data-urlencode", "format=json",
         };
 
 
         // 输出 逻辑
-        try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(userinfo2FilePath));
 
             // 执行 curl 命令
@@ -201,7 +202,8 @@ public class etlsqls {
             while ((line = reader.readLine()) != null) {
 //                        System.out.println(line);  // 打印输出
                 userinfo person = gson.fromJson(line, userinfo.class);
-                writer.write(person.uid+","+person.first_visit_source+","+person.register_time+","+person.kyc_state+","+person.ekyc_state+","+person.first_recharge_time+","+person.last_recharge_time+","+person.first_order_time + "," + person.last_order_time + "," +person.first_winning_time + "," + person.first_withdraw_time+ "," +person.last_withdraw_time);
+                //+person.kyc_state+","+person.ekyc_state+","+person.first_recharge_time+","+person.last_recharge_time+","+person.first_order_time + "," + person.last_order_time + "," +person.first_winning_time + "," + person.first_withdraw_time+ "," +person.last_withdraw_time+","
+                writer.write(person.uid+","+person.first_visit_source+","+person.register_time+","+person.country+","+person.city+","+person.birthday);
 //                        writer.write(person.uid+","+person.register_time);
                 writer.newLine();
                 databaseoutputcount ++;
@@ -210,7 +212,11 @@ public class etlsqls {
                 }
             }
             InLog(msg.toString());
-            // 等待命令执行完成
+            // 等待命令执行完成,如果记录为空，是VPN没有连接
+            if(databaseoutputcount==0){
+                 InLog("please check vpn !");
+                 throw new Exception("please check vpn!");
+            }
             int exitCode = process.waitFor();
             if (exitCode == 0) {
                 System.out.println("Curl command executed successfully ！");
@@ -228,13 +234,8 @@ public class etlsqls {
             // 通过 excel load fail 导入
             InLog(mysqljdbc.loaddatafileUserInfo(userinfo2FilePath));
 
+        return 0;
 
-            return 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-            InLog(msg + e.getMessage());
-            return 0;
-        }
     }
 
     public static int output2SQL(String starttime,String endtime) {
@@ -328,8 +329,8 @@ public class etlsqls {
             InLog(msg.toString());
             // 取数失败
             if(databaseoutputcount==0){
-                InLog("取数失败!");
-                throw new Exception("取数失败!");
+                InLog("please check vpn !");
+                throw new Exception("please check vpn!");
             }
             int exitCode = process.waitFor();
             if (exitCode == 0) {

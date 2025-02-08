@@ -44,9 +44,10 @@ public class SwingPanelEtl {
 
         // 创建三个按钮
         JButton button1 = new JButton("DATA Exp&Imp：");
-        JButton button1_1 = new JButton("userinfo ");
-        JButton button1_2 = new JButton("factallorders ");
-        JButton button1_3 = new JButton("newregister");
+        JButton userinfo = new JButton("userinfo ");
+        JButton trafficdata = new JButton("trafficdata ");
+        JButton newregister = new JButton("newregister");
+
 
         // 文本输入
         // 昨天日期默认
@@ -67,19 +68,23 @@ public class SwingPanelEtl {
 
 
         // 添加按钮点击事件
-        button1_1.addActionListener(new ActionListener() {
+        userinfo.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
                 // 按钮点击后弹出一个对话框
                 // 沙漏
 
-                button1_1.setEnabled(false);
-                button1_2.setEnabled(false);
-                button1_3.setEnabled(false);
+                userinfo.setEnabled(false);
+                trafficdata.setEnabled(false);
+                newregister.setEnabled(false);
                 frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 JOptionPane.showMessageDialog(frame, "Please be patient and do not click the button again!");
-                util.etlsqls.userinfo2SQL();
-                JOptionPane.showMessageDialog(frame, "Successful! ");
+                try {
+                    util.etlsqls.userinfo2SQL();
+                    JOptionPane.showMessageDialog(frame, "Successful! ");
+                }catch(Exception e1){
+                    JOptionPane.showMessageDialog(frame, "fail ! ");
+                }
                 frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 textArea2.setText( util.etlsqls.getLog());
             }
@@ -89,7 +94,7 @@ public class SwingPanelEtl {
 
 
         // 添加按钮点击事件
-        button1_3.addActionListener(new ActionListener() {
+        newregister.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
                 // 按钮点击后弹出一个对话框
@@ -97,12 +102,19 @@ public class SwingPanelEtl {
 
                 String starttime =  startFieldRegister.getText();
                 String endtime = endFieldRegister.getText();
-                button1_1.setEnabled(false);
-                button1_2.setEnabled(false);
-                button1_3.setEnabled(false);
+                userinfo.setEnabled(false);
+                trafficdata.setEnabled(false);
+                newregister.setEnabled(false);
                 frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 JOptionPane.showMessageDialog(frame, "Please be patient and do not click the button again!");
-                util.etlsqls.newregisteredusers(starttime, endtime);
+
+                try {
+                    util.etlsqls.newregisteredusers(starttime, endtime);
+                    JOptionPane.showMessageDialog(frame, "Successful! ");
+                }catch(Exception e1){
+                    JOptionPane.showMessageDialog(frame, "fail ! ");
+                }
+
                 JOptionPane.showMessageDialog(frame, "Successful! ");
                 frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 textArea2.setText( util.etlsqls.getLog());
@@ -111,16 +123,16 @@ public class SwingPanelEtl {
         });
 
 
-        button1_2.addActionListener(new ActionListener() {
+        trafficdata.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 // 输入值是否合理
                 String starttime =  startFieldoutput.getText();
                 String endtime = endFieldoutput.getText();
 
-                button1_2.setEnabled(false);
-                button1_1.setEnabled(false);
-                button1_3.setEnabled(false);
+                userinfo.setEnabled(false);
+                trafficdata.setEnabled(false);
+                newregister.setEnabled(false);
                 // 沙漏
                 frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 JOptionPane.showMessageDialog(frame, "Please be patient and do not click the button again!");
@@ -138,12 +150,11 @@ public class SwingPanelEtl {
         });
 
 
-
         // 设置按钮的位置和大小
         button1.setBounds(50, 50, 120, 40);  // x=300, y=50, 宽=120, 高=40
-        button1_1.setBounds(50, 100, 120, 40); // x=300, y=100, 宽=120, 高=40
-        button1_2.setBounds(50, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
-        button1_3.setBounds(50, 240, 120, 40); // x=300, y=100, 宽=120, 高=40
+        userinfo.setBounds(50, 100, 120, 40); // x=300, y=100, 宽=120, 高=40
+        trafficdata.setBounds(50, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
+        newregister.setBounds(50, 240, 120, 40); // x=300, y=100, 宽=120, 高=40
 
         startFieldoutput.setBounds(190, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
         endFieldoutput.setBounds(360, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
@@ -154,13 +165,13 @@ public class SwingPanelEtl {
         // 将文本框和按钮添加到 JPanel
         panel.add(scrollPane2);
         panel.add(button1);
-        panel.add(button1_1);
-        panel.add(button1_2);
+        panel.add(userinfo);
+        panel.add(trafficdata);
         panel.add(startFieldoutput);
         panel.add(endFieldoutput);
         panel.add(startFieldRegister);
         panel.add(endFieldRegister);
-        panel.add(button1_3);
+        panel.add(newregister);
         // 将 JPanel 添加到 JFrame
         frame.add(panel);
 

@@ -102,11 +102,7 @@ public class mysqljdbc {
         }
         return logger.toString();
 
-
     }
-
-
-
 
 
     public static String loaddatafileUserInfo(String path) throws Exception {
@@ -114,7 +110,8 @@ public class mysqljdbc {
         StringBuffer logger = new StringBuffer();
         String query = "LOAD DATA LOCAL INFILE '"+path+"' INTO TABLE userinfo " +
                 "FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' " +
-                "(uid,first_visit_source,register_time,kyc_state,ekyc_state,first_recharge_time,last_recharge_time,first_order_time ,last_order_time , first_winning_time , first_withdraw_time,last_withdraw_time)";
+                "(uid,first_visit_source,register_time,country,city,birthday)";
+
 
         try ( Connection connection = DriverManager.getConnection("jdbc:mysql://20.174.38.36:3306/lottery_reporting?allowLoadLocalInfile=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useCompression=true", "Viviene", "VALe@1234");
               Statement stmt = connection.createStatement()) {

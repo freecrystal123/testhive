@@ -17,6 +17,33 @@ public class userinfo {
     public String first_winning_time;
     public String first_withdraw_time;
     public String last_withdraw_time;
+    public String country;
+    public String city;
+    public String birthday;
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
 
     public String getUid() {
         return uid;
