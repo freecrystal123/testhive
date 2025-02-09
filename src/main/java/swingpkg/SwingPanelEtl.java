@@ -1,6 +1,7 @@
 package swingpkg;
 
 import util.deduplication;
+import util.etlsqls;
 import util.executesql;
 import util.minus;
 
@@ -21,7 +22,6 @@ public class SwingPanelEtl {
 
         // 设置关闭操作
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         // 创建一个 JPanel，并禁用布局管理器（使用绝对布局）
         JPanel panel = new JPanel();
         panel.setLayout(null); // 禁用布局管理器，使用绝对布局
@@ -38,12 +38,15 @@ public class SwingPanelEtl {
         scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); // 总是显示垂直滚动条
         // 设置文本框的位置和大小
 //        textArea1.setBounds(50, 30, 500, 300); // x=50, y=50, 宽=200, 高=100
-        scrollPane2.setBounds(50, 300, 500, 200); // x=50, y=160, 宽=200, 高=100
+        scrollPane2.setBounds(100, 320, 500, 400); // x=50, y=160, 宽=200, 高=100
 
 
 
         // 创建三个按钮
-        JButton button1 = new JButton("DATA Exp&Imp：");
+
+        JLabel label = new JLabel("Data Exp&Imp ");
+        label.setFont(new Font("Arial",Font.BOLD,20));
+
         JButton userinfo = new JButton("userinfo ");
         JButton trafficdata = new JButton("trafficdata ");
         JButton newregister = new JButton("newregister");
@@ -53,12 +56,12 @@ public class SwingPanelEtl {
         // 昨天日期默认
         LocalDate today = LocalDate.now();
         LocalDate yesterday = LocalDate.now().minusDays(1);
-        JTextField startFieldoutput =  new JTextField(yesterday.toString());
-        JTextField endFieldoutput =  new JTextField(today.toString());
 
         JTextField startFieldRegister =  new JTextField(yesterday.toString());
         JTextField endFieldRegister =  new JTextField(today.toString());
 
+        JTextField startFieldTrafficData =  new JTextField(yesterday.toString());
+        JTextField endFieldTrafficData =  new JTextField(today.toString());
 
         // 创建三个按钮
         JButton button2 = new JButton("DATA INGESTION：");
@@ -112,6 +115,7 @@ public class SwingPanelEtl {
                     util.etlsqls.newregisteredusers(starttime, endtime);
                     JOptionPane.showMessageDialog(frame, "Successful! ");
                 }catch(Exception e1){
+                    util.etlsqls.InLog(e1.getMessage());
                     JOptionPane.showMessageDialog(frame, "fail ! ");
                 }
 
@@ -126,9 +130,9 @@ public class SwingPanelEtl {
         trafficdata.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                // 输入值是否合理
-                String starttime =  startFieldoutput.getText();
-                String endtime = endFieldoutput.getText();
+
+                String starttime =  startFieldTrafficData.getText();
+                String endtime = endFieldTrafficData.getText();
 
                 userinfo.setEnabled(false);
                 trafficdata.setEnabled(false);
@@ -137,10 +141,14 @@ public class SwingPanelEtl {
                 frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 JOptionPane.showMessageDialog(frame, "Please be patient and do not click the button again!");
                 try {
-                    util.etlsqls.output2SQL(starttime, endtime);
+                    util.etlsqls.traffic_data_temp(starttime,endtime);
+                    util.etlsqls.ftd();
+                    util.etlsqls.trafficdataandftdDMLSQL();
                     JOptionPane.showMessageDialog(frame, "Successful! ");
                 }catch (Exception e1){
-                    JOptionPane.showMessageDialog(frame, "failed! ");
+                    util.etlsqls.InLog(e1.getMessage());
+                    JOptionPane.showMessageDialog(frame, "failed! \n "+e1.getMessage());
+                    e1.printStackTrace();
                 }
                 finally {
                     frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -151,24 +159,27 @@ public class SwingPanelEtl {
 
 
         // 设置按钮的位置和大小
-        button1.setBounds(50, 50, 120, 40);  // x=300, y=50, 宽=120, 高=40
-        userinfo.setBounds(50, 100, 120, 40); // x=300, y=100, 宽=120, 高=40
-        trafficdata.setBounds(50, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
-        newregister.setBounds(50, 240, 120, 40); // x=300, y=100, 宽=120, 高=40
+        label.setBounds(100, 50, 300, 40);  // x=300, y=50, 宽=120, 高=40
+        userinfo.setBounds(100, 100, 120, 40); // x=300, y=100, 宽=120, 高=40
+        trafficdata.setBounds(100, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
+        newregister.setBounds(100, 240, 120, 40); // x=300, y=100, 宽=120, 高=40
 
-        startFieldoutput.setBounds(190, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
-        endFieldoutput.setBounds(360, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
 
-        startFieldRegister.setBounds(190, 240, 120, 40); // x=300, y=100, 宽=120, 高=40
-        endFieldRegister.setBounds(360, 240, 120, 40); // x=300, y=100, 宽=120, 高=40
+        startFieldRegister.setBounds(240, 240, 120, 40); // x=300, y=100, 宽=120, 高=40
+        endFieldRegister.setBounds(410, 240, 120, 40); // x=300, y=100, 宽=120, 高=40
+
+
+        startFieldTrafficData.setBounds(240, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
+        endFieldTrafficData.setBounds(410, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
+
 
         // 将文本框和按钮添加到 JPanel
         panel.add(scrollPane2);
-        panel.add(button1);
+        panel.add(label);
         panel.add(userinfo);
         panel.add(trafficdata);
-        panel.add(startFieldoutput);
-        panel.add(endFieldoutput);
+        panel.add(startFieldTrafficData);
+        panel.add(endFieldTrafficData);
         panel.add(startFieldRegister);
         panel.add(endFieldRegister);
         panel.add(newregister);
@@ -176,7 +187,7 @@ public class SwingPanelEtl {
         frame.add(panel);
 
         // 设置窗口的大小
-        frame.setSize(1000, 800);
+        frame.setSize(700, 800);
 
         // 设置窗口居中显示
         frame.setLocationRelativeTo(null);

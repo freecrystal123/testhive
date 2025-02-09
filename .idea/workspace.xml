@@ -7,14 +7,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7d9efe0-2d5d-452d-adb8-226555b7fe03" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/pojp/ftd.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pojp/trafficdatatemp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/swingpkg/JavaFXPanelEtl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pojp/userinfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pojp/userinfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test1" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/util/etlsqls.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/etlsqls.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/jdbc/mysqljdbc.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/jdbc/mysqljdbc.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pojp/userinfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pojp/userinfo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/testjava.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/testjava.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/util/deduplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/util/deduplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/util/etlsqls$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/util/etlsqls$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/util/etlsqls.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/util/etlsqls.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/util/excelreadeandpin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/util/excelreadeandpin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/util/excelreader.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/util/excelreader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/util/excelreaderwin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/util/excelreaderwin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/util/executesql.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/util/executesql.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/util/fileHander.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/util/fileHander.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/util/minus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/util/minus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/testhive-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/testhive-1.0-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/vivianuse-jar.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/vivianuse-jar.jar" afterDir="false" />
     </list>
@@ -56,8 +75,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="82" column="40" lean-forward="true" selection-start-line="82" selection-start-column="40" selection-end-line="82" selection-end-column="40" />
+            <state relative-caret-position="428">
+              <caret line="40" column="29" selection-start-line="40" selection-start-column="20" selection-end-line="40" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -65,11 +84,50 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.desktop/java/awt/Cursor.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/JavaFXPanelEtl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="271" column="63" lean-forward="true" selection-start-line="271" selection-start-column="63" selection-end-line="271" selection-end-column="63" />
+            <state relative-caret-position="242">
+              <caret line="50" column="46" selection-start-line="50" selection-start-column="46" selection-end-line="50" selection-end-column="46" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#429#430#0" expanded="true" />
+                <element signature="e#457#458#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/lookbeauty.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="13" column="45" selection-start-line="13" selection-start-column="45" selection-end-line="13" selection-end-column="45" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#766#767#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="47" column="18" selection-start-line="47" selection-start-column="18" selection-end-line="47" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="30" column="14" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -77,8 +135,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1530">
-              <caret line="112" column="76" selection-start-line="112" selection-start-column="68" selection-end-line="112" selection-end-column="76" />
+            <state relative-caret-position="1785">
+              <caret line="130" column="13" selection-start-line="130" selection-start-column="13" selection-end-line="130" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -87,108 +145,37 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingButton.java">
+        <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.sql/java/sql/Statement.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="1035">
+              <caret line="93" column="8" selection-start-line="93" selection-start-column="8" selection-end-line="93" selection-end-column="8" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pojp/usercnt.java">
+        <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.sql/java/sql/Connection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
-              <folding>
-                <element signature="e#122#123#0" expanded="true" />
-                <element signature="e#150#151#0" expanded="true" />
-                <element signature="e#192#193#0" expanded="true" />
-                <element signature="e#226#227#0" expanded="true" />
-                <element signature="e#261#262#0" expanded="true" />
-                <element signature="e#291#292#0" expanded="true" />
-                <element signature="e#338#339#0" expanded="true" />
-                <element signature="e#376#377#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/util/etlsqls.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="214" column="39" selection-start-line="214" selection-start-column="39" selection-end-line="214" selection-end-column="39" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="1200">
+              <caret line="104" column="14" selection-start-line="104" selection-start-column="14" selection-end-line="104" selection-end-column="14" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pojp/userdata.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/pojp/trafficdatatemp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-              <folding>
-                <element signature="e#295#296#0" expanded="true" />
-                <element signature="e#326#327#0" expanded="true" />
-                <element signature="e#1580#1581#0" expanded="true" />
-                <element signature="e#1610#1611#0" expanded="true" />
-                <element signature="e#1656#1657#0" expanded="true" />
-                <element signature="e#1694#1695#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="75">
+              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pojp/userinfo.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/pojp/ftd.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-              <folding>
-                <element signature="e#633#634#0" expanded="true" />
-                <element signature="e#663#664#0" expanded="true" />
-                <element signature="e#709#710#0" expanded="true" />
-                <element signature="e#747#748#0" expanded="true" />
-                <element signature="e#778#779#0" expanded="true" />
-                <element signature="e#805#806#0" expanded="true" />
-                <element signature="e#845#846#0" expanded="true" />
-                <element signature="e#877#878#0" expanded="true" />
-                <element signature="e#912#913#0" expanded="true" />
-                <element signature="e#943#944#0" expanded="true" />
-                <element signature="e#991#992#0" expanded="true" />
-                <element signature="e#1031#1032#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/util/excelreaderwin.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="571">
-              <caret line="138" column="59" selection-start-line="138" selection-start-column="59" selection-end-line="138" selection-end-column="59" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pojp/register.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
-              <folding>
-                <element signature="e#147#148#0" expanded="true" />
-                <element signature="e#176#177#0" expanded="true" />
-                <element signature="e#220#221#0" expanded="true" />
-                <element signature="e#256#257#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="75">
+              <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -204,17 +191,9 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>before</find>
-      <find>day</find>
-      <find>button2</find>
-      <find>textArea1</find>
-      <find>InLog</find>
-      <find>failed with exit code</find>
-      <find>cnt</find>
       <find>insertincremental_allOrdersTable</find>
       <find>rowsAffected</find>
       <find>investment_amount</find>
-      <find>userinfo</find>
       <find>outputSet</find>
       <find>outputFilePath</find>
       <find>writer</find>
@@ -234,6 +213,14 @@
       <find>loaddatafileUserInfo</find>
       <find>button1_1</find>
       <find>userinfo2FilePath</find>
+      <find>gen</find>
+      <find>startFieldoutput</find>
+      <find>frame</find>
+      <find>button1</find>
+      <find>FTD</find>
+      <find>startFieldRegister</find>
+      <find>userinfo</find>
+      <find>textArea</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -282,12 +269,16 @@
         <option value="$PROJECT_DIR$/target/META-INF/MANIFEST.MF" />
         <option value="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" />
         <option value="$PROJECT_DIR$/target/classes/META-INF/MANIFEST.MF" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/pojp/register.java" />
         <option value="$PROJECT_DIR$/src/main/java/pojp/userinfo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/pojp/trafficdatatemp.java" />
+        <option value="$PROJECT_DIR$/src/main/java/pojp/ftd.java" />
         <option value="$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java" />
-        <option value="$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java" />
         <option value="$PROJECT_DIR$/src/main/java/util/etlsqls.java" />
+        <option value="$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/swingpkg/lookbeauty.java" />
+        <option value="$PROJECT_DIR$/src/main/java/swingpkg/JavaFXPanelEtl.java" />
       </list>
     </option>
   </component>
@@ -310,8 +301,8 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1856" />
-    <option name="y" value="34" />
+    <option name="x" value="13" />
+    <option name="y" value="61" />
     <option name="width" value="1708" />
     <option name="height" value="1004" />
   </component>
@@ -354,37 +345,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="jdbc" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="testhive" type="b2602c69:ProjectViewProjectNode" />
-              <item name="testhive" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="pojp" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="testhive" type="b2602c69:ProjectViewProjectNode" />
-              <item name="testhive" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="swingpkg" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="testhive" type="b2602c69:ProjectViewProjectNode" />
-              <item name="testhive" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="testhive" type="b2602c69:ProjectViewProjectNode" />
-              <item name="testhive" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="testhive" type="b2602c69:ProjectViewProjectNode" />
@@ -414,7 +375,7 @@
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="testhive" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1739001028636" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1739128397960" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -430,6 +391,7 @@
       <recent name="" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java" />
       <recent name="$PROJECT_DIR$/target/classes" />
     </key>
   </component>
@@ -445,7 +407,27 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.SwingPanelEtl">
+  <component name="RunManager" selected="Application.JavaFXPanelEtl">
+    <configuration name="JavaFXPanelEtl (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="JavaFXPanelEtl" />
+      <module name="testhive" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JavaFXPanelEtl" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="swingpkg.JavaFXPanelEtl" />
+      <module name="testhive" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="swingpkg.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="SwingPanel" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="swingpkg.SwingPanel" />
       <module name="testhive" />
@@ -485,16 +467,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="etlsqls" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="etlsqls" />
+    <configuration name="lookbeauty" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="swingpkg.lookbeauty" />
       <module name="testhive" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="testjava" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="testjava" />
-      <module name="testhive" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="swingpkg.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -502,16 +483,18 @@
     <list>
       <item itemvalue="Application.SwingPanelEtl" />
       <item itemvalue="Application.SwingPanel" />
-      <item itemvalue="Application.etlsqls" />
       <item itemvalue="Application.etlsqls (1)" />
-      <item itemvalue="Application.testjava" />
+      <item itemvalue="Application.lookbeauty" />
+      <item itemvalue="Application.JavaFXPanelEtl" />
+      <item itemvalue="Application.JavaFXPanelEtl (1)" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.etlsqls (1)" />
+        <item itemvalue="Application.JavaFXPanelEtl" />
+        <item itemvalue="Application.JavaFXPanelEtl (1)" />
+        <item itemvalue="Application.lookbeauty" />
         <item itemvalue="Application.SwingPanel" />
-        <item itemvalue="Application.testjava" />
-        <item itemvalue="Application.etlsqls" />
+        <item itemvalue="Application.etlsqls (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -557,12 +540,15 @@
       <workItem from="1738774863315" duration="244000" />
       <workItem from="1738776577033" duration="1008000" />
       <workItem from="1738820164737" duration="8258000" />
-      <workItem from="1738904802387" duration="6305000" />
+      <workItem from="1738904802387" duration="13773000" />
+      <workItem from="1739012944059" duration="6237000" />
+      <workItem from="1739022678409" duration="5476000" />
+      <workItem from="1739125942208" duration="2377000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="353416000" />
+    <option name="totallyTimeSpent" value="374974000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -574,10 +560,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1856" y="34" width="1708" height="1004" extended-state="0" />
+    <frame x="13" y="61" width="1708" height="1004" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49760765" visible="true" weight="0.2334934" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49760765" visible="true" weight="0.24129651" />
       <window_info id="Structure" order="1" sideWeight="0.5017794" side_tool="true" weight="0.26590636" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -586,15 +572,15 @@
       <window_info id="Favorites" order="6" sideWeight="0.50239235" side_tool="true" weight="0.19987996" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32857144" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.31015453" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.3807947" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.31015453" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3807947" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32967034" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.30463576" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.32637364" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32560706" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
       <window_info anchor="bottom" id="Version Control" order="13" weight="0.32967034" />
@@ -679,37 +665,37 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>276</line>
+          <line>331</line>
           <properties />
           <option name="timeStamp" value="100" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>504</line>
+          <line>559</line>
           <properties />
           <option name="timeStamp" value="116" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>478</line>
+          <line>533</line>
           <properties />
           <option name="timeStamp" value="117" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>286</line>
+          <line>341</line>
           <properties />
           <option name="timeStamp" value="118" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>486</line>
+          <line>541</line>
           <properties />
           <option name="timeStamp" value="121" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>485</line>
+          <line>540</line>
           <properties />
           <option name="timeStamp" value="122" />
         </line-breakpoint>
@@ -727,31 +713,31 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>289</line>
+          <line>344</line>
           <properties />
           <option name="timeStamp" value="153" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>290</line>
+          <line>345</line>
           <properties />
           <option name="timeStamp" value="154" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>370</line>
+          <line>425</line>
           <properties />
           <option name="timeStamp" value="155" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>300</line>
+          <line>355</line>
           <properties />
           <option name="timeStamp" value="156" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>287</line>
+          <line>342</line>
           <properties />
           <option name="timeStamp" value="157" />
         </line-breakpoint>
@@ -871,37 +857,31 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>221</line>
+          <line>276</line>
           <properties />
           <option name="timeStamp" value="237" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java</url>
-          <line>139</line>
-          <properties />
-          <option name="timeStamp" value="238" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/util/etlsqls.java</url>
-          <line>356</line>
+          <line>513</line>
           <properties />
           <option name="timeStamp" value="240" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/util/etlsqls.java</url>
-          <line>313</line>
+          <line>470</line>
           <properties />
           <option name="timeStamp" value="241" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/util/etlsqls.java</url>
-          <line>315</line>
+          <line>472</line>
           <properties />
           <option name="timeStamp" value="242" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/util/etlsqls.java</url>
-          <line>311</line>
+          <line>468</line>
           <properties />
           <option name="timeStamp" value="247" />
         </line-breakpoint>
@@ -949,115 +929,115 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>252</line>
+          <line>307</line>
           <properties />
           <option name="timeStamp" value="258" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>254</line>
+          <line>309</line>
           <properties />
           <option name="timeStamp" value="259" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>72</line>
+          <line>73</line>
           <properties />
           <option name="timeStamp" value="261" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>63</line>
+          <line>64</line>
           <properties />
           <option name="timeStamp" value="262" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>135</line>
+          <line>190</line>
           <properties />
           <option name="timeStamp" value="263" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>170</line>
+          <line>225</line>
           <properties />
           <option name="timeStamp" value="264" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>182</line>
+          <line>237</line>
           <properties />
           <option name="timeStamp" value="265" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/util/etlsqls.java</url>
-          <line>353</line>
+          <line>510</line>
           <properties />
           <option name="timeStamp" value="266" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/util/etlsqls.java</url>
-          <line>349</line>
+          <line>506</line>
           <properties />
           <option name="timeStamp" value="267" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>69</line>
+          <line>70</line>
           <properties />
           <option name="timeStamp" value="268" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>70</line>
+          <line>71</line>
           <properties />
           <option name="timeStamp" value="269" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>183</line>
+          <line>238</line>
           <properties />
           <option name="timeStamp" value="270" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>184</line>
+          <line>239</line>
           <properties />
           <option name="timeStamp" value="271" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>185</line>
+          <line>240</line>
           <properties />
           <option name="timeStamp" value="272" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/util/etlsqls.java</url>
-          <line>234</line>
+          <line>391</line>
           <properties />
           <option name="timeStamp" value="273" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/util/etlsqls.java</url>
-          <line>229</line>
+          <line>386</line>
           <properties />
           <option name="timeStamp" value="274" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/util/etlsqls.java</url>
-          <line>213</line>
+          <line>370</line>
           <properties />
           <option name="timeStamp" value="277" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>109</line>
+          <line>164</line>
           <properties />
           <option name="timeStamp" value="278" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/util/etlsqls.java</url>
-          <line>330</line>
+          <line>487</line>
           <properties />
           <option name="timeStamp" value="279" />
         </line-breakpoint>
@@ -1099,15 +1079,45 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java</url>
-          <line>76</line>
+          <line>79</line>
           <properties />
           <option name="timeStamp" value="289" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java</url>
-          <line>82</line>
+          <line>85</line>
           <properties />
           <option name="timeStamp" value="290" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/util/etlsqls.java</url>
+          <line>373</line>
+          <properties />
+          <option name="timeStamp" value="291" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/util/etlsqls.java</url>
+          <line>374</line>
+          <properties />
+          <option name="timeStamp" value="292" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/util/etlsqls.java</url>
+          <line>376</line>
+          <properties />
+          <option name="timeStamp" value="293" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/util/etlsqls.java</url>
+          <line>302</line>
+          <properties />
+          <option name="timeStamp" value="324" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/util/etlsqls.java</url>
+          <line>303</line>
+          <properties />
+          <option name="timeStamp" value="325" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -1126,182 +1136,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/util/joinHander.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/util/fileHander.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-249">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/winnerperson.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="24" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
-          <folding>
-            <element signature="e#161#162#0" expanded="true" />
-            <element signature="e#187#188#0" expanded="true" />
-            <element signature="e#225#226#0" expanded="true" />
-            <element signature="e#255#256#0" expanded="true" />
-            <element signature="e#295#296#0" expanded="true" />
-            <element signature="e#331#332#0" expanded="true" />
-            <element signature="e#389#390#0" expanded="true" />
-            <element signature="e#439#440#0" expanded="true" />
-            <element signature="e#474#475#0" expanded="true" />
-            <element signature="e#505#506#0" expanded="true" />
-            <element signature="e#553#554#0" expanded="true" />
-            <element signature="e#593#594#0" expanded="true" />
-            <element signature="e#632#633#0" expanded="true" />
-            <element signature="e#667#668#0" expanded="true" />
-            <element signature="e#723#724#0" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#802#803#0" expanded="true" />
-            <element signature="e#829#830#0" expanded="true" />
-            <element signature="e#869#870#0" expanded="true" />
-            <element signature="e#901#902#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/registerperson.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="24" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="24" />
-          <folding>
-            <element signature="e#185#186#0" expanded="true" />
-            <element signature="e#211#212#0" expanded="true" />
-            <element signature="e#249#250#0" expanded="true" />
-            <element signature="e#279#280#0" expanded="true" />
-            <element signature="e#322#323#0" expanded="true" />
-            <element signature="e#361#362#0" expanded="true" />
-            <element signature="e#425#426#0" expanded="true" />
-            <element signature="e#481#482#0" expanded="true" />
-            <element signature="e#526#527#0" expanded="true" />
-            <element signature="e#567#568#0" expanded="true" />
-            <element signature="e#635#636#0" expanded="true" />
-            <element signature="e#695#696#0" expanded="true" />
-            <element signature="e#734#735#0" expanded="true" />
-            <element signature="e#769#770#0" expanded="true" />
-            <element signature="e#825#826#0" expanded="true" />
-            <element signature="e#873#874#0" expanded="true" />
-            <element signature="e#913#914#0" expanded="true" />
-            <element signature="e#949#950#0" expanded="true" />
-            <element signature="e#1007#1008#0" expanded="true" />
-            <element signature="e#1057#1058#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/util/deduplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="705">
-          <caret line="53" column="26" selection-start-line="53" selection-start-column="26" selection-end-line="53" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#211#212#0" expanded="true" />
-            <element signature="e#237#238#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.base/java/io/Writer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3345">
-          <caret line="248" selection-start-line="248" selection-end-line="248" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/util/minus.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="25" selection-start-line="30" selection-start-column="25" selection-end-line="30" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pojp/optdata.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
-          <folding>
-            <element signature="e#269#270#0" expanded="true" />
-            <element signature="e#296#297#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.5/gson-2.8.5.jar!/com/google/gson/internal/bind/TypeAdapters.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="319" selection-start-line="319" selection-end-line="319" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.5/gson-2.8.5.jar!/com/google/gson/stream/JsonReader.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="862" selection-start-line="862" selection-end-line="862" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.base/java/util/HashMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7695">
-          <caret line="555" column="13" selection-start-line="555" selection-start-column="13" selection-end-line="555" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pojp/bussinfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="22" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
-          <folding>
-            <element signature="e#298#299#0" expanded="true" />
-            <element signature="e#325#326#0" expanded="true" />
-            <element signature="e#363#364#0" expanded="true" />
-            <element signature="e#390#391#0" expanded="true" />
-            <element signature="e#430#431#0" expanded="true" />
-            <element signature="e#465#466#0" expanded="true" />
-            <element signature="e#522#523#0" expanded="true" />
-            <element signature="e#570#571#0" expanded="true" />
-            <element signature="e#611#612#0" expanded="true" />
-            <element signature="e#647#648#0" expanded="true" />
-            <element signature="e#706#707#0" expanded="true" />
-            <element signature="e#756#757#0" expanded="true" />
-            <element signature="e#801#802#0" expanded="true" />
-            <element signature="e#841#842#0" expanded="true" />
-            <element signature="e#908#909#0" expanded="true" />
-            <element signature="e#966#967#0" expanded="true" />
-            <element signature="e#1010#1011#0" expanded="true" />
-            <element signature="e#1049#1050#0" expanded="true" />
-            <element signature="e#1114#1115#0" expanded="true" />
-            <element signature="e#1170#1171#0" expanded="true" />
-            <element signature="e#1210#1211#0" expanded="true" />
-            <element signature="e#1245#1246#0" expanded="true" />
-            <element signature="e#1302#1303#0" expanded="true" />
-            <element signature="e#1350#1351#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/util/excelreader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1170">
-          <caret line="92" selection-start-line="92" selection-end-line="92" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.base/java/util/Iterator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
@@ -1316,24 +1150,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/util/excelreadeandpin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="25" column="43" selection-start-line="25" selection-start-column="43" selection-end-line="25" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/target/classes/testjava.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.5/gson-2.8.5.jar!/com/google/gson/internal/bind/ReflectiveTypeAdapterFactory.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="208" selection-start-line="208" selection-end-line="208" />
         </state>
       </provider>
     </entry>
@@ -1362,13 +1182,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="395" selection-start-line="395" selection-end-line="395" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar!/com/mysql/cj/jdbc/exceptions/SQLError.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="73" selection-start-line="73" selection-end-line="73" />
         </state>
       </provider>
     </entry>
@@ -1481,21 +1294,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/target/classes/META-INF/MANIFEST.MF" />
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="76" column="72" selection-start-line="76" selection-start-column="72" selection-end-line="76" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/abc" />
-    <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.desktop/javax/swing/JOptionPane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="609" column="23" selection-start-line="609" selection-start-column="23" selection-end-line="609" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/testjava.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1425">
@@ -1519,16 +1318,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="26" column="18" selection-start-line="26" selection-start-column="18" selection-end-line="26" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/norechargesuccesspersion.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
@@ -1538,26 +1327,6 @@
             <element signature="e#1160#1161#0" expanded="true" />
             <element signature="e#1208#1209#0" expanded="true" />
             <element signature="e#1248#1249#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1530">
-          <caret line="112" column="76" selection-start-line="112" selection-start-column="68" selection-end-line="112" selection-end-column="76" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingButton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1642,22 +1411,183 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.5/gson-2.8.5.jar!/com/google/gson/internal/bind/ReflectiveTypeAdapterFactory.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="82" column="40" lean-forward="true" selection-start-line="82" selection-start-column="40" selection-end-line="82" selection-end-column="40" />
+        <state relative-caret-position="3045">
+          <caret line="208" selection-start-line="208" selection-end-line="208" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/util/deduplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="705">
+          <caret line="53" column="26" selection-start-line="53" selection-start-column="26" selection-end-line="53" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#211#212#0" expanded="true" />
+            <element signature="e#237#238#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/Class.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7770">
+          <caret line="603" column="13" selection-start-line="603" selection-start-column="13" selection-end-line="603" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/reflect/Member.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="39" column="17" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/util/excelreadeandpin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="25" column="43" selection-start-line="25" selection-start-column="43" selection-end-line="25" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.desktop/javax/swing/JOptionPane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="609" column="23" selection-start-line="609" selection-start-column="23" selection-end-line="609" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar!/com/mysql/cj/jdbc/exceptions/SQLError.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="73" selection-start-line="73" selection-end-line="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jformdesigner/examples/i18n/xml/I18nXmlExample.jfd" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/TabbedDialog.java" />
+    <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.desktop/javax/swing/JFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1230">
+          <caret line="123" column="13" selection-start-line="123" selection-start-column="13" selection-end-line="123" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/util/etlsqls.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4275">
+          <caret line="302" selection-start-line="302" selection-end-line="302" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/util/etlsqls.java">
+    <entry file="file://$USER_HOME$/Downloads/JFormDesigner/swing/AddressPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="214" column="39" selection-start-line="214" selection-start-column="39" selection-end-line="214" selection-end-column="39" />
+        <state relative-caret-position="150">
+          <caret line="14" column="38" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingButton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="30" column="14" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1785">
+          <caret line="130" column="13" selection-start-line="130" selection-start-column="13" selection-end-line="130" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.sql/java/sql/Statement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1035">
+          <caret line="93" column="8" selection-start-line="93" selection-start-column="8" selection-end-line="93" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.sql/java/sql/Connection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1200">
+          <caret line="104" column="14" selection-start-line="104" selection-start-column="14" selection-end-line="104" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pojp/trafficdatatemp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pojp/ftd.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="47" column="18" selection-start-line="47" selection-start-column="18" selection-end-line="47" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="428">
+          <caret line="40" column="29" selection-start-line="40" selection-start-column="20" selection-end-line="40" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/lookbeauty.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="45" selection-start-line="13" selection-start-column="45" selection-end-line="13" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#766#767#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/JavaFXPanelEtl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="50" column="46" selection-start-line="50" selection-start-column="46" selection-end-line="50" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#429#430#0" expanded="true" />
+            <element signature="e#457#458#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -2,9 +2,7 @@ package util;
 
 import com.google.gson.*;
 import jdbc.mysqljdbc;
-import pojp.orderwin0122;
-import pojp.register;
-import pojp.userinfo;
+import pojp.*;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -65,6 +63,9 @@ public class etlsqls {
     // 默认输出路径
     public static String output2FilePath = basepath+"output2FilePath.csv";
 
+    public static String trafficdatatempFilePath = basepath+"trafficdatatempFilePath.csv";
+
+    public static String ftdFilePath = basepath+"ftdFilePath.csv";
 
     public static String userinfo2FilePath  = basepath+"userinfo2FilePath.csv";
 
@@ -75,7 +76,6 @@ public class etlsqls {
 
 
     public static void main(String[] args) {
-//        userinfo2SQL();
 
         LocalDate currentDate = LocalDate.now();
         System.out.println(currentDate);
@@ -162,6 +162,163 @@ public class etlsqls {
     }
 
 
+
+    public static int traffic_data_temp( String starttime,String endtime ) throws Exception{
+
+        String[] command = {
+                "curl",
+                "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
+                "-X", "POST",
+                "--data-urlencode", "q= select \n" +
+                "datadate DateID,first_visit_source_type Channel,\n" +
+                "count(distinct user_id) UV,\n" +
+                "count(1) PV \n" +
+                " from users join ( \n" +
+                "select substr(cast (time as string),1,10) datadate\n" +
+                ",user_id\n" +
+                "from events\n" +
+                "where event = '$pageview' and time > '"+starttime+" 00:00:00' \n" +
+                ") aa on users.id = aa.user_id \n" +
+                "group by first_visit_source_type,datadate  ",
+                "--data-urlencode", "format=json",
+        };
+
+
+        // 输出 逻辑
+        BufferedWriter writer = new BufferedWriter(new FileWriter(trafficdatatempFilePath));
+
+        // 执行 curl 命令
+        Process process = Runtime.getRuntime().exec(command);
+        // 读取命令输出
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        int databaseoutputcount = 0;
+
+        while ((line = reader.readLine()) != null) {
+            trafficdatatemp person = gson.fromJson(line, trafficdatatemp.class);
+            writer.write(person.dateid+","+person.channel+","+person.uv+","+person.pv);
+            writer.newLine();
+            databaseoutputcount ++;
+            if(databaseoutputcount%10==0){
+                System.out.println(" 目前是"+databaseoutputcount+"\n");
+            }
+        }
+        InLog(msg.toString());
+        // 等待命令执行完成,如果记录为空，是VPN没有连接
+        if(databaseoutputcount==0){
+            InLog("please check vpn !");
+            throw new Exception("please check vpn!");
+        }
+        int exitCode = process.waitFor();
+        if (exitCode == 0) {
+            System.out.println("Curl command executed successfully ！");
+            InLog( msg + "Curl command executed successfully ！");
+        } else {
+            System.out.println("Curl command failed with exit code: " + exitCode);
+            InLog( msg + "Curl command failed with exit code: " + exitCode);
+
+        }
+
+        writer.close();
+
+
+
+        InLog(mysqljdbc.loaddataitemsgeneral(trafficdatatempFilePath,"traffic_data_temp",trafficdatatemp.class,starttime));
+
+        return 0;
+
+
+    }
+
+
+    public static int ftd() throws Exception{
+
+        String[] command = {
+                "curl",
+                "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
+                "-X", "POST",
+                "--data-urlencode", "q= select substr(cast(EPOCH_TO_TIMESTAMP(first_recharge_time) as string),1,10) DateID\n" +
+                ",first_visit_source_type channel\n" +
+                ",count(uid) ftd\n" +
+                "from users\n" +
+                "where substr(cast(EPOCH_TO_TIMESTAMP(first_recharge_time) as string),1,10) is not null\n" +
+                "group by substr(cast(EPOCH_TO_TIMESTAMP(first_recharge_time) as string),1,10),\n" +
+                "first_visit_source_type  ",
+                "--data-urlencode", "format=json",
+        };
+
+
+        // 输出 逻辑
+        BufferedWriter writer = new BufferedWriter(new FileWriter(ftdFilePath));
+
+        // 执行 curl 命令
+        Process process = Runtime.getRuntime().exec(command);
+        // 读取命令输出
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        int databaseoutputcount = 0;
+
+        while ((line = reader.readLine()) != null) {
+//                        System.out.println(line);  // 打印输出
+            ftd person = gson.fromJson(line, ftd.class);
+            //+person.kyc_state+","+person.ekyc_state+","+person.first_recharge_time+","+person.last_recharge_time+","+person.first_order_time + "," + person.last_order_time + "," +person.first_winning_time + "," + person.first_withdraw_time+ "," +person.last_withdraw_time+","
+            writer.write(person.dateid+","+person.channel+","+person.ftd);
+//                        writer.write(person.uid+","+person.register_time);
+            writer.newLine();
+            databaseoutputcount ++;
+            if(databaseoutputcount%10==0){
+                System.out.println(" 目前是"+databaseoutputcount+"\n");
+            }
+        }
+        InLog(msg.toString());
+        // 等待命令执行完成,如果记录为空，是VPN没有连接
+        if(databaseoutputcount==0){
+            InLog("please check vpn !");
+            throw new Exception("please check vpn!");
+        }
+        int exitCode = process.waitFor();
+        if (exitCode == 0) {
+            System.out.println("Curl command executed successfully ！");
+            InLog( msg + "Curl command executed successfully ！");
+        } else {
+            System.out.println("Curl command failed with exit code: " + exitCode);
+            InLog( msg + "Curl command failed with exit code: " + exitCode);
+
+        }
+
+        writer.close();
+
+        InLog(mysqljdbc.loaddataitemsgeneral(ftdFilePath,"ftd",ftd.class,null));
+
+
+
+        return 0;
+
+
+    }
+
+
+    public static int trafficdataandftdDMLSQL() throws Exception{
+
+        InLog(mysqljdbc.executeSQLGeneral("delete from traffic_data where 1=1;"));
+        InLog(mysqljdbc.executeSQLGeneral("insert into traffic_data \n" +
+                "(DateID,\n" +
+                "Channel,\n" +
+                "UV,\n" +
+                "PV,\n" +
+                "ftd)\n" +
+                "select \n" +
+                "a.DateID\n" +
+                ",a.Channel\n" +
+                ",a.UV\n" +
+                ",a.PV\n" +
+                ",b.ftd\n" +
+                "from traffic_data_temp a left join ftd b \n" +
+                "on a.DateID = b.DateID\n" +
+                "and a.Channel  = b.channel  ; "   ));
+        return 0;
+
+    }
     public static int userinfo2SQL() throws Exception{
 
 

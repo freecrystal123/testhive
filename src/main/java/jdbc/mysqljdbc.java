@@ -3,6 +3,7 @@ import pojp.bussinfo;
 import pojp.optdata;
 import pojp.orderwin0122;
 
+import java.lang.reflect.Field;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -101,6 +102,60 @@ public class mysqljdbc {
             logger.append("database update failed !");
         }
         return logger.toString();
+
+    }
+
+
+
+    public static String loaddataitemsgeneral(String tablepath,String tablename , Class clazz,String startdate) throws Exception {
+
+        Field[] fields =  clazz.getDeclaredFields();
+        StringBuffer fieldstr = new StringBuffer();
+        for(Field field:fields){
+            fieldstr.append(field.getName()+",");
+        }
+        StringBuffer logger = new StringBuffer();
+        String query = "LOAD DATA LOCAL INFILE '"+tablepath+"' INTO TABLE "+tablename+" " +
+                "FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' " +
+                "(" +
+                fieldstr.toString().substring(0, fieldstr.toString().length()-1)+
+                ")";
+
+        try ( Connection connection = DriverManager.getConnection("jdbc:mysql://20.174.38.36:3306/lottery_reporting?allowLoadLocalInfile=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useCompression=true", "Viviene", "VALe@1234");
+              Statement stmt = connection.createStatement()) {
+            String sql = "";
+            if(startdate==null) {
+                 sql = "delete from "+tablename+" where 1=1";  // 替换为你要清空的表名
+            } else {
+                 sql = "delete from "+tablename+" where dateid > '"+startdate+"'";  // 替换为你要清空的表名
+            }
+            stmt.executeUpdate(sql);
+            int rowsAffected = stmt.executeUpdate(query);
+            System.out.println(rowsAffected + " rows inserted");
+            logger.append(rowsAffected + " rows inserted");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.append(e.getMessage());
+            logger.append("database update failed !");
+        }
+        return logger.toString();
+    }
+
+    public static String executeSQLGeneral(String dmlSQL) throws Exception {
+        StringBuffer logger = new StringBuffer();
+
+        try ( Connection connection = DriverManager.getConnection("jdbc:mysql://20.174.38.36:3306/lottery_reporting?allowLoadLocalInfile=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useCompression=true", "Viviene", "VALe@1234");
+              Statement stmt = connection.createStatement()) {
+            int rowsAffected = stmt.executeUpdate(dmlSQL);
+            System.out.println(rowsAffected + " rows updated");
+            logger.append(rowsAffected + " rows updated");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.append(e.getMessage());
+            logger.append("database update failed !");
+        }
+        return logger.toString();
+
 
     }
 
