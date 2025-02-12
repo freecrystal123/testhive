@@ -16,6 +16,7 @@ util/deduplication.class
 pojp/usercnt.class
 pojp/optdata.class
 swingpkg/SwingPanel$3.class
+swingpkg/lookbeauty.class
 testjava.class
 pojp/userdata.class
 swingpkg/SwingPanelEtl.class
@@ -26,6 +27,7 @@ testparse.class
 pojp/bussinfo.class
 swingpkg/SwingPanel$1.class
 swingpkg/SwingPanel.class
+swingpkg/JavaFXPanelEtl.class
 norechargesuccesspersion.class
 pojp/trafficdatatemp.class
 util/minus.class

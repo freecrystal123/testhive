@@ -89,7 +89,7 @@
                         <finalName>vivianuse-jar</finalName> <!-- 最终的 JAR 文件名 -->
                         <transformers>
                             <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                <mainClass>swingpkg.JavaFXPanelEtl</mainClass> <!-- 入口类 -->
+                                <mainClass>swingpkg.SwingPanelEtl</mainClass> <!-- 入口类 -->
                             </transformer>
                         </transformers>
                     </configuration>
