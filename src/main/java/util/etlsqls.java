@@ -70,6 +70,13 @@ public class etlsqls {
     public static String userinfo2FilePath  = basepath+"userinfo2FilePath.csv";
 
     public static String newregister2FilePath  = basepath+"newregisteredusersFilePath.csv";
+
+    public static String bankinformation2FilePath  = basepath+"bankinformationFilePath.csv";
+
+    public static String iban2FilePath  = basepath+"ibanFilePath.csv";
+
+
+
     public static StringBuffer msg = new StringBuffer();
     public static StringBuffer logger = new StringBuffer();
 
@@ -221,9 +228,64 @@ public class etlsqls {
 
         writer.close();
 
-
-
         InLog(mysqljdbc.loaddataitemsgeneral(trafficdatatempFilePath,"traffic_data_temp",trafficdatatemp.class,starttime));
+
+        return 0;
+
+
+    }
+
+
+
+    public static int bankinformationIban( String starttime,String endtime ) throws Exception{
+
+        String[] command = {
+                "curl",
+                "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
+                "-X", "POST",
+                "--data-urlencode", "q= select user_id, case when user_card_type = '1' then 'fail' when user_card_type = '2' then 'success' else null end user_card_type, concat( front_account_number, \"****\", backend_account_number ) as mask_account_number, swift_code from tkl_user.user_bank_card where created_time > '"+starttime+"' and created_time < '"+endtime+"' and user_card_type = '2'  ",
+                "--data-urlencode", "format=json",
+        };
+
+
+        // 输出 逻辑
+        BufferedWriter writer = new BufferedWriter(new FileWriter(trafficdatatempFilePath));
+
+        // 执行 curl 命令
+        Process process = Runtime.getRuntime().exec(command);
+        // 读取命令输出
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        int databaseoutputcount = 0;
+
+        while ((line = reader.readLine()) != null) {
+            trafficdatatemp person = gson.fromJson(line, trafficdatatemp.class);
+            writer.write(person.dateid+","+person.channel+","+person.uv+","+person.pv);
+            writer.newLine();
+            databaseoutputcount ++;
+            if(databaseoutputcount%10==0){
+                System.out.println(" 目前是"+databaseoutputcount+"\n");
+            }
+        }
+        InLog(msg.toString());
+        // 等待命令执行完成,如果记录为空，是VPN没有连接
+        if(databaseoutputcount==0){
+            InLog("please check vpn !");
+            throw new Exception("please check vpn!");
+        }
+        int exitCode = process.waitFor();
+        if (exitCode == 0) {
+            System.out.println("Curl command executed successfully ！");
+            InLog( msg + "Curl command executed successfully ！");
+        } else {
+            System.out.println("Curl command failed with exit code: " + exitCode);
+            InLog( msg + "Curl command failed with exit code: " + exitCode);
+
+        }
+
+        writer.close();
+
+        InLog(mysqljdbc.loaddataitemsgeneral(trafficdatatempFilePath,"bankinformation2FilePath",trafficdatatemp.class,starttime));
 
         return 0;
 
@@ -340,7 +402,7 @@ public class etlsqls {
                 "                  case when last_withdraw_time  is null then '1970-01-01 00:00:00' else    substr(cast(EPOCH_TO_TIMESTAMP(last_withdraw_time ) as string),1,19) end last_withdraw_time,  \n" +
                 "                  country,  \n" +
                 "                  city,  \n" +
-                "                  birthday  \n" +
+                "                  EPOCH_TO_TIMESTAMP(birthday) birthday  \n" +
                 "               FROM users \n" +
                 "WHERE first_visit_source is not null  ",
                 "--data-urlencode", "format=json",
