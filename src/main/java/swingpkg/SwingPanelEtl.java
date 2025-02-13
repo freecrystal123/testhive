@@ -90,6 +90,9 @@ public class SwingPanelEtl {
                 }
                 frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 textArea2.setText( util.etlsqls.getLog());
+                userinfo.setEnabled(true);
+                trafficdata.setEnabled(true);
+                newregister.setEnabled(true);
             }
 
         });
@@ -118,10 +121,14 @@ public class SwingPanelEtl {
                     util.etlsqls.InLog(e1.getMessage());
                     JOptionPane.showMessageDialog(frame, "fail ! ");
                 }
-
-                JOptionPane.showMessageDialog(frame, "Successful! ");
-                frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                textArea2.setText( util.etlsqls.getLog());
+                finally {
+                    JOptionPane.showMessageDialog(frame, "Successful! ");
+                    frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                    textArea2.setText(util.etlsqls.getLog());
+                    userinfo.setEnabled(true);
+                    trafficdata.setEnabled(true);
+                    newregister.setEnabled(true);
+                }
             }
 
         });
@@ -153,6 +160,9 @@ public class SwingPanelEtl {
                 finally {
                     frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                     textArea2.setText(util.etlsqls.getLog());
+                    userinfo.setEnabled(true);
+                    trafficdata.setEnabled(true);
+                    newregister.setEnabled(true);
                 }
             }
         });
