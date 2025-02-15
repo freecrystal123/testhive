@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -107,7 +108,7 @@ public class mysqljdbc {
 
 
 
-    public static String loaddataitemsgeneral(String tablepath,String tablename , Class clazz,String startdate) throws Exception {
+    public static String loaddataitemsgeneral(String tablepath,String tablename , Class clazz,String startdate,Properties jdbcpro) throws Exception {
 
         Field[] fields =  clazz.getDeclaredFields();
         StringBuffer fieldstr = new StringBuffer();
@@ -121,7 +122,7 @@ public class mysqljdbc {
                 fieldstr.toString().substring(0, fieldstr.toString().length()-1)+
                 ")";
 
-        try ( Connection connection = DriverManager.getConnection("jdbc:mysql://20.174.38.36:3306/lottery_reporting?allowLoadLocalInfile=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useCompression=true", "Viviene", "VALe@1234");
+        try ( Connection connection = DriverManager.getConnection(jdbcpro.get("jdbcurl").toString(),jdbcpro.get("username").toString() , jdbcpro.get("password").toString() );
               Statement stmt = connection.createStatement()) {
             String sql = "";
             if(startdate==null) {
@@ -141,10 +142,10 @@ public class mysqljdbc {
         return logger.toString();
     }
 
-    public static String executeSQLGeneral(String dmlSQL) throws Exception {
+    public static String executeSQLGeneral(String dmlSQL, Properties jdbproperties) throws Exception {
         StringBuffer logger = new StringBuffer();
 
-        try ( Connection connection = DriverManager.getConnection("jdbc:mysql://20.174.38.36:3306/lottery_reporting?allowLoadLocalInfile=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useCompression=true", "Viviene", "VALe@1234");
+        try ( Connection connection = DriverManager.getConnection(jdbproperties.getProperty("jdbcurl"),jdbproperties.getProperty("username"), jdbproperties.getProperty("passward"));
               Statement stmt = connection.createStatement()) {
             int rowsAffected = stmt.executeUpdate(dmlSQL);
             System.out.println(rowsAffected + " rows updated");

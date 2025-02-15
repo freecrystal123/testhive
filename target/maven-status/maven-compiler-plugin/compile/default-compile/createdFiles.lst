@@ -9,6 +9,7 @@ util/etlsqls.class
 registerperson.class
 util/executesql.class
 util/excelreader.class
+pojp/userrginfo.class
 pojp/userinfo.class
 swingpkg/SwingPanelEtl$3.class
 swingpkg/SwingButton.class
