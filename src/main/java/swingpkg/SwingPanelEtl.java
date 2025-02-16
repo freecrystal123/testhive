@@ -1,9 +1,13 @@
 package swingpkg;
 
+import swingpkg.components.jpaneladd;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 public class SwingPanelEtl {
     public static void main(String[] args) {
@@ -11,20 +15,73 @@ public class SwingPanelEtl {
 
 
         // 创建一个 JFrame 窗口
-        JFrame frame = new JFrame("ETL TOOL");
+        JFrame frame = new JFrame();
+
+
+        // 创建一个自定义的标题标签
+        JLabel titleLabel = new JLabel("Lottery BI Tool", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24)); // 设置字体为 Arial，粗体，字号为 24
+        titleLabel.setForeground(Color.black); // 设置字体颜色
+        frame.getContentPane().add(titleLabel, BorderLayout.NORTH);
+
 
         // 设置关闭操作
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // 创建一个 JPanel，并禁用布局管理器（使用绝对布局）
-        JPanel panel = new JPanel();
-        panel.setLayout(null); // 禁用布局管理器，使用绝对布局
+
+
+        JPanel panelETL = new JPanel();
+        panelETL.setLayout(null); // 禁用布局管理器，使用绝对布局
+        JTabbedPane tabbedPane = new JTabbedPane();
+        // 创建 JTabbedPane
+        JTabbedPane jtabpanelCURD = new JTabbedPane();
+
+        // 设置 Tab 页标签纵向排列（左侧）
+        jtabpanelCURD.setTabPlacement(JTabbedPane.LEFT);
+
+        // Replenish ,dim series
+        JPanel panelReplenish = new jpaneladd();
+
+        // 添加 Tab 页，标题为数字
+        jtabpanelCURD.addTab("Replenish " , panelReplenish);
+
+        JPanel panelDimseries = new JPanel();
+        panelDimseries.add(new JLabel("Exciting content, stay tuned!  "));
+
+        // 添加 CUrD Tab 页
+        jtabpanelCURD.addTab("panelDimseries " , panelDimseries);
+
+         // 设置标签选择效果
+        jtabpanelCURD.setBackgroundAt(0, Color.gray);
+        jtabpanelCURD.setBackgroundAt(1, Color.gray);
+        jtabpanelCURD.setForegroundAt(0, Color.black);  // 设置选中Tab的字体颜色
+        jtabpanelCURD.setForegroundAt(1, Color.black);  // 设置选中Tab的字体颜色
+
+
+        tabbedPane.addTab("ETL", panelETL); // 添加第一个选项卡
+
+        tabbedPane.addTab("CURD", jtabpanelCURD); // 添加第二个选项卡
+
+
+        // 自定义Tab页样式
+        tabbedPane.setFont(new Font("Arial", Font.BOLD, 14));  // 设置字体
+        tabbedPane.setBackgroundAt(0, Color.gray);
+        tabbedPane.setBackgroundAt(1, Color.gray);
+
+
+        // 设置选中的Tab样式（例如：选中Tab页的背景颜色）
+        tabbedPane.setSelectedIndex(0);  // 设置默认选中第二个Tab
+        tabbedPane.setForegroundAt(0, Color.black);  // 设置选中Tab的字体颜色
+        tabbedPane.setForegroundAt(1, Color.black);  // 设置选中Tab的字体颜色
+        // 将选项卡面板添加到框架
+        frame.add(tabbedPane);
+
+
 
         // 创建两个文本框
-        JTextArea textArea1 = new JTextArea();
         JTextArea textArea2 = new JTextArea();
 
         // 滚动条
-
         JScrollPane scrollPane2 = new JScrollPane(textArea2);
 
 
@@ -55,12 +112,6 @@ public class SwingPanelEtl {
 
         JTextField startFieldTrafficData =  new JTextField(yesterday.toString());
         JTextField endFieldTrafficData =  new JTextField(today.toString());
-
-        // 创建三个按钮
-        JButton button2 = new JButton("DATA INGESTION：");
-        JButton button2_1 = new JButton("userinfo ");
-        JButton button2_2 = new JButton("factallorders");
-        JButton button2_3 = new JButton("newregisteredusers");
 
 
         // 添加按钮点击事件
@@ -177,20 +228,20 @@ public class SwingPanelEtl {
 
 
         // 将文本框和按钮添加到 JPanel
-        panel.add(scrollPane2);
-        panel.add(label);
-        panel.add(userinfo);
-        panel.add(trafficdata);
-        panel.add(startFieldTrafficData);
-        panel.add(endFieldTrafficData);
-        panel.add(startFieldRegister);
-        panel.add(endFieldRegister);
-        panel.add(newregister);
+        panelETL.add(scrollPane2);
+        panelETL.add(label);
+        panelETL.add(userinfo);
+        panelETL.add(trafficdata);
+        panelETL.add(startFieldTrafficData);
+        panelETL.add(endFieldTrafficData);
+        panelETL.add(startFieldRegister);
+        panelETL.add(endFieldRegister);
+        panelETL.add(newregister);
         // 将 JPanel 添加到 JFrame
-        frame.add(panel);
+
 
         // 设置窗口的大小
-        frame.setSize(700, 800);
+        frame.setSize(700, 900);
 
         // 设置窗口居中显示
         frame.setLocationRelativeTo(null);
@@ -202,29 +253,3 @@ public class SwingPanelEtl {
 }
 
 
-
-//    // 创建一个 JFrame（窗口）
-//    JFrame frame = new JFrame("Swing Example with Action");
-//
-//// 设置窗口的关闭操作
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//                // 创建一个按钮
-//                JButton button = new JButton("Click Me!");
-//
-                // 添加按钮点击事件
-//                button.addActionListener(new ActionListener() {
-//public void actionPerformed(ActionEvent e) {
-//        // 按钮点击后弹出一个对话框
-//        JOptionPane.showMessageDialog(frame, "Button clicked!");
-//        }
-//        });
-//
-//        // 将按钮添加到窗口中
-//        frame.getContentPane().add(button);
-//        frame.setLocationRelativeTo(null);
-//        // 设置窗口大小
-//        frame.setSize(800, 500);
-//
-//        // 设置窗口可见
-//        frame.setVisible(true);

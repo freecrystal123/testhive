@@ -324,6 +324,17 @@ public class mysqljdbc {
 
     }
 
+    public static void insertTableSingleRecord (String tablename, Object ob, Properties jdbcpro) {
+
+
+
+
+
+
+
+    }
+
+
     public static void insertTable(String cvsName, List<optdata> optdatas, List<bussinfo> bussinfos) {
 
 
