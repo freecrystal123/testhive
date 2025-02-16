@@ -7,16 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7d9efe0-2d5d-452d-adb8-226555b7fe03" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/swingpkg/components/jpaneladd.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swingpkg/lookbeauty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swingpkg/lookbeauty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/swingpkg/lookbeauty.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/swingpkg/lookbeauty.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -113,8 +105,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="330" column="8" selection-start-line="330" selection-start-column="8" selection-end-line="330" selection-end-column="8" />
+            <state relative-caret-position="118">
+              <caret line="328" column="19" selection-start-line="328" selection-start-column="19" selection-end-line="328" selection-end-column="19" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -183,9 +175,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>button1_3</find>
-      <find>first_visit_source</find>
-      <find>loaddatafileUserInfo</find>
       <find>button1_1</find>
       <find>userinfo2FilePath</find>
       <find>gen</find>
@@ -213,6 +202,9 @@
       <find>frame</find>
       <find>trafficdata</find>
       <find>insert into</find>
+      <find>jdbcpro</find>
+      <find>startdate</find>
+      <find>logger</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -423,7 +415,7 @@
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="testhive" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1739689762480" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1739710561122" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -594,12 +586,12 @@
       <workItem from="1739125942208" duration="5078000" />
       <workItem from="1739340002290" duration="6586000" />
       <workItem from="1739437415900" duration="15048000" />
-      <workItem from="1739682149612" duration="7591000" />
+      <workItem from="1739682149612" duration="9099000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="406900000" />
+    <option name="totallyTimeSpent" value="408408000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -614,7 +606,7 @@
     <frame x="1780" y="34" width="1708" height="1003" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49760765" visible="true" weight="0.2503001" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49760765" visible="true" weight="0.2503001" />
       <window_info id="Structure" order="1" sideWeight="0.5017794" side_tool="true" weight="0.26590636" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -623,7 +615,7 @@
       <window_info id="Favorites" order="6" sideWeight="0.50239235" side_tool="true" weight="0.19987996" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32857144" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.30939227" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.30939227" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3801105" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -716,37 +708,37 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>343</line>
+          <line>394</line>
           <properties />
           <option name="timeStamp" value="100" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>571</line>
+          <line>622</line>
           <properties />
           <option name="timeStamp" value="116" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>545</line>
+          <line>596</line>
           <properties />
           <option name="timeStamp" value="117" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>353</line>
+          <line>404</line>
           <properties />
           <option name="timeStamp" value="118" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>553</line>
+          <line>604</line>
           <properties />
           <option name="timeStamp" value="121" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>552</line>
+          <line>603</line>
           <properties />
           <option name="timeStamp" value="122" />
         </line-breakpoint>
@@ -764,31 +756,31 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>356</line>
+          <line>407</line>
           <properties />
           <option name="timeStamp" value="153" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>357</line>
+          <line>408</line>
           <properties />
           <option name="timeStamp" value="154" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>437</line>
+          <line>488</line>
           <properties />
           <option name="timeStamp" value="155" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>367</line>
+          <line>418</line>
           <properties />
           <option name="timeStamp" value="156" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java</url>
-          <line>354</line>
+          <line>405</line>
           <properties />
           <option name="timeStamp" value="157" />
         </line-breakpoint>
@@ -1628,8 +1620,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="330" column="8" selection-start-line="330" selection-start-column="8" selection-end-line="330" selection-end-column="8" />
+        <state relative-caret-position="118">
+          <caret line="328" column="19" selection-start-line="328" selection-start-column="19" selection-end-line="328" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

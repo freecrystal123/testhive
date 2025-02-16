@@ -324,12 +324,63 @@ public class mysqljdbc {
 
     }
 
+
+    /**
+     * 插入 单个对象到数据库中
+     * @param tablename
+     * @param ob
+     * @param jdbcpro
+     */
     public static void insertTableSingleRecord (String tablename, Object ob, Properties jdbcpro) {
 
 
+        StringBuffer logger = new StringBuffer();
+        try (Connection connection = DriverManager.getConnection(jdbcpro.get("jdbcurl").toString(),
+                jdbcpro.get("username").toString(),
+                jdbcpro.get("password").toString());
+             Statement stmt = connection.createStatement()) {
 
+            // 获取 ob 对象的类
+            Class<?> clazz = ob.getClass();
 
+            // 获取所有字段
+            Field[] fields = clazz.getDeclaredFields();
 
+            // 生成字段名称和字段值的字符串
+            StringBuilder columns = new StringBuilder();
+            StringBuilder values = new StringBuilder();
+
+            for (Field field : fields) {
+                field.setAccessible(true); // 设置可访问私有字段
+                String columnName = field.getName(); // 获取字段名
+                Object value = field.get(ob); // 获取字段值
+
+                // 处理字段名和字段值
+                columns.append(columnName).append(", ");
+                values.append("'").append(value != null ? value.toString() : "").append("', ");
+            }
+
+            // 去掉最后一个逗号和空格
+            if (columns.length() > 0) {
+                columns.setLength(columns.length() - 2);
+            }
+            if (values.length() > 0) {
+                values.setLength(values.length() - 2);
+            }
+
+            // 构建插入的 SQL 语句
+            String sql = "INSERT INTO " + tablename + " (" + columns.toString() + ") VALUES (" + values.toString() + ")";
+
+            // 执行插入操作
+            int rowsAffected = stmt.executeUpdate(sql);
+            System.out.println(rowsAffected + " rows inserted");
+            logger.append(rowsAffected + " rows inserted");
+
+        } catch (SQLException | IllegalAccessException e) {
+            e.printStackTrace();
+            logger.append(e.getMessage());
+            logger.append(" Database update failed!");
+        }
 
 
     }
