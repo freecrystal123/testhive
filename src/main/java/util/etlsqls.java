@@ -12,6 +12,7 @@ import java.lang.reflect.Type;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class etlsqls {
@@ -115,7 +116,14 @@ public class etlsqls {
 
     public static int rgusersstatics(  ) throws Exception{
 
+        // 获取昨天的日期
+        LocalDate yesterday = LocalDate.now().minusDays(1);
 
+        // 定义日期格式化器
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // 将昨天的日期格式化为字符串
+        String formattedDate = yesterday.format(formatter);
         String[] command = {
                 "curl",
                 "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
@@ -130,8 +138,8 @@ public class etlsqls {
                 "user_id\n" +
                 "from  events \n" +
                 "where event= 'login_result'\n" +
-                "and is_success = 1) aa on \n" +
-                "users.id = aa.user_id\n" +
+                "and is_success = 1 ) aa on \n" +
+                "users.id = aa.user_id and substr(cast(time as string),1,10)<='"+formattedDate +"' \n" +
                 "group by substr(cast(time as string),1,10) ) aa\n" +
                 "join (\n" +
                 "select substr(cast(time as string),1,10) bettingdate ,count(distinct uid) bettingusers from users join (\n" +
@@ -147,7 +155,7 @@ public class etlsqls {
                 ") aa on \n" +
                 "users.id = aa.user_id \n" +
                 "group by substr(cast(time as string),1,10)\n" +
-                ") bb on aa.logindate = bb.bettingdate\n" +
+                ") bb on aa.logindate = bb.bettingdate \n" +
                 "order by aa.logindate desc  ",
                 "--data-urlencode", "format=json",
         };
@@ -465,7 +473,7 @@ public class etlsqls {
                 "                  case when last_withdraw_time  is null then '1970-01-01 00:00:00' else    substr(cast(EPOCH_TO_TIMESTAMP(last_withdraw_time ) as string),1,19) end last_withdraw_time,  \n" +
                 "                  country,  \n" +
                 "                  city,  \n" +
-                "                  EPOCH_TO_TIMESTAMP(birthday) birthday  \n" +
+                "                  EPOCH_TO_TIMESTAMP(birthday/1000) birthday  \n" +
                 "               FROM users \n" +
                 "WHERE first_visit_source is not null  ",
                 "--data-urlencode", "format=json",

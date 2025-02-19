@@ -1,4 +1,5 @@
 package jdbc;
+
 import pojp.bussinfo;
 import pojp.optdata;
 import pojp.orderwin0122;
@@ -8,6 +9,7 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -322,6 +324,106 @@ public class mysqljdbc {
         connection.commit();
 
 
+    }
+
+
+
+//
+//    public static <T> int insertlistTableRecord(String tablename , Properties jdbcpro,List<T>  clazz){
+//
+//        List<T> records = new ArrayList<>();
+//        try (Connection connection = DriverManager.getConnection(
+//                jdbcpro.get("jdbcurl").toString(),
+//                jdbcpro.get("username").toString(),
+//                jdbcpro.get("password").toString());
+//             Statement stmt = connection.createStatement()) {
+//
+//            // Constructing the SELECT SQL query
+//            String sql = "SELECT * FROM " + tablename;
+//
+//            // Execute the SELECT query
+//            ResultSet rs = stmt.executeQuery(sql);
+//
+//            // Get the fields of the class
+//            Field[] fields = clazz.getDeclaredFields();
+//
+//            // Process the result set
+//            while (rs.next()) {
+//                // Create an instance of the class using reflection
+//                T record =  clazz.getDeclaredConstructor().newInstance();
+//
+//                // Map each field in the ResultSet to the corresponding field in the class
+//                for (Field field : fields) {
+//                    field.setAccessible(true); // Allow access to private fields
+//                    String columnName = field.getName();
+//                    Object columnValue = rs.getObject(columnName); // Get the value from the ResultSet
+//
+//                    // Set the value to the field using reflection
+//                    if (columnValue != null) {
+//                        field.set(record, columnValue);
+//                    }
+//                }
+//
+//                // Add the populated object to the list
+//                records.add(record);
+//            }
+//
+//        } catch (SQLException | ReflectiveOperationException e) {
+//            e.printStackTrace();
+//            // Handle exception properly in production code
+//        }
+//
+//        return records;
+//    }
+//
+//
+
+
+    public static <T> List<T> listTableRecord(String tablename , Properties jdbcpro,Class<T> clazz){
+
+        List<T> records = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(
+                jdbcpro.get("jdbcurl").toString(),
+                jdbcpro.get("username").toString(),
+                jdbcpro.get("password").toString());
+             Statement stmt = connection.createStatement()) {
+
+            // Constructing the SELECT SQL query
+            String sql = "SELECT * FROM " + tablename;
+
+            // Execute the SELECT query
+            ResultSet rs = stmt.executeQuery(sql);
+
+            // Get the fields of the class
+            Field[] fields = clazz.getDeclaredFields();
+
+            // Process the result set
+            while (rs.next()) {
+                // Create an instance of the class using reflection
+                T record =  clazz.getDeclaredConstructor().newInstance();
+
+                // Map each field in the ResultSet to the corresponding field in the class
+                for (Field field : fields) {
+                    field.setAccessible(true); // Allow access to private fields
+                    String columnName = field.getName();
+                    Object columnValue = rs.getObject(columnName); // Get the value from the ResultSet
+
+                    // Set the value to the field using reflection
+                    if (columnValue != null) {
+                        field.set(record, columnValue);
+                    }
+                }
+
+                // Add the populated object to the list
+                records.add(record);
+            }
+
+        } catch (SQLException | ReflectiveOperationException e) {
+            e.printStackTrace();
+            // Handle exception properly in production code
+        }
+
+        return records;
     }
 
 

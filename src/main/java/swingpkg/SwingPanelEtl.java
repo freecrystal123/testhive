@@ -1,13 +1,11 @@
 package swingpkg;
 
-import swingpkg.components.jpaneladd;
+import swingpkg.components.jpanelshowandadd;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 public class SwingPanelEtl {
     public static void main(String[] args) {
@@ -39,11 +37,12 @@ public class SwingPanelEtl {
         // 设置 Tab 页标签纵向排列（左侧）
         jtabpanelCURD.setTabPlacement(JTabbedPane.LEFT);
 
-        // Replenish ,dim series
-        JPanel panelReplenish = new jpaneladd();
+
+        // show panel
+        JPanel panelReplenishShow = new jpanelshowandadd();
 
         // 添加 Tab 页，标题为数字
-        jtabpanelCURD.addTab("Replenish " , panelReplenish);
+        jtabpanelCURD.addTab("Replenish " , panelReplenishShow);
 
         JPanel panelDimseries = new JPanel();
         panelDimseries.add(new JLabel("Exciting content, stay tuned!  "));
@@ -98,6 +97,8 @@ public class SwingPanelEtl {
         label.setFont(new Font("Arial",Font.BOLD,20));
 
         JButton userinfo = new JButton("userinfo ");
+
+
         JButton trafficdata = new JButton("trafficdata ");
         JButton newregister = new JButton("newregister");
 
@@ -239,6 +240,14 @@ public class SwingPanelEtl {
         panelETL.add(newregister);
         // 将 JPanel 添加到 JFrame
 
+
+        // 创建底部标签
+        JLabel footerLabel = new JLabel("@momentum. opstech", JLabel.CENTER);
+        footerLabel.setFont(new Font("Arial", Font.PLAIN, 10)); // 设置字体
+        footerLabel.setBackground(Color.darkGray);
+        footerLabel.setForeground(Color.BLACK);  // 设置字体颜色
+        footerLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));  // 设置上、左、下、右边距
+        frame.getContentPane().add(footerLabel, BorderLayout.SOUTH); // 将底部标签添加到窗口底部
 
         // 设置窗口的大小
         frame.setSize(700, 900);

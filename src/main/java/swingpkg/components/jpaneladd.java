@@ -6,9 +6,6 @@ import java.awt.*;
 public class jpaneladd extends JPanel {
 
 
-
-
-
     public jpaneladd() {
         // 设置布局管理器为 GridLayout，6行2列（5个标签和输入框 + 1行用于提交按钮）
         setLayout(null);
