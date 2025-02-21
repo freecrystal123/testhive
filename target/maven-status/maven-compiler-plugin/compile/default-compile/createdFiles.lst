@@ -22,11 +22,13 @@ testjava.class
 pojp/userdata.class
 swingpkg/SwingPanelEtl.class
 util/excelreaderwin.class
+swingpkg/components/jpanelshowandadd.class
 pojp/orderwin0122.class
 util/etlsqls$1.class
 testparse.class
 pojp/bussinfo.class
 swingpkg/SwingPanel$1.class
+pojp/replenish.class
 swingpkg/SwingPanel.class
 swingpkg/JavaFXPanelEtl.class
 norechargesuccesspersion.class
@@ -36,3 +38,4 @@ util/excelreadeandpin.class
 winnerperson.class
 jdbc/mysqljdbc.class
 swingpkg/SwingPanelEtl$2.class
+swingpkg/components/jpaneladd.class

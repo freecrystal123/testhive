@@ -1,12 +1,9 @@
 package pojp;
 
-import java.sql.Date;
-
-public class userrginfo {
-
+public class userrglimitinfo {
     public String dateid;
-    public int logged_users;
-    public int betting_users;
-    public int registed_users;
-    public int recharged_users;
+    public int self_exclusion_users;
+    public int timeout_users;
+    public int deposit_limit_users;
+    public int deposit_limit_atreg_users;
 }

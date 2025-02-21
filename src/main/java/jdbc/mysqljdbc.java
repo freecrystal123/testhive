@@ -130,7 +130,7 @@ public class mysqljdbc {
             if(startdate==null) {
                  sql = "delete from "+tablename+" where 1=1";  // 替换为你要清空的表名
             } else {
-                 sql = "delete from "+tablename+" where dateid > '"+startdate+"'";  // 替换为你要清空的表名
+                 sql = "delete from "+tablename+" where dateid >= '"+startdate+"'";  // 替换为你要清空的表名
             }
             stmt.executeUpdate(sql);
             int rowsAffected = stmt.executeUpdate(query);
@@ -147,7 +147,7 @@ public class mysqljdbc {
     public static String executeSQLGeneral(String dmlSQL, Properties jdbproperties) throws Exception {
         StringBuffer logger = new StringBuffer();
 
-        try ( Connection connection = DriverManager.getConnection(jdbproperties.getProperty("jdbcurl"),jdbproperties.getProperty("username"), jdbproperties.getProperty("passward"));
+        try ( Connection connection = DriverManager.getConnection(jdbproperties.getProperty("jdbcurl"),jdbproperties.getProperty("username"), jdbproperties.getProperty("password"));
               Statement stmt = connection.createStatement()) {
             int rowsAffected = stmt.executeUpdate(dmlSQL);
             System.out.println(rowsAffected + " rows updated");
