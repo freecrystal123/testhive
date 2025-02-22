@@ -103,8 +103,8 @@ public class etlsqls {
 
     public static void main(String[] args) throws Exception{
 
-//        rgusersstatics();
-        rgdispositedlimitselftimeout();
+        rgusersstatics();
+//        rgdispositedlimitselftimeout();
 
     }
     public static String logs1 ;
@@ -319,7 +319,7 @@ public class etlsqls {
 
 
 
-        InLog(mysqljdbc.loaddataitemsgeneral(rgusersstatics2FilePath,"fact_user_bussinessinfo_d",userrginfo.class,null,alibabaJDBC));
+        InLog(mysqljdbc.loaddataitemsgeneral(rgusersstatics2FilePath,"fact_user_bussinessinfo_d",userrginfo.class,null,financeJDBC));
 
 
         return 0;
