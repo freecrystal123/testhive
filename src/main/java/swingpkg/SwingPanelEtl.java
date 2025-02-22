@@ -1,5 +1,6 @@
 package swingpkg;
 
+import swingpkg.components.jpaneldiffdedup;
 import swingpkg.components.jpanelshowandadd;
 
 import javax.swing.*;
@@ -26,7 +27,6 @@ public class SwingPanelEtl {
         // 设置关闭操作
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // 创建一个 JPanel，并禁用布局管理器（使用绝对布局）
-
 
         JPanel panelETL = new JPanel();
         panelETL.setLayout(null); // 禁用布局管理器，使用绝对布局
@@ -57,21 +57,32 @@ public class SwingPanelEtl {
         jtabpanelCURD.setForegroundAt(1, Color.black);  // 设置选中Tab的字体颜色
 
 
+
+
+        // 添加 CUrD Tab 页
+
+
+        // 设置标签选择效果
+
+
+
         tabbedPane.addTab("ETL", panelETL); // 添加第一个选项卡
 
         tabbedPane.addTab("CURD", jtabpanelCURD); // 添加第二个选项卡
 
+        tabbedPane.addTab("DIFF&DEDUP", new jpaneldiffdedup()); // 添加第二个选项卡
 
         // 自定义Tab页样式
         tabbedPane.setFont(new Font("Arial", Font.BOLD, 14));  // 设置字体
         tabbedPane.setBackgroundAt(0, Color.gray);
         tabbedPane.setBackgroundAt(1, Color.gray);
-
+        tabbedPane.setBackgroundAt(2, Color.gray);
 
         // 设置选中的Tab样式（例如：选中Tab页的背景颜色）
         tabbedPane.setSelectedIndex(0);  // 设置默认选中第二个Tab
         tabbedPane.setForegroundAt(0, Color.black);  // 设置选中Tab的字体颜色
         tabbedPane.setForegroundAt(1, Color.black);  // 设置选中Tab的字体颜色
+        tabbedPane.setForegroundAt(2, Color.black);  // 设置选中Tab的字体颜色
         // 将选项卡面板添加到框架
         frame.add(tabbedPane);
 

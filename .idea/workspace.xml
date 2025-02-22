@@ -7,8 +7,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7d9efe0-2d5d-452d-adb8-226555b7fe03" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/swingpkg/SwingPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swingpkg/SwingPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/util/etlsqls.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/etlsqls.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/swingpkg/components/jpaneldiffdedup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -45,11 +50,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="92" selection-start-line="92" selection-end-line="92" />
+            <state relative-caret-position="226">
+              <caret line="122" column="72" lean-forward="true" selection-start-line="122" selection-start-column="72" selection-end-line="122" selection-end-column="72" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -58,10 +63,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/jdbc/mysqljdbc.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/components/jpanelshowandadd.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="106" column="33" lean-forward="true" selection-start-line="106" selection-start-column="33" selection-end-line="106" selection-end-column="33" />
+            <state relative-caret-position="327">
+              <caret line="173" column="22" selection-start-line="173" selection-start-column="22" selection-end-line="173" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -73,7 +78,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/pojp/trafficdatatemp.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="165">
-              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
             </state>
           </provider>
         </entry>
@@ -82,7 +87,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/util/etlsqls.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="336">
-              <caret line="688" column="28" lean-forward="true" selection-start-line="688" selection-start-column="28" selection-end-line="688" selection-end-column="28" />
+              <caret line="688" column="28" selection-start-line="688" selection-start-column="28" selection-end-line="688" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -90,11 +95,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="939">
-              <caret line="118" column="37" selection-start-line="118" selection-start-column="37" selection-end-line="118" selection-end-column="37" />
+            <state relative-caret-position="106">
+              <caret line="16" selection-end-line="239" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2515#2516#0" expanded="true" />
@@ -121,6 +126,60 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/components/jpaneladd.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="11">
+              <caret line="5" column="22" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="22" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/components/jpaneldiffdedup.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="13" column="28" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="28" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#3434#3435#0" expanded="true" />
+                <element signature="e#3483#3484#0" expanded="true" />
+                <element signature="e#3562#3563#0" expanded="true" />
+                <element signature="e#3611#3612#0" expanded="true" />
+                <element signature="e#3691#3692#0" expanded="true" />
+                <element signature="e#3740#3741#0" expanded="true" />
+                <element signature="e#4095#4096#0" expanded="true" />
+                <element signature="e#4144#4145#0" expanded="true" />
+                <element signature="e#4223#4224#0" expanded="true" />
+                <element signature="e#4272#4273#0" expanded="true" />
+                <element signature="e#4352#4353#0" expanded="true" />
+                <element signature="e#4401#4402#0" expanded="true" />
+                <element signature="e#4756#4757#0" expanded="true" />
+                <element signature="e#4805#4806#0" expanded="true" />
+                <element signature="e#4884#4885#0" expanded="true" />
+                <element signature="e#4933#4934#0" expanded="true" />
+                <element signature="e#5013#5014#0" expanded="true" />
+                <element signature="e#5062#5063#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingButton.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.desktop/javax/swing/ScrollPaneLayout.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="163">
@@ -138,33 +197,6 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pojp/userrginfo.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="29" lean-forward="true" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pojp/userrglimitinfo.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="28" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/util/fileHander.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -176,10 +208,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>startdate</find>
-      <find>logger</find>
-      <find>trafficdata</find>
-      <find>butto</find>
       <find>proper</find>
       <find>propert</find>
       <find>propertiy</find>
@@ -205,7 +233,11 @@
       <find>trafficdatatempFilePath</find>
       <find>Oasis</find>
       <find>button2</find>
+      <find>tabbedPane.addTab</find>
       <find>scrollPane1</find>
+      <find>panelETL</find>
+      <find>jpanelshowandadd</find>
+      <find>jpanelDIFFDEDUP</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -220,7 +252,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/test" />
         <option value="$PROJECT_DIR$/src/main/java/test1" />
         <option value="$PROJECT_DIR$/src/main/java/registerperson.java" />
         <option value="$PROJECT_DIR$/src/main/java/winnerperson.java" />
@@ -262,7 +293,6 @@
         <option value="$PROJECT_DIR$/src/main/java/swingpkg/lookbeauty.java" />
         <option value="$PROJECT_DIR$/src/main/java/swingpkg/components/jpaneladd.java" />
         <option value="$PROJECT_DIR$/src/main/java/pojp/replenish.java" />
-        <option value="$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java" />
         <option value="$PROJECT_DIR$/src/main/java/swingpkg/components/jpanelshow.java" />
         <option value="$PROJECT_DIR$/src/main/java/swingpkg/components/jpanelshowandadd.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
@@ -271,6 +301,8 @@
         <option value="$PROJECT_DIR$/src/main/java/pojp/userrglimitinfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/util/etlsqls.java" />
         <option value="$PROJECT_DIR$/src/main/java/swingpkg/SwingPanel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/swingpkg/components/jpaneldiffdedup.java" />
+        <option value="$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java" />
       </list>
     </option>
   </component>
@@ -426,7 +458,7 @@
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="testhive" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1740222231558" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1740225538739" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -458,7 +490,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.SwingPanel">
+  <component name="RunManager" selected="Application.SwingPanelEtl">
     <configuration name="SwingPanel" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="swingpkg.SwingPanel" />
       <module name="testhive" />
@@ -498,8 +530,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="jpaneladd" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="swingpkg.components.jpaneladd" />
+    <configuration name="jpaneldiffdedup" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="swingpkg.components.jpaneldiffdedup" />
       <module name="testhive" />
       <extension name="coverage">
         <pattern>
@@ -541,17 +573,17 @@
       <item itemvalue="Application.SwingPanelEtl" />
       <item itemvalue="Application.etlsqls (1)" />
       <item itemvalue="Application.lookbeauty" />
-      <item itemvalue="Application.jpaneladd" />
       <item itemvalue="Application.jpanelshowandadd" />
       <item itemvalue="Application.SwingPanel" />
+      <item itemvalue="Application.jpaneldiffdedup" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.jpaneldiffdedup" />
         <item itemvalue="Application.SwingPanel" />
         <item itemvalue="Application.etlsqls (1)" />
         <item itemvalue="Application.jpanelshowandadd" />
         <item itemvalue="Application.lookbeauty" />
-        <item itemvalue="Application.jpaneladd" />
       </list>
     </recent_temporary>
   </component>
@@ -605,12 +637,12 @@
       <workItem from="1739437415900" duration="15048000" />
       <workItem from="1739682149612" duration="30207000" />
       <workItem from="1739858846622" duration="17142000" />
-      <workItem from="1740034051448" duration="21717000" />
+      <workItem from="1740034051448" duration="24920000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="468375000" />
+    <option name="totallyTimeSpent" value="471578000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -625,7 +657,7 @@
     <frame x="1802" y="45" width="1603" height="933" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49760765" visible="true" weight="0.24471493" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49760765" visible="true" weight="0.24471493" />
       <window_info id="Structure" order="1" sideWeight="0.5017794" side_tool="true" weight="0.26590636" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -634,12 +666,12 @@
       <window_info id="Favorites" order="6" sideWeight="0.50239235" side_tool="true" weight="0.19987996" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32857144" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.28023952" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.28023952" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.37844312" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32903227" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.30451614" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.30419162" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.3233533" />
@@ -1141,13 +1173,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java</url>
-          <line>124</line>
+          <line>135</line>
           <properties />
           <option name="timeStamp" value="289" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java</url>
-          <line>130</line>
+          <line>141</line>
           <properties />
           <option name="timeStamp" value="290" />
         </line-breakpoint>
@@ -1330,14 +1362,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/TabbedDialog.java" />
-    <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.desktop/javax/swing/JFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1230">
-          <caret line="123" column="13" selection-start-line="123" selection-start-column="13" selection-end-line="123" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Downloads/JFormDesigner/swing/AddressPanel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -1496,16 +1520,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingButton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.desktop/javax/swing/JPanel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
@@ -1560,16 +1574,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/components/jpaneladd.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="930">
-          <caret line="63" selection-start-line="63" selection-end-line="63" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar!/com/mysql/cj/jdbc/StatementImpl.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="13305">
@@ -1588,16 +1592,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/components/jpanelshowandadd.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="113" column="22" selection-start-line="113" selection-start-column="22" selection-end-line="113" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1711,14 +1705,14 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/pojp/trafficdatatemp.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/util/etlsqls.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
-          <caret line="688" column="28" lean-forward="true" selection-start-line="688" selection-start-column="28" selection-end-line="688" selection-end-column="28" />
+          <caret line="688" column="28" selection-start-line="688" selection-start-column="28" selection-end-line="688" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1732,16 +1726,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="92" selection-start-line="92" selection-end-line="92" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.desktop/javax/swing/ScrollPaneLayout.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="163">
@@ -1749,10 +1733,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingButton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home/lib/src.zip!/java.desktop/javax/swing/JTabbedPane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1499" selection-start-line="1499" selection-end-line="1499" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="939">
-          <caret line="118" column="37" selection-start-line="118" selection-start-column="37" selection-end-line="118" selection-end-column="37" />
+        <state relative-caret-position="106">
+          <caret line="16" selection-end-line="239" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2515#2516#0" expanded="true" />
@@ -1773,6 +1774,64 @@
             <element signature="e#4337#4338#0" expanded="true" />
             <element signature="e#4417#4418#0" expanded="true" />
             <element signature="e#4466#4467#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/components/jpanelshowandadd.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="327">
+          <caret line="173" column="22" selection-start-line="173" selection-start-column="22" selection-end-line="173" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/components/jpaneladd.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11">
+          <caret line="5" column="22" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/components/jpaneldiffdedup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="13" column="28" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3434#3435#0" expanded="true" />
+            <element signature="e#3483#3484#0" expanded="true" />
+            <element signature="e#3562#3563#0" expanded="true" />
+            <element signature="e#3611#3612#0" expanded="true" />
+            <element signature="e#3691#3692#0" expanded="true" />
+            <element signature="e#3740#3741#0" expanded="true" />
+            <element signature="e#4095#4096#0" expanded="true" />
+            <element signature="e#4144#4145#0" expanded="true" />
+            <element signature="e#4223#4224#0" expanded="true" />
+            <element signature="e#4272#4273#0" expanded="true" />
+            <element signature="e#4352#4353#0" expanded="true" />
+            <element signature="e#4401#4402#0" expanded="true" />
+            <element signature="e#4756#4757#0" expanded="true" />
+            <element signature="e#4805#4806#0" expanded="true" />
+            <element signature="e#4884#4885#0" expanded="true" />
+            <element signature="e#4933#4934#0" expanded="true" />
+            <element signature="e#5013#5014#0" expanded="true" />
+            <element signature="e#5062#5063#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="122" column="72" lean-forward="true" selection-start-line="122" selection-start-column="72" selection-end-line="122" selection-end-column="72" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
