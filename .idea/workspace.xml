@@ -7,13 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7d9efe0-2d5d-452d-adb8-226555b7fe03" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/swingpkg/components/jpaneldiffdedup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/swingpkg/SwingPanelEtl.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -53,8 +47,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="122" column="72" lean-forward="true" selection-start-line="122" selection-start-column="72" selection-end-line="122" selection-end-column="72" />
+            <state relative-caret-position="343">
+              <caret line="239" column="45" lean-forward="true" selection-start-line="239" selection-start-column="45" selection-end-line="239" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -208,7 +202,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>proper</find>
       <find>propert</find>
       <find>propertiy</find>
       <find>DefaultTableModel</find>
@@ -238,6 +231,7 @@
       <find>panelETL</find>
       <find>jpanelshowandadd</find>
       <find>jpanelDIFFDEDUP</find>
+      <find>label</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -458,7 +452,7 @@
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="testhive" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1740225538739" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1740227027258" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -637,12 +631,12 @@
       <workItem from="1739437415900" duration="15048000" />
       <workItem from="1739682149612" duration="30207000" />
       <workItem from="1739858846622" duration="17142000" />
-      <workItem from="1740034051448" duration="24920000" />
+      <workItem from="1740034051448" duration="26169000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="471578000" />
+    <option name="totallyTimeSpent" value="472827000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -657,8 +651,8 @@
     <frame x="1802" y="45" width="1603" height="933" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49760765" visible="true" weight="0.24471493" />
-      <window_info id="Structure" order="1" sideWeight="0.5017794" side_tool="true" weight="0.26590636" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49584025" visible="true" weight="0.24471493" />
+      <window_info id="Structure" order="1" sideWeight="0.50415975" side_tool="true" weight="0.24471493" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Capture Tool" order="4" />
@@ -666,7 +660,7 @@
       <window_info id="Favorites" order="6" sideWeight="0.50239235" side_tool="true" weight="0.19987996" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32857144" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.28023952" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.28023952" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.37844312" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1173,13 +1167,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java</url>
-          <line>135</line>
+          <line>138</line>
           <properties />
           <option name="timeStamp" value="289" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java</url>
-          <line>141</line>
+          <line>144</line>
           <properties />
           <option name="timeStamp" value="290" />
         </line-breakpoint>
@@ -1828,8 +1822,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/swingpkg/SwingPanelEtl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="122" column="72" lean-forward="true" selection-start-line="122" selection-start-column="72" selection-end-line="122" selection-end-column="72" />
+        <state relative-caret-position="343">
+          <caret line="239" column="45" lean-forward="true" selection-start-line="239" selection-start-column="45" selection-end-line="239" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

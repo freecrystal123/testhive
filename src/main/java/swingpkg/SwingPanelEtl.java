@@ -107,9 +107,15 @@ public class SwingPanelEtl {
         JLabel label = new JLabel("Data Exp&Imp ");
         label.setFont(new Font("Arial",Font.BOLD,20));
 
+
+        JLabel startLabel = new JLabel("start date: ");
+        JLabel endLabel = new JLabel("end date: ");
+        startLabel.setFont(new Font("Arial",Font.PLAIN,15));
+        endLabel.setFont(new Font("Arial",Font.PLAIN,15));
+
+
+
         JButton userinfo = new JButton("userinfo ");
-
-
         JButton trafficdata = new JButton("trafficdata ");
         JButton newregister = new JButton("newregister");
 
@@ -119,11 +125,8 @@ public class SwingPanelEtl {
         LocalDate today = LocalDate.now();
         LocalDate yesterday = LocalDate.now().minusDays(1);
 
-        JTextField startFieldRegister =  new JTextField(yesterday.toString());
-        JTextField endFieldRegister =  new JTextField(today.toString());
-
-        JTextField startFieldTrafficData =  new JTextField(yesterday.toString());
-        JTextField endFieldTrafficData =  new JTextField(today.toString());
+        JTextField queryStart =  new JTextField(yesterday.toString());
+        JTextField queryEnd =  new JTextField(today.toString());
 
 
         // 添加按钮点击事件
@@ -162,8 +165,8 @@ public class SwingPanelEtl {
                 // 按钮点击后弹出一个对话框
                 // 沙漏
 
-                String starttime =  startFieldRegister.getText();
-                String endtime = endFieldRegister.getText();
+                String starttime =  queryStart.getText();
+                String endtime = queryEnd.getText();
                 userinfo.setEnabled(false);
                 trafficdata.setEnabled(false);
                 newregister.setEnabled(false);
@@ -194,8 +197,8 @@ public class SwingPanelEtl {
             public void actionPerformed(ActionEvent e) {
 
 
-                String starttime =  startFieldTrafficData.getText();
-                String endtime = endFieldTrafficData.getText();
+                String starttime =  queryStart.getText();
+                String endtime = queryEnd.getText();
 
                 userinfo.setEnabled(false);
                 trafficdata.setEnabled(false);
@@ -225,30 +228,27 @@ public class SwingPanelEtl {
 
 
         // 设置按钮的位置和大小
-        label.setBounds(100, 50, 300, 40);  // x=300, y=50, 宽=120, 高=40
-        userinfo.setBounds(100, 100, 120, 40); // x=300, y=100, 宽=120, 高=40
-        trafficdata.setBounds(100, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
-        newregister.setBounds(100, 240, 120, 40); // x=300, y=100, 宽=120, 高=40
+        label.setBounds(100, 100, 300, 40);  // x=300, y=50, 宽=120, 高=40
+        userinfo.setBounds(100, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
+        trafficdata.setBounds(280, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
+        newregister.setBounds(460, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
 
 
-        startFieldRegister.setBounds(240, 240, 120, 40); // x=300, y=100, 宽=120, 高=40
-        endFieldRegister.setBounds(410, 240, 120, 40); // x=300, y=100, 宽=120, 高=40
-
-
-        startFieldTrafficData.setBounds(240, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
-        endFieldTrafficData.setBounds(410, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
-
+        queryStart.setBounds(200, 50, 120, 40); // x=300, y=100, 宽=120, 高=40
+        queryEnd.setBounds(460, 50, 120, 40); // x=300, y=100, 宽=120, 高=40
+        startLabel.setBounds(120, 50, 100, 40);
+        endLabel.setBounds(375, 50, 100, 40);
 
         // 将文本框和按钮添加到 JPanel
         panelETL.add(scrollPane2);
         panelETL.add(label);
         panelETL.add(userinfo);
         panelETL.add(trafficdata);
-        panelETL.add(startFieldTrafficData);
-        panelETL.add(endFieldTrafficData);
-        panelETL.add(startFieldRegister);
-        panelETL.add(endFieldRegister);
+        panelETL.add(queryStart);
+        panelETL.add(queryEnd);
         panelETL.add(newregister);
+        panelETL.add(startLabel);
+        panelETL.add(endLabel);
         // 将 JPanel 添加到 JFrame
 
 
