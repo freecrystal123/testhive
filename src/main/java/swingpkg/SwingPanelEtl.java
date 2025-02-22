@@ -2,6 +2,7 @@ package swingpkg;
 
 import swingpkg.components.jpaneldiffdedup;
 import swingpkg.components.jpanelshowandadd;
+import swingpkg.components.roundedButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -98,7 +99,7 @@ public class SwingPanelEtl {
         scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); // 总是显示垂直滚动条
         // 设置文本框的位置和大小
 //        textArea1.setBounds(50, 30, 500, 300); // x=50, y=50, 宽=200, 高=100
-        scrollPane2.setBounds(100, 320, 500, 400); // x=50, y=160, 宽=200, 高=100
+        scrollPane2.setBounds(100, 320, 500, 450); // x=50, y=160, 宽=200, 高=100
 
 
 
@@ -119,6 +120,7 @@ public class SwingPanelEtl {
         JButton trafficdata = new JButton("trafficdata ");
         JButton newregister = new JButton("newregister");
 
+        JButton clearButton = new roundedButton("clean ");
 
         // 文本输入
         // 昨天日期默认
@@ -227,12 +229,24 @@ public class SwingPanelEtl {
         });
 
 
+        clearButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                textArea2.setText("");
+            }
+            });
+
+
+
+
+
+
         // 设置按钮的位置和大小
         label.setBounds(100, 100, 300, 40);  // x=300, y=50, 宽=120, 高=40
         userinfo.setBounds(100, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
         trafficdata.setBounds(280, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
         newregister.setBounds(460, 170, 120, 40); // x=300, y=100, 宽=120, 高=40
 
+        clearButton.setBounds(540,270,100,40);
 
         queryStart.setBounds(200, 50, 120, 40); // x=300, y=100, 宽=120, 高=40
         queryEnd.setBounds(460, 50, 120, 40); // x=300, y=100, 宽=120, 高=40
@@ -249,6 +263,7 @@ public class SwingPanelEtl {
         panelETL.add(newregister);
         panelETL.add(startLabel);
         panelETL.add(endLabel);
+        panelETL.add(clearButton);
         // 将 JPanel 添加到 JFrame
 
 
