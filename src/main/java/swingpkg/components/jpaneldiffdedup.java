@@ -29,9 +29,9 @@ public class jpaneldiffdedup  extends JPanel {
         textArea3.setLineWrap(true);
         textArea3.setWrapStyleWord(true);
 
-        JLabel lineCountLabel1 = new JLabel("Line Count: 0");
-        JLabel lineCountLabel2 = new JLabel("Line Count: 0");
-        JLabel lineCountLabel3 = new JLabel("Line Count: 0");
+        JLabel lineCountLabel1 = new JLabel("A --->  line Count: 0");
+        JLabel lineCountLabel2 = new JLabel("A-B --->  line Count: 0");
+        JLabel lineCountLabel3 = new JLabel("B --->  line Count: 0");
 
         // 滚动面板设置
         JPanel LabelscrollPane1 = new JPanel();
@@ -63,9 +63,9 @@ public class jpaneldiffdedup  extends JPanel {
         LabelscrollPane3.setBounds(300, 30, 240, 300);
 
         // 创建按钮
-        JButton button1 = new JButton("去重");
-        JButton button2 = new JButton("去重&取差集");
-        JButton button3 = new JButton("执行SQL");
+        JButton button1 = new JButton("Deduplication");
+        JButton button2 = new JButton("Diff");
+
 
         // 按钮点击事件
         button1.addActionListener(new ActionListener() {
@@ -85,12 +85,6 @@ public class jpaneldiffdedup  extends JPanel {
             }
         });
 
-        button3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String inputText3 = textArea3.getText();
-                executesql.voidexecutesql(inputText3);
-            }
-        });
 
         // 监听文本框变化，更新行数
         textArea1.getDocument().addDocumentListener(new DocumentListener() {
@@ -111,7 +105,7 @@ public class jpaneldiffdedup  extends JPanel {
 
             private void updateLineCount() {
                 int lineCount = textArea1.getLineCount();
-                lineCountLabel1.setText("Line Count: " + lineCount);
+                lineCountLabel1.setText("A --->  line Count: " + lineCount);
             }
         });
 
@@ -133,7 +127,7 @@ public class jpaneldiffdedup  extends JPanel {
 
             private void updateLineCount() {
                 int lineCount = textArea2.getLineCount();
-                lineCountLabel2.setText("Line Count: " + lineCount);
+                lineCountLabel2.setText("A-B --->  line Count: " + lineCount);
             }
         });
 
@@ -155,14 +149,13 @@ public class jpaneldiffdedup  extends JPanel {
 
             private void updateLineCount() {
                 int lineCount = textArea3.getLineCount();
-                lineCountLabel3.setText("Line Count: " + lineCount);
+                lineCountLabel3.setText("B --->  line Count: " + lineCount);
             }
         });
 
         // 设置按钮位置和大小
-        button1.setBounds(750, 50, 120, 40);
-        button2.setBounds(750, 100, 120, 40);
-        button3.setBounds(750, 150, 120, 40);
+        button1.setBounds(550, 50, 120, 40);
+        button2.setBounds(550, 100, 120, 40);
 
         // 将组件添加到面板
         add(LabelscrollPane1);
@@ -170,7 +163,6 @@ public class jpaneldiffdedup  extends JPanel {
         add(LabelscrollPane3);
         add(button1);
         add(button2);
-        add(button3);
     }
 
     public static void main(String[] args) {

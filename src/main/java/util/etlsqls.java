@@ -210,7 +210,7 @@ public class etlsqls {
 
 
 
-        InLog(mysqljdbc.loaddataitemsgeneral(rgdispositedlimitselftimeout2FilePath,"fact_lottery_userrglimitinfo_d",userrglimitinfo.class,null,financeJDBC));
+        InLog(mysqljdbc.loaddataitemsgeneral(rgdispositedlimitselftimeout2FilePath,"fact_lottery_userrglimitinfo_d",userrglimitinfo.class,null,null,financeJDBC));
 
 
         return 0;
@@ -319,7 +319,7 @@ public class etlsqls {
 
 
 
-        InLog(mysqljdbc.loaddataitemsgeneral(rgusersstatics2FilePath,"fact_user_bussinessinfo_d",userrginfo.class,null,financeJDBC));
+        InLog(mysqljdbc.loaddataitemsgeneral(rgusersstatics2FilePath,"fact_user_bussinessinfo_d",userrginfo.class,null,null,financeJDBC));
 
 
         return 0;
@@ -413,7 +413,7 @@ public class etlsqls {
                 "select substr(cast (time as string),1,10) datadate\n" +
                 ",user_id\n" +
                 "from events\n" +
-                "where event = '$pageview' and time > '"+starttime+" 00:00:00' \n" +
+                "where event = '$pageview' and time >= '"+starttime+" 00:00:00' and time <='" + endtime +"' \n" +
                 ") aa on users.id = aa.user_id \n" +
                 "group by first_visit_source_type,datadate  ",
                 "--data-urlencode", "format=json",
@@ -457,7 +457,7 @@ public class etlsqls {
 
         writer.close();
 
-        InLog(mysqljdbc.loaddataitemsgeneral(trafficdatatempFilePath,"traffic_data_temp",trafficdatatemp.class,starttime,financeJDBC));
+        InLog(mysqljdbc.loaddataitemsgeneral(trafficdatatempFilePath,"traffic_data_temp",trafficdatatemp.class,starttime,endtime,financeJDBC));
 
         return 0;
 
@@ -523,7 +523,7 @@ public class etlsqls {
 
         writer.close();
 
-        InLog(mysqljdbc.loaddataitemsgeneral(ftdFilePath,"ftd",ftd.class,null,financeJDBC));
+        InLog(mysqljdbc.loaddataitemsgeneral(ftdFilePath,"ftd",ftd.class,null,null,financeJDBC));
 
 
 
@@ -541,9 +541,9 @@ public class etlsqls {
     }
 
 
-    public static int trafficdataandftdDMLSQL() throws Exception{
+    public static int trafficdataandftdDMLSQL(String starttime,String endtime) throws Exception{
 
-        InLog(mysqljdbc.executeSQLGeneral("delete from traffic_data where 1=1;",financeJDBC));
+        InLog(mysqljdbc.executeSQLGeneral("delete from traffic_data where dateid>='"+starttime+"' and dateid<='"+endtime+"';",financeJDBC));
         InLog(mysqljdbc.executeSQLGeneral("insert into traffic_data \n" +
                 "(DateID,\n" +
                 "Channel,\n" +
@@ -556,7 +556,7 @@ public class etlsqls {
                 ",a.UV\n" +
                 ",a.PV\n" +
                 ",(case when b.ftd is null then 0 else b.ftd end ) ftd\n" +
-                "from traffic_data_temp a left join ftd b \n" +
+                "from (select * from traffic_data_temp where dateid>='"+starttime+"' and dateid<='"+endtime+"' ) a left join ftd b \n" +
                 "on a.DateID = b.DateID\n" +
                 "and a.Channel  = b.channel  ; " ,financeJDBC  ));
         return 0;

@@ -110,7 +110,7 @@ public class mysqljdbc {
 
 
 
-    public static String loaddataitemsgeneral(String tablepath,String tablename , Class clazz,String startdate,Properties jdbcpro) throws Exception {
+    public static String loaddataitemsgeneral(String tablepath,String tablename , Class clazz,String startdate,String enddate,Properties jdbcpro) throws Exception {
 
         Field[] fields =  clazz.getDeclaredFields();
         StringBuffer fieldstr = new StringBuffer();
@@ -130,7 +130,7 @@ public class mysqljdbc {
             if(startdate==null) {
                  sql = "delete from "+tablename+" where 1=1";  // 替换为你要清空的表名
             } else {
-                 sql = "delete from "+tablename+" where dateid >= '"+startdate+"'";  // 替换为你要清空的表名
+                 sql = "delete from "+tablename+" where dateid >= '"+startdate+"' and dateid <='"+enddate+"'";  // 替换为你要清空的表名
             }
             stmt.executeUpdate(sql);
             int rowsAffected = stmt.executeUpdate(query);
@@ -434,7 +434,6 @@ public class mysqljdbc {
      * @param jdbcpro
      */
     public static void insertTableSingleRecord (String tablename, Object ob, Properties jdbcpro) {
-
 
         StringBuffer logger = new StringBuffer();
         try (Connection connection = DriverManager.getConnection(jdbcpro.get("jdbcurl").toString(),

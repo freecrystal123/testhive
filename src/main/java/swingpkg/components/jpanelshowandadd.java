@@ -42,7 +42,6 @@ public class jpanelshowandadd extends JPanel {
         for (int i = 0; i < fields.length; i++) {
             columnNames[i] = fields[i].getName(); // 使用类的字段名作为列名
         }
-        replenish replenish = new replenish();
         // 从数据库获取数据
 
         List<replenish> replenishLists =  mysqljdbc.listTableRecord("fact_instant_replenish" ,financeJDBC ,replenish.class);
@@ -65,9 +64,9 @@ public class jpanelshowandadd extends JPanel {
         // 创建 "Add" 按钮
         JButton addButton = new JButton("add");
         // 创建 "Add" 按钮
-        JButton submitButton = new JButton("submit");
+        JButton reflashButton = new JButton("reflash");
         addButton.setBounds(400, 10, 100, 30); // 设置按钮的位置和大小
-        submitButton.setBounds(500, 10, 100, 30); // 设置按钮的位置和大小
+        reflashButton.setBounds(500, 10, 100, 30); // 设置按钮的位置和大小
         // 添加按钮点击事件监听
         addButton.addActionListener(e -> {
             // 这里可以写点击按钮后的逻辑
@@ -77,15 +76,27 @@ public class jpanelshowandadd extends JPanel {
         });
 
         // 添加按钮点击事件监听
-        submitButton.addActionListener(e -> {
+        reflashButton.addActionListener(e -> {
             // 这里可以写点击按钮后的逻辑
-            System.out.println("updateButton button clicked");
-            // 例如弹出一个对话框来添加新数据
-            // showDialog(); // 你可以自己创建一个方法来显示对话框
+
+
+            List<replenish> replenishLists1 =  mysqljdbc.listTableRecord("fact_instant_replenish" ,financeJDBC ,replenish.class);
+
+            Object[][] data1 = new Object[replenishLists1.size()][fields.length];
+
+
+            // 定义表格的数据（每一行代表一条记录）
+            // 遍历 replenishLists，将每一条数据填充到二维数组中
+            for (int i = 0; i < replenishLists1.size(); i++) {
+                replenish r = replenishLists1.get(i);
+                data1[i][0] = r.DateID;      // DateID
+                data1[i][1] = r.GameID;      // GameID
+                data1[i][2] = r.Replenish;   // Replenish
+                data1[i][3] = r.Opening;     // Opening
+            }
+            tableModel1 =  new DefaultTableModel(data1, columnNames);
+
         });
-
-
-
 
 
         // 创建表格模型，并将数据和列名传入
@@ -103,7 +114,7 @@ public class jpanelshowandadd extends JPanel {
         // 将标签和输入框添加到面板
         add(scrollPane);
         add(addButton);
-//        add(updateButton);
+        add(reflashButton);
 
         // 在面板中添加一个空的标签作为占位符，使提交按钮显示在最后
 
@@ -160,6 +171,8 @@ public class jpanelshowandadd extends JPanel {
                 newReplenish.Opening
         };
         tableModel1.addRow(newRow);
+        mysqljdbc.insertTableSingleRecord("fact_instant_replenish",newReplenish,financeJDBC);
+
     }
 
 

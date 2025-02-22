@@ -97,7 +97,7 @@ public class JavaFXPanelEtl extends Application {
             try {
                 util.etlsqls.traffic_data_temp(starttime, endtime);
                 util.etlsqls.ftd();
-                util.etlsqls.trafficdataandftdDMLSQL();
+                util.etlsqls.trafficdataandftdDMLSQL(starttime,endtime);
                 Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                 successAlert.setContentText("Successful!");
                 successAlert.showAndWait();

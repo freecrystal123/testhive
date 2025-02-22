@@ -211,7 +211,7 @@ public class SwingPanelEtl {
                 try {
                     util.etlsqls.traffic_data_temp(starttime,endtime);
                     util.etlsqls.ftd();
-                    util.etlsqls.trafficdataandftdDMLSQL();
+                    util.etlsqls.trafficdataandftdDMLSQL(starttime,endtime);
                     JOptionPane.showMessageDialog(frame, "Successful! ");
                 }catch (Exception e1){
                     util.etlsqls.InLog(e1.getMessage());
