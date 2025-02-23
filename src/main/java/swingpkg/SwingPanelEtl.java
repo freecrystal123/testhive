@@ -1,6 +1,7 @@
 package swingpkg;
 
 import swingpkg.components.jpaneldiffdedup;
+import swingpkg.components.jpanelsched;
 import swingpkg.components.jpanelshowandadd;
 import swingpkg.components.roundedButton;
 
@@ -73,17 +74,22 @@ public class SwingPanelEtl {
 
         tabbedPane.addTab("DIFF&DEDUP", new jpaneldiffdedup()); // 添加第二个选项卡
 
+
+        tabbedPane.addTab("Schd", new jpanelsched()); //
+
+
         // 自定义Tab页样式
         tabbedPane.setFont(new Font("Arial", Font.BOLD, 14));  // 设置字体
         tabbedPane.setBackgroundAt(0, Color.gray);
         tabbedPane.setBackgroundAt(1, Color.gray);
         tabbedPane.setBackgroundAt(2, Color.gray);
-
+        tabbedPane.setBackgroundAt(3, Color.gray);
         // 设置选中的Tab样式（例如：选中Tab页的背景颜色）
         tabbedPane.setSelectedIndex(0);  // 设置默认选中第二个Tab
         tabbedPane.setForegroundAt(0, Color.black);  // 设置选中Tab的字体颜色
         tabbedPane.setForegroundAt(1, Color.black);  // 设置选中Tab的字体颜色
-        tabbedPane.setForegroundAt(2, Color.black);  // 设置选中Tab的字体颜色
+        tabbedPane.setForegroundAt(2, Color.black);
+        tabbedPane.setForegroundAt(3, Color.black);  // 设置选中Tab的字体颜色
         // 将选项卡面板添加到框架
         frame.add(tabbedPane);
 
