@@ -283,7 +283,7 @@ public class etlsqls {
         int databaseoutputcount = 0;
         while ((line = reader.readLine()) != null) {
 //                        System.out.println(line);  // 打印输出
-            userrginfo person = gson.fromJson(line, userrginfo.class);
+            userbussinessinfo person = gson.fromJson(line, userbussinessinfo.class);
             writer.write(person.dateid+","+person.logged_users+","+person.betting_users);
 //                        writer.write(person.uid+","+person.register_time);
             writer.newLine();
@@ -319,7 +319,7 @@ public class etlsqls {
 
 
 
-        InLog(mysqljdbc.loaddataitemsgeneral(rgusersstatics2FilePath,"fact_user_bussinessinfo_d",userrginfo.class,null,null,financeJDBC));
+        InLog(mysqljdbc.loaddataitemsgeneral(rgusersstatics2FilePath,"fact_user_bussinessinfo_d",userbussinessinfo.class,null,null,financeJDBC));
 
 
         return 0;

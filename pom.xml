@@ -54,10 +54,18 @@
      </dependency>
 
      <dependency>
+         <groupId>com.microsoft.azure</groupId>
+         <artifactId>msal4j</artifactId>
+         <version>1.11.0</version> <!-- 请使用适合你的版本 -->
+     </dependency>
+
+
+     <dependency>
          <groupId>com.zaxxer</groupId>
          <artifactId>HikariCP</artifactId>
          <version>5.0.1</version> <!-- 确保选择最新版本 -->
      </dependency>
+
 
  </dependencies>
 
@@ -103,6 +111,17 @@
                                 <mainClass>swingpkg.SwingPanelEtl</mainClass> <!-- 入口类 -->
                             </transformer>
                         </transformers>
+                        <filters>
+                            <!-- 排除签名文件，以防止冲突 -->
+                            <filter>
+                                <artifact>*:*</artifact>
+                                <excludes>
+                                    <exclude>META-INF/*.SF</exclude>
+                                    <exclude>META-INF/*.DSA</exclude>
+                                    <exclude>META-INF/*.RSA</exclude>
+                                </excludes>
+                            </filter>
+                        </filters>
                     </configuration>
                 </execution>
             </executions>
