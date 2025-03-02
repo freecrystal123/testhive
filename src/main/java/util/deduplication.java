@@ -33,7 +33,6 @@ public class deduplication {
 
         }
         OutPutLog.append("输入数据：" + inputcount + "条！！！"+"\n");
-        log = OutPutLog.toString();
 
         Iterator<String> iterator = inputSet.iterator();
         int outputcount = 0;
@@ -63,19 +62,17 @@ public class deduplication {
 //            System.out.println(stringBuffer);
         int diff = inputcount - outputcount;
         OutPutLog.append("输出数据：" + outputcount + "条！！！"+"\n");
-        log = OutPutLog.toString();
         OutPutLog.append("其中重复数据：" + diff + "条！！！"+"\n");
-        log = OutPutLog.toString();
         StringBuffer depbuffer = new StringBuffer();
         for(String dep : dupucates){
             depbuffer.append(dep+"\n");
         }
-        OutPutLog.append("重复数据有：\n");
-        OutPutLog.append(depbuffer);
-        log = OutPutLog.toString();
+//        OutPutLog.append("重复数据有：\n");
+//        OutPutLog.append(depbuffer);
         for (Map.Entry<Integer, StringBuffer> entry : hashMap.entrySet()) {
             deduplicationInputDate = entry.getValue().toString().substring(0, entry.getValue().toString().length() - 2);
         }
+        log = OutPutLog.toString();
         return deduplicationInputDate;
 
     }

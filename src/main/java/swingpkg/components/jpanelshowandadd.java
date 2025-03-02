@@ -1,12 +1,15 @@
 package swingpkg.components;
 
-import jdbc.mysqljdbc;
+import com.toedter.calendar.JDateChooser;
+import jdbc.dmlacid;
 import pojp.replenish;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
@@ -68,7 +71,7 @@ public class jpanelshowandadd extends JPanel {
     private void loadDataAsync(String[] columnNames) {
         // 使用CompletableFuture异步加载数据
         CompletableFuture.supplyAsync(() -> {
-            List<replenish> replenishLists = mysqljdbc.listTableRecord("fact_instant_replenish", financeJDBC, replenish.class);
+            List<replenish> replenishLists = dmlacid.listTableRecord("fact_instant_replenish", financeJDBC, replenish.class);
             Object[][] data = new Object[replenishLists.size()][columnNames.length];
 
             for (int i = 0; i < replenishLists.size(); i++) {
@@ -88,15 +91,20 @@ public class jpanelshowandadd extends JPanel {
         });
     }
 
+
     private void showInputDialog() {
-        JTextField dateIDField = new JTextField(10);
+        // 创建 JDateChooser 作为日期输入框
+        JDateChooser dateChooser = new JDateChooser();
+        dateChooser.setDateFormatString("yyyy-MM-dd"); // 设置日期格式
+        dateChooser.setPreferredSize(new Dimension(150, 25));
+
         JTextField gameIDField = new JTextField(10);
         JTextField replenishField = new JTextField(10);
         JTextField openingField = new JTextField(10);
 
         JPanel panel = new JPanel(new GridLayout(4, 2));
         panel.add(new JLabel("DateID:"));
-        panel.add(dateIDField);
+        panel.add(dateChooser);
         panel.add(new JLabel("GameID:"));
         panel.add(gameIDField);
         panel.add(new JLabel("Replenish:"));
@@ -104,21 +112,49 @@ public class jpanelshowandadd extends JPanel {
         panel.add(new JLabel("Opening:"));
         panel.add(openingField);
 
-        int option = JOptionPane.showConfirmDialog(this, panel, "Enter New Data", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        while (true) {
+            int option = JOptionPane.showConfirmDialog(this, panel, "Enter New Data",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            if (option != JOptionPane.OK_OPTION) {
+                return;
+            }
 
-        if (option == JOptionPane.OK_OPTION) {
-            String dateID = dateIDField.getText();
-            int gameID = Integer.parseInt(gameIDField.getText());
-            int replenish = Integer.parseInt(replenishField.getText());
-            int opening = Integer.parseInt(openingField.getText());
+            // 获取日期
+            Date selectedDate = dateChooser.getDate();
+            if (selectedDate == null) {
+                JOptionPane.showMessageDialog(this, "Please select a valid date!", "Input Error", JOptionPane.ERROR_MESSAGE);
+                continue;
+            }
 
-            replenish newReplenish = new replenish();
-            newReplenish.DateID = dateID;
-            newReplenish.GameID = gameID;
-            newReplenish.Replenish = replenish;
-            newReplenish.Opening = opening;
+            // 格式化日期
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String dateID = sdf.format(selectedDate);
 
-            addRowToTable(newReplenish);
+            String gameIDText = gameIDField.getText().trim();
+            String replenishText = replenishField.getText().trim();
+            String openingText = openingField.getText().trim();
+
+            if (gameIDText.isEmpty() || replenishText.isEmpty() || openingText.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "All fields are required. Please re-enter!", "Input Error", JOptionPane.ERROR_MESSAGE);
+                continue;
+            }
+
+            try {
+                int gameID = Integer.parseInt(gameIDText);
+                int replenish = Integer.parseInt(replenishText);
+                int opening = Integer.parseInt(openingText);
+
+                replenish newReplenish = new replenish();
+                newReplenish.DateID = dateID;
+                newReplenish.GameID = gameID;
+                newReplenish.Replenish = replenish;
+                newReplenish.Opening = opening;
+
+                addRowToTable(newReplenish);
+                break;
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "GameID, Replenish, Opening must be a number!", "Input Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
@@ -130,7 +166,7 @@ public class jpanelshowandadd extends JPanel {
                 newReplenish.Opening
         };
         tableModel1.addRow(newRow);
-        mysqljdbc.insertTableSingleRecord("fact_instant_replenish", newReplenish, financeJDBC);
+        dmlacid.insertTableSingleRecord("fact_instant_replenish", newReplenish, financeJDBC);
     }
 
     public static void main(String[] args) {

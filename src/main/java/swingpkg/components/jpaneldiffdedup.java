@@ -72,7 +72,7 @@ public class jpaneldiffdedup  extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String inputText = textArea1.getText();
                 textArea1.setText(deduplication.deduplication(inputText));
-                JOptionPane.showMessageDialog(null, "数据去重复生效!");
+                JOptionPane.showMessageDialog(null, "dudup is successful!");
                 textArea2.setText(deduplication.LogSender());
             }
         });

@@ -2,12 +2,9 @@ package jdbc;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import pojp.dbconntype;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class mysqljdbcconn {
 
@@ -36,14 +33,7 @@ public class mysqljdbcconn {
                 if (dataSource == null) {
                     HikariConfig config = new HikariConfig();
                     // 设置 JDBC URL 连接信息
-                    String jdbcUrl = "jdbc:mysql://20.174.38.36:3306/lottery_reporting" +
-                            "?allowLoadLocalInfile=true" +
-                            "&useSSL=false" +
-                            "&allowPublicKeyRetrieval=true" +
-                            "&serverTimezone=UTC" +
-                            "&useCompression=true" +
-                            "&user=Viviene" +
-                            "&password=VALe@1234";
+                    String jdbcUrl = financeLink;
                     config.setJdbcUrl(jdbcUrl);
 
                     // 连接池配置参数

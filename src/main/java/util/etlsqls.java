@@ -1,7 +1,9 @@
 package util;
 
 import com.google.gson.*;
-import jdbc.mysqljdbc;
+import jdbc.dmlacid;
+import jdbc.mysqljdbcconn;
+import jdbc.sqlserverjdbcconn;
 import pojp.*;
 
 import java.io.BufferedReader;
@@ -20,8 +22,6 @@ public class etlsqls {
 
     // 创建自定义日期格式
     static String  os = System.getProperty("os.name").toLowerCase();
-
-
 
 
     // 定义JDBC 数据库连接
@@ -208,10 +208,7 @@ public class etlsqls {
         // 通过 excel load fail 导入
         InLog("rgusersstatics2FilePath:"+rgdispositedlimitselftimeout2FilePath);
 
-
-
-        InLog(mysqljdbc.loaddataitemsgeneral(rgdispositedlimitselftimeout2FilePath,"fact_lottery_userrglimitinfo_d",userrglimitinfo.class,null,null,financeJDBC));
-
+        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),rgdispositedlimitselftimeout2FilePath,"fact_lottery_userrglimitinfo_d",userrglimitinfo.class,null,null));
 
         return 0;
 
@@ -227,13 +224,18 @@ public class etlsqls {
     public static int rgusersstatics(  ) throws Exception{
 
         // 获取昨天的日期
-        LocalDate yesterday = LocalDate.now().minusDays(1);
+        LocalDate yesterday = LocalDate.now().minusDays(0);
+
+
+        // 获取昨天的日期
+        LocalDate lastMonthday = LocalDate.now().minusDays(2);
 
         // 定义日期格式化器
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         // 将昨天的日期格式化为字符串
-        String formattedDate = yesterday.format(formatter);
+        String yesterformattedDate = yesterday.format(formatter);
+        String lastmonthformattedDate = lastMonthday.format(formatter);
         String[] command = {
                 "curl",
                 "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
@@ -248,8 +250,10 @@ public class etlsqls {
                 "user_id\n" +
                 "from  events \n" +
                 "where event= 'login_result'\n" +
-                "and is_success = 1 ) aa on \n" +
-                "users.id = aa.user_id and substr(cast(time as string),1,10)<='"+formattedDate +"' \n" +
+                "and is_success = 1" +
+                "and  substr(cast(time as string),1,10) >= '"+lastmonthformattedDate+"' and substr(cast(time as string),1,10)<='"+yesterformattedDate +"'\n"+
+                " ) aa on \n" +
+                "users.id = aa.user_id \n" +
                 "group by substr(cast(time as string),1,10) ) aa\n" +
                 "join (\n" +
                 "select substr(cast(time as string),1,10) bettingdate ,count(distinct uid) bettingusers from users join (\n" +
@@ -262,6 +266,7 @@ public class etlsqls {
                 "from  events \n" +
                 "where event = 'lottery_order_result'\n" +
                 "and is_success = 1\n" +
+                "and  substr(cast(time as string),1,10) >= '"+lastmonthformattedDate+"' and substr(cast(time as string),1,10)<='"+yesterformattedDate +"'\n"+
                 ") aa on \n" +
                 "users.id = aa.user_id \n" +
                 "group by substr(cast(time as string),1,10)\n" +
@@ -282,15 +287,14 @@ public class etlsqls {
         String line;
         int databaseoutputcount = 0;
         while ((line = reader.readLine()) != null) {
-//                        System.out.println(line);  // 打印输出
-            userbussinessinfo person = gson.fromJson(line, userbussinessinfo.class);
-            writer.write(person.dateid+","+person.logged_users+","+person.betting_users);
-//                        writer.write(person.uid+","+person.register_time);
-            writer.newLine();
-            databaseoutputcount ++;
-            if(databaseoutputcount%10==0){
-                System.out.println(" 目前是"+databaseoutputcount+"\n");
-            }
+            System.out.println(line);
+//            userbussinessinfo person = gson.fromJson(line, userbussinessinfo.class);
+//            writer.write(person.dateid+","+person.logged_users+","+person.betting_users+",0,0");
+//            writer.newLine();
+//            databaseoutputcount ++;
+//            if(databaseoutputcount%10==0){
+//                System.out.println(" 目前是"+databaseoutputcount+"\n");
+//            }
         }
         InLog(msg.toString());
         // 等待命令执行完成
@@ -317,9 +321,7 @@ public class etlsqls {
         // 通过 excel load fail 导入
         InLog("rgusersstatics2FilePath:"+rgusersstatics2FilePath);
 
-
-
-        InLog(mysqljdbc.loaddataitemsgeneral(rgusersstatics2FilePath,"fact_user_bussinessinfo_d",userbussinessinfo.class,null,null,financeJDBC));
+        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),rgusersstatics2FilePath,"fact_user_bussinessinfo_d",userbussinessinfo.class,lastmonthformattedDate,yesterformattedDate));
 
 
         return 0;
@@ -391,7 +393,7 @@ public class etlsqls {
 //            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
             // 通过 excel load fail 导入
             InLog("newregister2FilePath:"+newregister2FilePath);
-            InLog(mysqljdbc.loadregister(newregister2FilePath,starttime,endtime));
+            InLog(dmlacid.loadregister(mysqljdbcconn.getInstance().getConnection(),newregister2FilePath,starttime,endtime));
 
 
             return 0;
@@ -457,7 +459,7 @@ public class etlsqls {
 
         writer.close();
 
-        InLog(mysqljdbc.loaddataitemsgeneral(trafficdatatempFilePath,"traffic_data_temp",trafficdatatemp.class,starttime,endtime,financeJDBC));
+        InLog(dmlacid.loaddataitemsgeneral(mysqljdbcconn.getInstance().getConnection(),trafficdatatempFilePath,"traffic_data_temp",trafficdatatemp.class,starttime,endtime));
 
         return 0;
 
@@ -523,7 +525,7 @@ public class etlsqls {
 
         writer.close();
 
-        InLog(mysqljdbc.loaddataitemsgeneral(ftdFilePath,"ftd",ftd.class,null,null,financeJDBC));
+        InLog(dmlacid.loaddataitemsgeneral(mysqljdbcconn.getInstance().getConnection(),ftdFilePath,"ftd",ftd.class,null,null));
 
 
 
@@ -535,7 +537,7 @@ public class etlsqls {
 
     public static int userbussinessinfoDMLSQL() throws Exception{
 
-        InLog(mysqljdbc.executeSQLGeneral("delete from fact_user_bussinessinfo_d where 1=1;",alibabaJDBC));
+        InLog(dmlacid.executeSQLGeneral(mysqljdbcconn.getInstance().getConnection(),"delete from fact_user_bussinessinfo_d where 1=1;",alibabaJDBC));
 
         return 0;
     }
@@ -543,8 +545,8 @@ public class etlsqls {
 
     public static int trafficdataandftdDMLSQL(String starttime,String endtime) throws Exception{
 
-        InLog(mysqljdbc.executeSQLGeneral("delete from traffic_data where dateid>='"+starttime+"' and dateid<='"+endtime+"';",financeJDBC));
-        InLog(mysqljdbc.executeSQLGeneral("insert into traffic_data \n" +
+        InLog(dmlacid.executeSQLGeneral(mysqljdbcconn.getInstance().getConnection(),"delete from traffic_data where dateid>='"+starttime+"' and dateid<='"+endtime+"';",financeJDBC));
+        InLog(dmlacid.executeSQLGeneral(mysqljdbcconn.getInstance().getConnection(),"insert into traffic_data \n" +
                 "(DateID,\n" +
                 "Channel,\n" +
                 "UV,\n" +
@@ -632,7 +634,7 @@ public class etlsqls {
             // 开始插入操作
 //            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
             // 通过 excel load fail 导入
-            InLog(mysqljdbc.loaddatafileUserInfo(userinfo2FilePath));
+            InLog(dmlacid.loaddatafileUserInfo(mysqljdbcconn.getInstance().getConnection(),userinfo2FilePath));
 
         return 0;
 
@@ -747,11 +749,11 @@ public class etlsqls {
             // 开始插入操作
 //            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
             // 通过 excel load fail 导入
-            InLog(mysqljdbc.loaddatafile(output2FilePath));
+            InLog(dmlacid.loaddatafile(mysqljdbcconn.getInstance().getConnection(),output2FilePath));
 
             // 通过 创建备份表和 更新全量表
 
-            InLog(mysqljdbc.insertandupdate(endtime));
+            InLog(dmlacid.insertandupdate(mysqljdbcconn.getInstance().getConnection(),endtime));
             // 等待命令执行完成
 
             return 0;

@@ -17,6 +17,14 @@ public class sqlserverjdbcconn {
             + "authentication=ActiveDirectoryPassword;"
             + "user=zchai@mcorp.ae;"
             + "password=Adgjl@159357321";
+    private static String vivianLink1 =  "jdbc:sqlserver://hco65xnsg6dulio4raop7psqwe-zh66nixkejeezfkd7c3mvabosy.datawarehouse.fabric.microsoft.com:1433;"
+            + "encrypt=true;"
+            + "trustServerCertificate=false;"
+            + "hostNameInCertificate=*.datawarehouse.fabric.microsoft.com;"
+            + "loginTimeout=30;"
+            + "user=zchai@mcorp.ae;"
+            + "password=Adgjl@159357321";
+
     private static String generalLink = "jdbc:sqlserver://hco65xnsg6dulio4raop7psqwe-dngoeut2h7lubnqjvyommvf4vq.database.fabric.microsoft.com:1433;"
             + "database={NLAndTWDatabase-b839fe70-24a3-4802-89fe-2db1618b846d};"
             + "encrypt=true;"
@@ -42,7 +50,7 @@ public class sqlserverjdbcconn {
                     String connectionString = null;
                     // 设置 JDBC URL（连接字符串）
                     if(dbconntype.sqlserverconn.vivian.equals(connstr)){
-                        connectionString = vivianLink;
+                        connectionString = vivianLink1;
                     } else if(dbconntype.sqlserverconn.general.equals(connstr)){
                         connectionString = generalLink;
                     }
