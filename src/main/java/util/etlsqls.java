@@ -6,6 +6,7 @@ import jdbc.mysqljdbcconn;
 import jdbc.sqlserverjdbcconn;
 import pojp.*;
 
+import javax.net.ssl.SSLContext;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -38,6 +39,16 @@ public class etlsqls {
         alibabaJDBC.put("jdbcurl", "jdbc:mysql://47.99.103.128:3306/Lottery?allowLoadLocalInfile=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useCompression=true");
         alibabaJDBC.put("username","root");
         alibabaJDBC.put("password","1234");
+
+        try {
+            SSLContext context = SSLContext.getInstance("TLS");
+            context.init(null, null, null);
+            context.getClientSessionContext().setSessionTimeout(0);
+            context.getClientSessionContext().setSessionCacheSize(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -273,6 +284,7 @@ public class etlsqls {
                 ") bb on aa.logindate = bb.bettingdate \n" +
                 "order by aa.logindate desc  ",
                 "--data-urlencode", "format=json",
+                "--insecure https://data.admin-uaenl.ae",
         };
 
 
@@ -545,7 +557,7 @@ public class etlsqls {
 
     public static int trafficdataandftdDMLSQL(String starttime,String endtime) throws Exception{
 
-        InLog(dmlacid.executeSQLGeneral(mysqljdbcconn.getInstance().getConnection(),"delete from traffic_data where dateid>='"+starttime+"' and dateid<='"+endtime+"';",financeJDBC));
+        InLog(dmlacid.executeSQLGeneral(mysqljdbcconn.getInstance().getConnection(),"delete from traffic_data where dateid>='"+starttime+"' and dateid<'"+endtime+"';",financeJDBC));
         InLog(dmlacid.executeSQLGeneral(mysqljdbcconn.getInstance().getConnection(),"insert into traffic_data \n" +
                 "(DateID,\n" +
                 "Channel,\n" +
@@ -558,7 +570,7 @@ public class etlsqls {
                 ",a.UV\n" +
                 ",a.PV\n" +
                 ",(case when b.ftd is null then 0 else b.ftd end ) ftd\n" +
-                "from (select * from traffic_data_temp where dateid>='"+starttime+"' and dateid<='"+endtime+"' ) a left join ftd b \n" +
+                "from (select * from traffic_data_temp where dateid>='"+starttime+"' and dateid<'"+endtime+"' ) a left join ftd b \n" +
                 "on a.DateID = b.DateID\n" +
                 "and a.Channel  = b.channel  ; " ,financeJDBC  ));
         return 0;

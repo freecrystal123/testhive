@@ -88,7 +88,7 @@ public class SwingPanelEtl {
         scrollPane2.setBounds(100, 320, 500, 450); // x=50, y=160, 宽=200, 高=100
 
         // 创建下拉框选项
-        String[] options = { "userinfo", "trafficdata", "newregister" };
+        String[] options = { "userinfo", "trafficdata" };
 
         // 创建自定义的 roundedComboBox 下拉框
         roundedComboBox actionComboBox = new roundedComboBox(options);  // Use the custom roundedComboBox
