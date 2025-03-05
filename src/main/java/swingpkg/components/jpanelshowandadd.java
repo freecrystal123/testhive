@@ -9,13 +9,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-public class jpanelshowandadd extends JPanel {
+public class jpanelshowandadd<record> extends JPanel {
 
     // 定义JDBC 数据库连接
     static Properties financeJDBC = null;
@@ -98,7 +97,26 @@ public class jpanelshowandadd extends JPanel {
         dateChooser.setDateFormatString("yyyy-MM-dd"); // 设置日期格式
         dateChooser.setPreferredSize(new Dimension(150, 25));
 
-        JTextField gameIDField = new JTextField(10);
+        // 创建 GameID 下拉框
+        JComboBox<String> gameIDComboBox = new JComboBox<>();
+        gameIDComboBox.setPreferredSize(new Dimension(150, 25));
+        gameIDComboBox.addItem("Loading...");
+        // 异步加载 GameID 数据
+        CompletableFuture.runAsync(() -> {
+            Map<String,Object> gameIDs = dmlacid.listMapColumn("SELECT DISTINCT seriesno,gamename FROM dim_series", financeJDBC);
+            SwingUtilities.invokeLater(() -> {
+                gameIDComboBox.removeAllItems();
+                for (Map.Entry<String, Object> entry : gameIDs.entrySet()) {
+                    String key = entry.getKey();
+                    Object value = entry.getValue();
+                    gameIDComboBox.addItem(value.toString());
+                }
+            });
+        });
+
+
+
+
         JTextField replenishField = new JTextField(10);
         JTextField openingField = new JTextField(10);
 
@@ -106,7 +124,7 @@ public class jpanelshowandadd extends JPanel {
         panel.add(new JLabel("DateID:"));
         panel.add(dateChooser);
         panel.add(new JLabel("GameID:"));
-        panel.add(gameIDField);
+        panel.add(gameIDComboBox);
         panel.add(new JLabel("Replenish:"));
         panel.add(replenishField);
         panel.add(new JLabel("Opening:"));
@@ -130,11 +148,11 @@ public class jpanelshowandadd extends JPanel {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String dateID = sdf.format(selectedDate);
 
-            String gameIDText = gameIDField.getText().trim();
+            String gameIDText = (String) gameIDComboBox.getSelectedItem();
             String replenishText = replenishField.getText().trim();
             String openingText = openingField.getText().trim();
 
-            if (gameIDText.isEmpty() || replenishText.isEmpty() || openingText.isEmpty()) {
+            if (gameIDText == null || replenishText.isEmpty() || openingText.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "All fields are required. Please re-enter!", "Input Error", JOptionPane.ERROR_MESSAGE);
                 continue;
             }
@@ -153,7 +171,7 @@ public class jpanelshowandadd extends JPanel {
                 addRowToTable(newReplenish);
                 break;
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "GameID, Replenish, Opening must be a number!", "Input Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Replenish and Opening must be numbers!", "Input Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

@@ -8,12 +8,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.sql.*;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -369,6 +368,30 @@ public class dmlacid {
 //    }
 //
 //
+
+    public static Map<String, Object> listMapColumn(String sql, Properties jdbcpro) {
+        Map<String, Object> records = new HashMap<>();
+
+        try (Connection connection = DriverManager.getConnection(
+                jdbcpro.getProperty("jdbcurl"),
+                jdbcpro.getProperty("username"),
+                jdbcpro.getProperty("password"));
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                    String columnValue1 = rs.getObject(1).toString();
+                    Object columnValue2 = rs.getObject(2);
+                records.put(columnValue1, columnValue2);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // 生产环境应使用日志记录，不要直接打印
+        }
+
+        return records;
+    }
 
 
     public static <T> List<T> listTableRecord(String tablename , Properties jdbcpro,Class<T> clazz){
