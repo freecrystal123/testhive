@@ -94,7 +94,7 @@ public class jpanelshowandadd<record> extends JPanel {
     private void showInputDialog() {
         // 创建 JDateChooser 作为日期输入框
         JDateChooser dateChooser = new JDateChooser();
-        dateChooser.setDateFormatString("yyyy-MM-dd"); // 设置日期格式
+        dateChooser.setDateFormatString("yyyy/MM/dd"); // 设置日期格式
         dateChooser.setPreferredSize(new Dimension(150, 25));
 
         // 创建 GameID 下拉框
@@ -109,7 +109,7 @@ public class jpanelshowandadd<record> extends JPanel {
                 for (Map.Entry<String, Object> entry : gameIDs.entrySet()) {
                     String key = entry.getKey();
                     Object value = entry.getValue();
-                    gameIDComboBox.addItem(value.toString());
+                    gameIDComboBox.addItem(key+"-"+value.toString());
                 }
             });
         });
@@ -145,7 +145,7 @@ public class jpanelshowandadd<record> extends JPanel {
             }
 
             // 格式化日期
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             String dateID = sdf.format(selectedDate);
 
             String gameIDText = (String) gameIDComboBox.getSelectedItem();
@@ -158,7 +158,7 @@ public class jpanelshowandadd<record> extends JPanel {
             }
 
             try {
-                int gameID = Integer.parseInt(gameIDText);
+                Integer gameID = Integer.parseInt(gameIDText.split("-")[0]);
                 int replenish = Integer.parseInt(replenishText);
                 int opening = Integer.parseInt(openingText);
 
