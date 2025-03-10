@@ -73,7 +73,7 @@ public class etlsqls {
 
 
     // path
-    public static String macbasepath = "/Users/zhihuachai/Downloads/";
+    public static String macbasepath = "/Users/Shared/";
     public static String winbasepath = "C:/Users/VanAnhLe/Documents/1-Data/dailyexport/";
     public static String basepath = null;
     static boolean macflag = true;
@@ -239,10 +239,10 @@ public class etlsqls {
 
 
         // 获取昨天的日期
-        LocalDate lastMonthday = LocalDate.now().minusDays(2);
+        LocalDate lastMonthday = LocalDate.now().minusDays(8);
 
         // 定义日期格式化器
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd 00:00:00");
 
         // 将昨天的日期格式化为字符串
         String yesterformattedDate = yesterday.format(formatter);
@@ -251,44 +251,39 @@ public class etlsqls {
                 "curl",
                 "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
                 "-X", "POST",
-                "--data-urlencode", "q= select logindate dateid,loginusers logged_users,bettingusers betting_users from (\n" +
-                "select substr(cast(time as string),1,10) logindate ,count(distinct uid) loginusers from users join (\n" +
-                "select \n" +
-                "order_id,\n" +
-                "lottery_type,\n" +
-                "pay_type,\n" +
-                "time,\n" +
-                "user_id\n" +
-                "from  events \n" +
-                "where event= 'login_result'\n" +
-                "and is_success = 1" +
-                "and  substr(cast(time as string),1,10) >= '"+lastmonthformattedDate+"' and substr(cast(time as string),1,10)<='"+yesterformattedDate +"'\n"+
-                " ) aa on \n" +
-                "users.id = aa.user_id \n" +
-                "group by substr(cast(time as string),1,10) ) aa\n" +
-                "join (\n" +
-                "select substr(cast(time as string),1,10) bettingdate ,count(distinct uid) bettingusers from users join (\n" +
-                "select \n" +
-                "order_id,\n" +
-                "lottery_type,\n" +
-                "pay_type,\n" +
-                "time,\n" +
-                "user_id\n" +
-                "from  events \n" +
-                "where event = 'lottery_order_result'\n" +
-                "and is_success = 1\n" +
-                "and  substr(cast(time as string),1,10) >= '"+lastmonthformattedDate+"' and substr(cast(time as string),1,10)<='"+yesterformattedDate +"'\n"+
-                ") aa on \n" +
-                "users.id = aa.user_id \n" +
-                "group by substr(cast(time as string),1,10)\n" +
-                ") bb on aa.logindate = bb.bettingdate \n" +
-                "order by aa.logindate desc  ",
+                "--data-urlencode", "q= \n" +
+                "SELECT \n" +
+                "    aa.bettingdate dateid,\n" +
+                "    aa.loginusers logged_users,\n" +
+                "    bb.bettingusers  betting_users \n" +
+                "FROM (\n" +
+                "    SELECT \n" +
+                "        SUBSTR(CAST(date AS STRING), 1, 10) AS bettingdate, \n" +
+                "        COUNT(DISTINCT user_id) AS loginusers\n" +
+                "    FROM events \n" +
+                "    WHERE event = 'login_result'\n" +
+                "        AND is_success = 1\n" +
+                "        AND date >= '"+lastmonthformattedDate+"' AND date<='"+yesterformattedDate+"' \n" +
+                "    GROUP BY date \n" +
+                ") aa \n" +
+                "JOIN (\n" +
+                "    SELECT \n" +
+                "        SUBSTR(CAST(date AS STRING), 1, 10) AS logindate,  \n" +
+                "        COUNT(DISTINCT user_id) AS bettingusers\n" +
+                "    FROM events \n" +
+                "    WHERE event = 'lottery_order_result'\n" +
+                "        AND is_success = 1 \n" +
+                "        AND date >= '"+lastmonthformattedDate+"' and date<='"+yesterformattedDate+"' \n" +
+                "    GROUP BY date \n" +
+                ") bb \n" +
+                "ON aa.bettingdate = bb.logindate  ",
                 "--data-urlencode", "format=json",
-                "--insecure https://data.admin-uaenl.ae",
+
         };
 
 
         // 输出 逻辑
+
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(rgusersstatics2FilePath));
 
@@ -299,14 +294,13 @@ public class etlsqls {
         String line;
         int databaseoutputcount = 0;
         while ((line = reader.readLine()) != null) {
-            System.out.println(line);
-//            userbussinessinfo person = gson.fromJson(line, userbussinessinfo.class);
-//            writer.write(person.dateid+","+person.logged_users+","+person.betting_users+",0,0");
-//            writer.newLine();
-//            databaseoutputcount ++;
-//            if(databaseoutputcount%10==0){
-//                System.out.println(" 目前是"+databaseoutputcount+"\n");
-//            }
+            userbussinessinfo person = gson.fromJson(line, userbussinessinfo.class);
+            writer.write(person.dateid+","+person.logged_users+","+person.betting_users+",0,0");
+            writer.newLine();
+            databaseoutputcount ++;
+            if(databaseoutputcount%10==0){
+                System.out.println(" 目前是"+databaseoutputcount+"\n");
+            }
         }
         InLog(msg.toString());
         // 等待命令执行完成

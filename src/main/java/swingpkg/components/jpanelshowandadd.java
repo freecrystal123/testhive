@@ -12,9 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
-public class jpanelshowandadd<record> extends JPanel {
+public class jpanelshowandadd extends JPanel {
 
     // 定义JDBC 数据库连接
     static Properties financeJDBC = null;
@@ -103,13 +102,14 @@ public class jpanelshowandadd<record> extends JPanel {
         gameIDComboBox.addItem("Loading...");
         // 异步加载 GameID 数据
         CompletableFuture.runAsync(() -> {
-            Map<String,Object> gameIDs = dmlacid.listMapColumn("SELECT DISTINCT seriesno,gamename FROM dim_series", financeJDBC);
+            Map<String,Object> gameIDs = dmlacid.listMapColumn("SELECT DISTINCT seriesno,gamename FROM dim_series where gametype = 'Instant' ", financeJDBC);
             SwingUtilities.invokeLater(() -> {
                 gameIDComboBox.removeAllItems();
                 for (Map.Entry<String, Object> entry : gameIDs.entrySet()) {
                     String key = entry.getKey();
                     Object value = entry.getValue();
                     gameIDComboBox.addItem(key+"-"+value.toString());
+
                 }
             });
         });
@@ -145,7 +145,7 @@ public class jpanelshowandadd<record> extends JPanel {
             }
 
             // 格式化日期
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             String dateID = sdf.format(selectedDate);
 
             String gameIDText = (String) gameIDComboBox.getSelectedItem();

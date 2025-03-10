@@ -11,9 +11,9 @@ import pojp.userinfo;
 public class testjava {
 
     public static void main(String[] args) {
-        String inputFilePath = "/Users/zhihuachai/Desktop/input.txt";  // 输入文件路径
-        String outputFilePath = "/Users/zhihuachai/Downloads/output2.csv"; // 输出文件路径
-        String output_unmatchuserid = "/Users/zhihuachai/Desktop/output_unmatchuserid.txt"; // 输出文件路径
+        String inputFilePath = "/Users/Shared/Desktop/input.txt";  // 输入文件路径
+        String outputFilePath = "/Users/Shared/output2.csv"; // 输出文件路径
+        String output_unmatchuserid = "/Users/Shared/output_unmatchuserid.txt"; // 输出文件路径
 
 
         try {
