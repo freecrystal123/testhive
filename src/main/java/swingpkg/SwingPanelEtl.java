@@ -88,7 +88,7 @@ public class SwingPanelEtl {
         scrollPane2.setBounds(100, 320, 500, 450); // x=50, y=160, 宽=200, 高=100
 
         // 创建下拉框选项
-        String[] options = { "userinfo", "trafficdata" };
+        String[] options = { "userinfo", "trafficdata","failreason" };
 
         // 创建自定义的 roundedComboBox 下拉框
         roundedComboBox actionComboBox = new roundedComboBox(options);  // Use the custom roundedComboBox
@@ -135,8 +135,8 @@ public class SwingPanelEtl {
                             util.etlsqls.ftd();
                             util.etlsqls.trafficdataandftdDMLSQL(starttime, endtime);
                             break;
-                        case "newregister":
-                            util.etlsqls.newregisteredusers(starttime, endtime);
+                        case "failreason":
+                            util.etlsqls.failreason(starttime, endtime);
                             break;
                     }
                     JOptionPane.showMessageDialog(frame, "Successful! ");

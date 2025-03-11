@@ -54,6 +54,7 @@ testparse.class
 pojp/bussinfo.class
 swingpkg/components/roundedComboBox.class
 pojp/replenish.class
+pojp/failreason.class
 norechargesuccesspersion.class
 pojp/trafficdatatemp.class
 pojp/userrglimitinfo.class

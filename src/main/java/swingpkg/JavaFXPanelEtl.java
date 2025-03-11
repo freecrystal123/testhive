@@ -127,7 +127,7 @@ public class JavaFXPanelEtl extends Application {
             alert.showAndWait();
 
             try {
-                util.etlsqls.newregisteredusers(starttime, endtime);
+                util.etlsqls.failreason(starttime, endtime);
                 Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                 successAlert.setContentText("Successful!");
                 successAlert.showAndWait();

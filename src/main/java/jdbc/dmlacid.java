@@ -41,16 +41,17 @@ public class dmlacid {
 
 
 
-    public static String loadregister(Connection connection,String path,String starttime,String endtime) throws Exception {
+    public static String loadfailreason(Connection connection,String path,String starttime,String endtime) throws Exception {
 
         StringBuffer logger = new StringBuffer();
-        String query = "LOAD DATA LOCAL INFILE '"+path+"' INTO TABLE daily_register " +
+        String query = "LOAD DATA LOCAL INFILE '"+path+"' INTO TABLE fact_login_fail_reason_d " +
                 "FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' " +
-                "(dateid,register)";
+                "(dateid,login_fail_reason,number_of_user)";
+
 
         try (  Statement stmt = connection.createStatement())
         {
-            String sql = "delete from daily_register where dateid between '"+starttime+" 00:00:00' and '"+endtime+" 00:00:00'";  // 替换为你要清空的表名
+            String sql = "delete from fact_login_fail_reason_d where dateid between '"+starttime+" 00:00:00' and '"+endtime+" 00:00:00'";  // 替换为你要清空的表名
             stmt.executeUpdate(sql);
             int rowsAffected = stmt.executeUpdate(query);
             System.out.println(rowsAffected + " rows inserted");
@@ -111,10 +112,10 @@ public class dmlacid {
                 boolean firstLine = true;
                 int batchSize = 0;
                 while ((line = br.readLine()) != null) {
-                    if (firstLine) {
-                        firstLine = false;
-                        continue;
-                    }
+//                    if (firstLine) {
+//                        firstLine = false;
+//                        continue;
+//                    }
                     String[] values = line.split(",");
                     for (int i = 0; i < values.length; i++) {
                         pstmt.setString(i + 1, values[i]);

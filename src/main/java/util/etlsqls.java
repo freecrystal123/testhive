@@ -97,7 +97,7 @@ public class etlsqls {
 
     public static String userinfo2FilePath  = basepath+"userinfo2FilePath.csv";
 
-    public static String newregister2FilePath  = basepath+"newregisteredusersFilePath.csv";
+    public static String failreason2FilePath  = basepath+"failreason2FilePath.csv";
 
 
     public static String rgusersstatics2FilePath  = basepath+"rgusersstatics2FilePath.csv";
@@ -115,7 +115,7 @@ public class etlsqls {
     public static void main(String[] args) throws Exception{
 
         rgusersstatics();
-//        rgdispositedlimitselftimeout();
+        rgdispositedlimitselftimeout();
 
     }
     public static String logs1 ;
@@ -336,27 +336,34 @@ public class etlsqls {
 
 
 
-    public static int newregisteredusers( String starttime,String endtime ) throws Exception{
+    public static int failreason( String starttime,String endtime ) throws Exception{
 
 
         String[] command = {
                 "curl",
                 "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
                 "-X", "POST",
-                "--data-urlencode", "q= select substr(cast(maxtime as String),1,10) DateID,count(uid) register from users join (\n" +
-                "select max(time) maxtime  ,user_id  from events \n" +
-                "where event = 'register_new'\n" +
-                "group by user_id ) aa on \n" +
-                "users.id = aa.user_id\n" +
-                "where maxtime > '"+starttime+" 00:00:00' \n" +
-                "and maxtime < '"+endtime+" 00:00:00' group by  substr(cast(maxtime as String),1,10) ",
+                "--data-urlencode", "q= select substr(cast(time as string)  ,1,10) dateId,\n" +
+                "case when fail_reason='手机号未被认证' then 'The phone number has not been verified.' \n" +
+                "     when fail_reason='用户不存在' then 'The user does not exist' \n" +
+                "     when fail_reason='用户名或密码错误' then 'Incorrect username or password' \n" +
+                "     when fail_reason='用户禁用' then 'Prohibited User' \n" +
+                "     else   'The email has not been verified' end login_fail_reason,\n" +
+                "     count(user_id) number_of_user \n" +
+                "from events \n" +
+                "where event  = 'login_result'\n" +
+                "and is_success = 0 \n" +
+                "and substr(cast(time as string)  ,1,10) >= '"+starttime+"'\n" +
+                "and substr(cast(time as string)  ,1,10) <= '"+endtime+"'\n" +
+                "group by fail_reason,substr(cast(time as string)  ,1,10)\n" +
+                "order by fail_reason,substr(cast(time as string)  ,1,10) ",
                 "--data-urlencode", "format=json",
         };
 
 
         // 输出 逻辑
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(newregister2FilePath));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(failreason2FilePath));
 
             // 执行 curl 命令
             Process process = Runtime.getRuntime().exec(command);
@@ -366,8 +373,8 @@ public class etlsqls {
             int databaseoutputcount = 0;
             while ((line = reader.readLine()) != null) {
 //                        System.out.println(line);  // 打印输出
-                register person = gson.fromJson(line, register.class);
-                writer.write(person.dateid+","+person.register);
+                failreason person = gson.fromJson(line, failreason.class);
+                writer.write(person.dateid+","+person.login_fail_reason+","+person.number_of_user);
 //                        writer.write(person.uid+","+person.register_time);
                 writer.newLine();
                 databaseoutputcount ++;
@@ -398,8 +405,8 @@ public class etlsqls {
             // 开始插入操作
 //            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
             // 通过 excel load fail 导入
-            InLog("newregister2FilePath:"+newregister2FilePath);
-            InLog(dmlacid.loadregister(mysqljdbcconn.getInstance().getConnection(),newregister2FilePath,starttime,endtime));
+            InLog("failreason2FilePath:"+failreason2FilePath);
+            InLog(dmlacid.loadfailreason(mysqljdbcconn.getInstance().getConnection(),failreason2FilePath,starttime,endtime));
 
 
             return 0;
