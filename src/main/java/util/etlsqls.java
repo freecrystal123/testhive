@@ -14,7 +14,10 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -113,9 +116,9 @@ public class etlsqls {
 
 
     public static void main(String[] args) throws Exception{
-
-        rgusersstatics();
-        rgdispositedlimitselftimeout();
+        fail_reason_monitoring();
+//        rgusersstatics();
+//        rgdispositedlimitselftimeout();
 
     }
     public static String logs1 ;
@@ -228,7 +231,141 @@ public class etlsqls {
     }
 
 
+     public static int fail_reason_monitoring() throws Exception{
 
+        String starttime = timeutils.getDayStart();
+        String endtime = timeutils.getNowTime();
+        String before7days =  timeutils.get7DayAgo();
+         String[] command = {
+                 "curl",
+                 "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
+                 "-X", "POST",
+                 "--data-urlencode", "q= \n" +
+                 "select \n" +
+                 "aahour.hour,\n" +
+                 "avg7days_rate,\n" +
+                 "nvl(success_count,0) success_count,\n" +
+                 "nvl(all_count,0) all_count,\n" +
+                 "nvl(success_rate,0) success_rate\n" +
+                 "from (\n" +
+                 "select '00' as hour" +
+                 "union\n" +
+                 "SELECT '01'\n" +
+                 "UNION\n" +
+                 "SELECT '02'\n" +
+                 "UNION\n" +
+                 "SELECT '03'\n" +
+                 "UNION\n" +
+                 "SELECT '04'\n" +
+                 "UNION\n" +
+                 "SELECT '05'\n" +
+                 "UNION\n" +
+                 "SELECT '06'\n" +
+                 "UNION\n" +
+                 "SELECT '07'\n" +
+                 "UNION\n" +
+                 "SELECT '08'\n" +
+                 "UNION\n" +
+                 "SELECT '09'\n" +
+                 "UNION\n" +
+                 "SELECT '10'\n" +
+                 "UNION\n" +
+                 "SELECT '11'\n" +
+                 "UNION\n" +
+                 "SELECT '12'\n" +
+                 "UNION\n" +
+                 "SELECT '13'\n" +
+                 "UNION\n" +
+                 "SELECT '14'\n" +
+                 "UNION\n" +
+                 "SELECT '15'\n" +
+                 "UNION\n" +
+                 "SELECT '16'\n" +
+                 "UNION\n" +
+                 "SELECT '17'\n" +
+                 "UNION\n" +
+                 "SELECT '18'\n" +
+                 "UNION\n" +
+                 "SELECT '19'\n" +
+                 "UNION\n" +
+                 "SELECT '20'\n" +
+                 "UNION\n" +
+                 "SELECT '21'\n" +
+                 "UNION\n" +
+                 "SELECT '22'\n" +
+                 "UNION\n" +
+                 "SELECT '23'\n" +
+                 ") aahour cross join (\n" +
+                 "select \n" +
+                 "round(sum(case when is_success=1 then 1 else 0 end )/sum(1) ,2) avg7days_rate\n" +
+                 "from  events \n" +
+                 "where event = 'recharge_result'\n" +
+                 "and time > '"+before7days+"'\n" +
+                 "and time < '"+starttime+"'\n" +
+                 ") bb left join (\n" +
+                 "select \n" +
+                 "substr(cast(time as string),12,2) hour\n" +
+                 ",sum(case when is_success=1 then 1 else 0 end ) success_count\n" +
+                 ",sum(1) all_count\n" +
+                 ",round(sum(case when is_success=1 then 1 else 0 end )/sum(1),2) success_rate\n" +
+                 "from  events \n" +
+                 "where event = 'recharge_result'\n" +
+                 "and time > '"+starttime+"'\n" +
+                 "and time < '"+endtime+"'\n" +
+                 "group by substr(cast(time as string),12,2)) aa on aahour.hour=aa.hour  ",
+                 "--data-urlencode", "format=json",
+         };
+
+
+         // 输出 逻辑
+
+
+         BufferedWriter writer = new BufferedWriter(new FileWriter(failreason2FilePath));
+
+         // 执行 curl 命令
+         Process process = Runtime.getRuntime().exec(command);
+         // 读取命令输出
+         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+         String line;
+         int databaseoutputcount = 0;
+         while ((line = reader.readLine()) != null) {
+             failmonitoring person = gson.fromJson(line, failmonitoring.class);
+             writer.write(person.hour+","+person.success_count+","+person.all_count+","+person.success_rate+","+person.avg7days_rate);
+             writer.newLine();
+             databaseoutputcount ++;
+             if(databaseoutputcount%10==0){
+                 System.out.println(" 目前是"+databaseoutputcount+"\n");
+             }
+         }
+         InLog(msg.toString());
+         // 等待命令执行完成
+
+         if(databaseoutputcount==0){
+             InLog("please check vpn !");
+             throw new Exception("please check vpn!");
+         }
+
+         int exitCode = process.waitFor();
+         if (exitCode == 0) {
+             System.out.println("Curl command executed successfully ！");
+             InLog( msg + "Curl command executed successfully ！");
+         } else {
+             System.out.println("Curl command failed with exit code: " + exitCode);
+             InLog( msg + "Curl command failed with exit code: " + exitCode);
+
+         }
+
+         writer.close();
+         /** 阿里云插入限制 **/
+         // 开始插入操作
+//            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
+         // 通过 excel load fail 导入
+         InLog("failreason2FilePath:"+failreason2FilePath);
+         InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),failreason2FilePath,"fact_fail_monitoring_rate_h",failmonitoring.class,null,null));
+         return 0;
+
+
+     }
 
     /* 直接调用*/
 
@@ -600,7 +737,7 @@ public class etlsqls {
                 "                  city,  \n" +
                 "                  EPOCH_TO_TIMESTAMP(birthday/1000) birthday  \n" +
                 "               FROM users \n" +
-                "WHERE first_visit_source is not null  ",
+                "WHERE first_visit_source is not null limit 100 ",
                 "--data-urlencode", "format=json",
         };
 
@@ -647,7 +784,7 @@ public class etlsqls {
             // 开始插入操作
 //            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
             // 通过 excel load fail 导入
-            InLog(dmlacid.loaddatafileUserInfo(mysqljdbcconn.getInstance().getConnection(),userinfo2FilePath));
+            InLog(dmlacid.loaddatafileUserInfo(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),userinfo2FilePath));
 
         return 0;
 

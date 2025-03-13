@@ -1,8 +1,7 @@
 package pojp;
 
 public class failreason {
-   public String dateid;
-
+    public String dateid;
     public String login_fail_reason;
 
     public Integer number_of_user;
@@ -29,4 +28,6 @@ public class failreason {
     public void setNumber_of_user(Integer number_of_user) {
         this.number_of_user = number_of_user;
     }
+
+
 }

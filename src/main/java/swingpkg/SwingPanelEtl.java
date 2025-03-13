@@ -1,10 +1,6 @@
 package swingpkg;
 
-import swingpkg.components.jpaneldiffdedup;
-import swingpkg.components.jpanelsched;
-import swingpkg.components.jpanelshowandadd;
-import swingpkg.components.roundedButton;
-import swingpkg.components.roundedComboBox;  // Import the custom roundedComboBox
+import swingpkg.components.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,16 +35,17 @@ public class SwingPanelEtl {
         jtabpanelCURD.setTabPlacement(JTabbedPane.LEFT);
 
         // show panel
-        JPanel panelReplenishShow = new jpanelshowandadd();
+        JPanel panelReplenishShow = new jpanelshowandaddreplenish();
 
         // 添加 Tab 页，标题为数字
         jtabpanelCURD.addTab("Replenish ", panelReplenishShow);
 
-        JPanel panelDimseries = new JPanel();
-        panelDimseries.add(new JLabel("Exciting content, stay tuned! "));
+        // show panel
+        JPanel jpanelshowandaddwin = new jpanelshowandaddwin();
+        jpanelshowandaddwin.add(new JLabel("Exciting content, stay tuned! "));
 
         // 添加 CUrD Tab 页
-        jtabpanelCURD.addTab("panelDimseries ", panelDimseries);
+        jtabpanelCURD.addTab("luckdrawwin ", jpanelshowandaddwin);
 
         // 设置标签选择效果
         jtabpanelCURD.setBackgroundAt(0, Color.gray);

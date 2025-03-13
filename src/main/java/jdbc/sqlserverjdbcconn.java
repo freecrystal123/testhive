@@ -50,7 +50,7 @@ public class sqlserverjdbcconn {
                     String connectionString = null;
                     // 设置 JDBC URL（连接字符串）
                     if(dbconntype.sqlserverconn.vivian.equals(connstr)){
-                        connectionString = vivianLink1;
+                        connectionString = vivianLink;
                     } else if(dbconntype.sqlserverconn.general.equals(connstr)){
                         connectionString = generalLink;
                     }
