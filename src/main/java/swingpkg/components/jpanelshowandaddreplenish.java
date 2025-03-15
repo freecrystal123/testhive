@@ -2,12 +2,15 @@ package swingpkg.components;
 
 import com.toedter.calendar.JDateChooser;
 import jdbc.dmlacid;
+import jdbc.sqlserverjdbcconn;
+import pojp.dbconntype;
 import pojp.replenish;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.lang.reflect.Field;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -69,7 +72,12 @@ public class jpanelshowandaddreplenish extends JPanel {
     private void loadDataAsync(String[] columnNames) {
         // 使用CompletableFuture异步加载数据
         CompletableFuture.supplyAsync(() -> {
-            List<replenish> replenishLists = dmlacid.listTableRecord("fact_instant_replenish", financeJDBC, replenish.class);
+            List<replenish> replenishLists = null;
+            try {
+                replenishLists = dmlacid.listTableRecord(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),"fact_instant_replenish",  replenish.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             Object[][] data = new Object[replenishLists.size()][columnNames.length];
 
             for (int i = 0; i < replenishLists.size(); i++) {
@@ -184,7 +192,11 @@ public class jpanelshowandaddreplenish extends JPanel {
                 newReplenish.Opening
         };
         tableModel1.addRow(newRow);
-        dmlacid.insertTableSingleRecord("fact_instant_replenish", newReplenish, financeJDBC);
+        try {
+            dmlacid.insertTableSingleRecord(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),"fact_instant_replenish", newReplenish);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

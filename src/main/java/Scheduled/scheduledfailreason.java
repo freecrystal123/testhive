@@ -11,7 +11,7 @@ public class scheduledfailreason {
         scheduler.scheduleAtFixedRate(() -> {
             System.out.println("定时任务执行：" + System.currentTimeMillis());
             try {
-                etlsqls.fail_reason_monitoring();
+                etlsqls.fail_reason_monitoring("");
             } catch (Exception e) {
                 e.printStackTrace();
             }

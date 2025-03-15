@@ -1,13 +1,19 @@
 package swingpkg.components;
 
+import jdbc.dmlacid;
+import jdbc.sqlserverjdbcconn;
+import pojp.dbconntype;
+import pojp.factjobscheduler;
+import util.etlsqls;
+import util.timeutils;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.awt.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -19,23 +25,22 @@ public class jpanelsched extends JPanel {
     private JTable table;
     private DefaultTableModel tableModel;
     private ScheduledExecutorService scheduler;
+    private JTextArea textArea; // 新增 TextArea
 
     public jpanelsched() {
         setLayout(new BorderLayout());
 
-        // 定义列名，新增“Job 名称”列
-        String[] columnNames = {"Select", "Job 名称", "Job 调用时间", "Job 停止时间", "Job 启动频率", "Progress"};
+        // 定义列名
+        String[] columnNames = {"Select", "Job Id","Job Name", "Job CallTime", "Job EndTime", "Job frequency", "Num of calls"};
         Object[][] data = {
-                {false, "Job 1", getCurrentTime(), getFutureTime(), "每分钟", 50},
-                {false, "Job 2", getCurrentTime(), getFutureTime(), "每小时", 30},
-                {false, "Job 3", getCurrentTime(), getFutureTime(), "每天", 75}
+                {false,"1","Monitor Lottery", getCurrentTime(), getCurrentTime(), "15", 0},
+                {false,"2","Monitor TW", getCurrentTime(), getCurrentTime(), "15", 0}
         };
 
         // 初始化表格模型
         tableModel = new DefaultTableModel(data, columnNames) {
             @Override
             public Class<?> getColumnClass(int columnIndex) {
-                // 第一列为布尔值，最后一列为进度条，其他列为字符串
                 return columnIndex == 0 ? Boolean.class : (columnIndex == 5 ? Integer.class : String.class);
             }
         };
@@ -45,90 +50,154 @@ public class jpanelsched extends JPanel {
         table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
         table.getTableHeader().setForeground(Color.black);
         JScrollPane scrollPane = new JScrollPane(table);
-        add(scrollPane, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.NORTH);
 
-        // 为“Progress”列设置进度条渲染器
-        table.getColumn("Progress").setCellRenderer(new ProgressRenderer());
 
-        // 操作按钮
+
+        // 创建 TextArea 并添加滚动支持
+        textArea = new JTextArea(5, 50); // 设置初始行数和列数
+        textArea.setEditable(false);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        JScrollPane textScrollPane = new JScrollPane(textArea);
+        textScrollPane.setBorder(BorderFactory.createTitledBorder("Logs / Messages")); // 增加边框标题
+        add(textScrollPane, BorderLayout.CENTER);
+
+        // 按钮面板
         JButton actionButton = new JButton("Submit");
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(actionButton);
-        add(buttonPanel, BorderLayout.SOUTH);
+        add(buttonPanel, BorderLayout.SOUTH); // 让按钮处于 TextArea 下方
 
-        // 启动自动刷新
-        startAutoRefresh();
+        // 按钮事件：向 TextArea 追加日志信息
+        actionButton.addActionListener(e -> {
+            textArea.append("=== Selected Jobs at " + getCurrentTime() + " ===\n");
+            boolean invokeflag = false;
+            boolean hasSelection = false; // 标记是否有选中的行
+            List<factjobscheduler> listjobs = etlsqls.listScheduerInfos();
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                boolean needUpdate = false;
+
+                Boolean isSelected = (Boolean) tableModel.getValueAt(i, 0);
+                // 如果JobId被选中了，而且是Down 状态可以启动
+                if (isSelected != null && isSelected) {
+                    hasSelection = true;
+                    factjobscheduler  factjobschedulerItemUpdate = new factjobscheduler();
+                    StringBuilder rowContent = new StringBuilder();
+                    for (int j = 0; j < tableModel.getColumnCount(); j++) {
+                        rowContent.append(tableModel.getColumnName(j)).append(": ")
+                                .append(tableModel.getValueAt(i, j)).append(" | ");
+
+                        for(factjobscheduler factjobschedulerItem:listjobs){
+
+                            if(j==1){
+                                Integer Job_Id = Integer.parseInt(tableModel.getValueAt(i, j).toString());
+                                if(Job_Id.equals(factjobschedulerItem.getJob_id()) ){
+                                    if("Down".equals(factjobschedulerItem.getStatus())){
+                                        factjobschedulerItemUpdate.setJob_id(Job_Id);
+                                        needUpdate = true;
+                                        invokeflag = true;
+                                    }
+                                }
+
+                            }
+                            if(needUpdate){
+                                if("Down".equals(factjobschedulerItem.getStatus())){
+                                    factjobschedulerItemUpdate.setCall_start_time(timeutils.getConvertDate(getCurrentTime()));
+                                    factjobschedulerItemUpdate.setLast_call_time(timeutils.getConvertDate(getCurrentTime()));
+                                    factjobschedulerItemUpdate.setJob_name(tableModel.getValueAt(i, 2).toString());
+                                    factjobschedulerItemUpdate.setJob_frequency(Integer.parseInt("15"));
+                                }
+
+                            }
+                        }
+                        factjobschedulerItemUpdate.setStatus("running");
+                        factjobschedulerItemUpdate.setNum_of_calls(0);
+
+                    }
+                    try {
+                        if(needUpdate){
+                            dmlacid.updateTableRecord(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),"fact_job_scheduler",factjobschedulerItemUpdate,"job_id" );
+                        }
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+
+            if (!hasSelection) {
+                textArea.append("No jobs selected.\n");
+            }
+            textArea.append("====================================\n");
+            // 启动自动刷新 只是启动一次
+            if(invokeflag){
+                startAutoRefresh();
+            }
+
+        });
+
+
     }
 
-    /**
-     * 获取当前时间，格式化为字符串
-     */
     private String getCurrentTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(new Date());
     }
 
-    /**
-     * 获取未来时间，格式化为字符串（例如，当前时间+1小时）
-     */
-    private String getFutureTime() {
-        long futureTime = System.currentTimeMillis() + TimeUnit.HOURS.toMillis(1);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return sdf.format(new Date(futureTime));
-    }
 
-    /**
-     * 使用ScheduledExecutorService启动定时刷新
-     */
     private void startAutoRefresh() {
-        // 创建ScheduledExecutorService来调度任务
         scheduler = Executors.newSingleThreadScheduledExecutor();
-
-        // 定时任务，每分钟执行一次
-        scheduler.scheduleAtFixedRate(this::updateJobProgress, 0, 1, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(this::CallAndCheckMonitorJob, 0, 3, TimeUnit.MINUTES);
     }
-
-    /**
-     * 更新Job的进度
-     */
-    private void updateJobProgress() {
-        SwingUtilities.invokeLater(() -> {
-            for (int i = 0; i < tableModel.getRowCount(); i++) {
-                // 更新“Job 调用时间”和“Job 停止时间”
-                tableModel.setValueAt(getCurrentTime(), i, 2);
-                tableModel.setValueAt(getFutureTime(), i, 3);
-
-                // 更新进度
-                int progress = (int) tableModel.getValueAt(i, 5);
-                progress = Math.min(100, progress + (int) (Math.random() * 10)); // 随机增加进度
-                tableModel.setValueAt(progress, i, 5);
+    // Call and check all tasks
+    private void CallAndCheckMonitorJob(){
+        Integer numofcalls = 0;
+        try {
+            List<factjobscheduler> listjobs = etlsqls.listScheduerInfos();
+            for(factjobscheduler factjobschedulerItem:listjobs){
+               if("running".equals( factjobschedulerItem.getStatus())){
+                   etlsqls.fail_reason_monitoring(factjobschedulerItem.getJob_name());
+                   factjobscheduler factjobschedulerItemUpdate = new factjobscheduler();
+                   factjobschedulerItemUpdate.setJob_id(factjobschedulerItem.getJob_id());
+                   factjobschedulerItemUpdate.setStatus("running");
+                   factjobschedulerItemUpdate.setJob_name(factjobschedulerItem.getJob_name());
+                   factjobschedulerItemUpdate.setCall_start_time(factjobschedulerItem.getCall_start_time());
+                   factjobschedulerItemUpdate.setJob_frequency(factjobschedulerItem.getJob_frequency());
+                    numofcalls = factjobschedulerItem.getNum_of_calls()+1;
+                   factjobschedulerItemUpdate.setNum_of_calls(numofcalls);
+                   factjobschedulerItemUpdate.setLast_call_time(timeutils.getConvertDate(getCurrentTime()));
+                   dmlacid.updateTableRecord(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),"fact_job_scheduler",factjobschedulerItemUpdate,"job_id" );
+                   textArea.append("Progress updated at " + util.etlsqls.getLog() + "\n");
+               }
             }
-        });
-    }
+            SwingUtilities.invokeLater(() -> {
+                for (int i = 0; i < tableModel.getRowCount(); i++) {
+                    int JobId = i+1;
+                    for(factjobscheduler factjobscheduler:listjobs){
+                        if(JobId==factjobscheduler.getJob_id()){
+                            tableModel.setValueAt(factjobscheduler.getCall_start_time(), i, 3);
+                            tableModel.setValueAt(getCurrentTime(), i, 4);
+                            tableModel.setValueAt(factjobscheduler.getNum_of_calls()+1, i, 6);
+                        }
+                    }
 
-    /**
-     * 进度条渲染器，显示进度条
-     */
-    private static class ProgressRenderer extends JProgressBar implements TableCellRenderer {
-        public ProgressRenderer() {
-            setMinimum(0);
-            setMaximum(100);
+                }
+
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            if (value instanceof Integer) {
-                setValue((Integer) value);
-            }
-            return this;
-        }
     }
+
+
+
+
 
     public static void main(String[] args) {
-        // 创建JFrame并添加面板
-        JFrame frame = new JFrame("Job Schedule Panel with Progress");
+        JFrame frame = new JFrame("Job Schedule Panel with Progress & Logs");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(700, 300); // 调整窗口大小以适应新列
+        frame.setSize(700, 400); // 调整窗口大小以适应 TextArea
         frame.add(new jpanelsched());
         frame.setVisible(true);
     }

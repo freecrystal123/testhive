@@ -1,5 +1,8 @@
 package util;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,6 +29,24 @@ public class timeutils {
         // 格式化输出
         System.out.println("今天开始时间：" + todayStart.format(formatter));
         return todayStart.format(formatter);
+    }
+    public static Date getConvertDate(String date){
+        java.sql.Date sqlDate = null;
+        try {
+            // 1. 定义日期格式
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            // 2. 解析字符串为 java.util.Date
+            java.util.Date utilDate = sdf.parse(date);
+
+            // 3. 转换为 java.sql.Date
+            sqlDate = new java.sql.Date(utilDate.getTime());
+
+            System.out.println("java.sql.Date: " + sqlDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return sqlDate;
     }
     public static String get7DayAgo(){
         // 获取 7 天前的 00:00:00

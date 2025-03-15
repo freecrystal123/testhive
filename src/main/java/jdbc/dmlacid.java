@@ -1,6 +1,7 @@
 package jdbc;
 
 import pojp.bussinfo;
+import pojp.factjobscheduler;
 import pojp.optdata;
 import pojp.orderwin0122;
 
@@ -418,48 +419,52 @@ public class dmlacid {
     }
 
 
-    public static <T> List<T> listTableRecord(String tablename , Properties jdbcpro,Class<T> clazz){
+    public static <T> List<T> listTableRecord(Connection connection, String tablename, Class<T> clazz) {
 
         List<T> records = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection(
-                jdbcpro.get("jdbcurl").toString(),
-                jdbcpro.get("username").toString(),
-                jdbcpro.get("password").toString());
-             Statement stmt = connection.createStatement()) {
 
-            // Constructing the SELECT SQL query
-            String sql = "SELECT * FROM " + tablename;
+        // 基本的表名校验，防止 SQL 注入
+        if (!tablename.matches("^[a-zA-Z0-9_]+$")) {
+            throw new IllegalArgumentException("Invalid table name: " + tablename);
+        }
 
-            // Execute the SELECT query
-            ResultSet rs = stmt.executeQuery(sql);
+        String sql = "SELECT * FROM " + tablename; // 直接使用表名，无法使用占位符
 
-            // Get the fields of the class
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            // 获取数据库列信息，保证字段匹配
+            ResultSetMetaData metaData = rs.getMetaData();
+            int columnCount = metaData.getColumnCount();
+            Map<String, Integer> columnMap = new HashMap<>();
+            for (int i = 1; i <= columnCount; i++) {
+                columnMap.put(metaData.getColumnName(i).toLowerCase(), i);
+            }
+
+            // 反射获取类字段
             Field[] fields = clazz.getDeclaredFields();
 
-            // Process the result set
             while (rs.next()) {
-                // Create an instance of the class using reflection
-                T record =  clazz.getDeclaredConstructor().newInstance();
+                T record = clazz.getDeclaredConstructor().newInstance();
 
-                // Map each field in the ResultSet to the corresponding field in the class
                 for (Field field : fields) {
-                    field.setAccessible(true); // Allow access to private fields
-                    String columnName = field.getName();
-                    Object columnValue = rs.getObject(columnName); // Get the value from the ResultSet
+                    field.setAccessible(true);
+                    String columnName = field.getName().toLowerCase();
 
-                    // Set the value to the field using reflection
-                    if (columnValue != null) {
-                        field.set(record, columnValue);
+                    if (columnMap.containsKey(columnName)) {
+                        Object columnValue = rs.getObject(columnMap.get(columnName));
+                        if (columnValue != null) {
+                            field.set(record, columnValue);
+                        }
                     }
                 }
-
-                // Add the populated object to the list
                 records.add(record);
             }
 
-        } catch (SQLException | ReflectiveOperationException e) {
-            e.printStackTrace();
-            // Handle exception properly in production code
+        } catch (SQLException e) {
+            System.err.println("Database error: " + e.getMessage());
+        } catch (ReflectiveOperationException e) {
+            System.err.println("Reflection error: " + e.getMessage());
         }
 
         return records;
@@ -470,60 +475,129 @@ public class dmlacid {
      * 插入 单个对象到数据库中
      * @param tablename
      * @param ob
-     * @param jdbcpro
      */
-    public static void insertTableSingleRecord (String tablename, Object ob, Properties jdbcpro) {
+    public static void insertTableSingleRecord (Connection connection,String tablename, Object ob) {
+        if (connection == null) {
+            throw new IllegalArgumentException("Database connection cannot be null");
+        }
 
         StringBuffer logger = new StringBuffer();
-        try (Connection connection = DriverManager.getConnection(jdbcpro.get("jdbcurl").toString(),
-                jdbcpro.get("username").toString(),
-                jdbcpro.get("password").toString());
-             Statement stmt = connection.createStatement()) {
-
-            // 获取 ob 对象的类
+        try {
+            // 获取对象的类
             Class<?> clazz = ob.getClass();
-
-            // 获取所有字段
             Field[] fields = clazz.getDeclaredFields();
 
-            // 生成字段名称和字段值的字符串
+            // 生成 SQL 语句占位符
             StringBuilder columns = new StringBuilder();
-            StringBuilder values = new StringBuilder();
+            StringBuilder placeholders = new StringBuilder();
 
             for (Field field : fields) {
-                field.setAccessible(true); // 设置可访问私有字段
-                String columnName = field.getName(); // 获取字段名
-                Object value = field.get(ob); // 获取字段值
-
-                // 处理字段名和字段值
-                columns.append(columnName).append(", ");
-                values.append("'").append(value != null ? value.toString() : "").append("', ");
+                field.setAccessible(true);
+                columns.append(field.getName()).append(", ");
+                placeholders.append("?, ");
             }
 
-            // 去掉最后一个逗号和空格
+            // 移除末尾逗号
             if (columns.length() > 0) {
                 columns.setLength(columns.length() - 2);
             }
-            if (values.length() > 0) {
-                values.setLength(values.length() - 2);
+            if (placeholders.length() > 0) {
+                placeholders.setLength(placeholders.length() - 2);
             }
 
-            // 构建插入的 SQL 语句
-            String sql = "INSERT INTO " + tablename + " (" + columns.toString() + ") VALUES (" + values.toString() + ")";
+            // 构建 SQL 语句
+            String sql = "INSERT INTO " + tablename + " (" + columns + ") VALUES (" + placeholders + ")";
 
-            // 执行插入操作
-            int rowsAffected = stmt.executeUpdate(sql);
-            System.out.println(rowsAffected + " rows inserted");
-            logger.append(rowsAffected + " rows inserted");
+            // 预编译 SQL
+            try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+                // 绑定参数
+                int index = 1;
+                for (Field field : fields) {
+                    Object value = field.get(ob);
+                    pstmt.setObject(index++, value);
+                }
+
+                // 执行 SQL 语句
+                int rowsAffected = pstmt.executeUpdate();
+                System.out.println(rowsAffected + " rows inserted");
+                logger.append(rowsAffected).append(" rows inserted");
+            }
 
         } catch (SQLException | IllegalAccessException e) {
             e.printStackTrace();
-            logger.append(e.getMessage());
-            logger.append(" Database update failed!");
+            logger.append(e.getMessage()).append(" Database update failed!");
+        }
+    }
+
+
+    public static void updateTableRecord(Connection connection, String tablename, Object ob, String primaryKeyField) {
+        if (connection == null) {
+            throw new IllegalArgumentException("Database connection cannot be null");
         }
 
+        StringBuffer logger = new StringBuffer();
+        try {
+            // 获取对象的类
+            Class<?> clazz = ob.getClass();
+            Field[] fields = clazz.getDeclaredFields();
 
+            // 生成 SQL 语句
+            StringBuilder setClause = new StringBuilder();
+            String primaryKeyValue = null;
+
+            for (Field field : fields) {
+                field.setAccessible(true);
+                String columnName = field.getName();
+                Object value = field.get(ob);
+
+                if (columnName.equalsIgnoreCase(primaryKeyField)) {
+                    primaryKeyValue = value != null ? value.toString() : null;
+                } else {
+                    setClause.append(columnName).append(" = ?, ");
+                }
+            }
+
+            // 检查是否获取到主键值
+            if (primaryKeyValue == null) {
+                throw new IllegalArgumentException("Primary key value is null, update operation aborted.");
+            }
+
+            // 移除末尾逗号
+            if (setClause.length() > 0) {
+                setClause.setLength(setClause.length() - 2);
+            }
+
+            // 构建 SQL 语句
+            String sql = "UPDATE " + tablename + " SET " + setClause + " WHERE " + primaryKeyField + " = ?";
+
+            // 预编译 SQL
+            try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+                int index = 1;
+
+                // 绑定参数（更新字段）
+                for (Field field : fields) {
+                    if (!field.getName().equalsIgnoreCase(primaryKeyField)) {
+                        Object value = field.get(ob);
+                        pstmt.setObject(index++, value);
+                    }
+                }
+
+                // 绑定 WHERE 主键参数
+                pstmt.setObject(index, primaryKeyValue);
+
+                // 执行 SQL 语句
+                int rowsAffected = pstmt.executeUpdate();
+                System.out.println(rowsAffected + " rows updated");
+                logger.append(rowsAffected).append(" rows updated");
+            }
+
+        } catch (SQLException | IllegalAccessException e) {
+            e.printStackTrace();
+            logger.append(e.getMessage()).append(" Database update failed!");
+        }
     }
+
+
 
 
 }
