@@ -9,6 +9,8 @@ import util.timeutils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -72,6 +74,11 @@ public class jpanelsched extends JPanel {
         textPanel.add(textScrollPane,BorderLayout.CENTER);
         add(textPanel,BorderLayout.CENTER);
 
+        cleanButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                textArea.setText("");
+            }
+        });
 
 
 
@@ -175,7 +182,8 @@ public class jpanelsched extends JPanel {
                    factjobschedulerItemUpdate.setNum_of_calls(numofcalls);
                    factjobschedulerItemUpdate.setLast_call_time(timeutils.getConvertDate(timeutils.getCurrentTime()));
                    dmlacid.updateTableRecord(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),"fact_job_scheduler",factjobschedulerItemUpdate,"job_id" );
-                   textArea.append("Progress updated at " +  util.etlsqls.getLog() + "\n");
+                   textArea.append("Progress updated at : " + timeutils.getCurrentTime() + ":" +util.etlsqls.getLog() + "\n");
+                   textArea.setCaretPosition(textArea.getDocument().getLength());
                }
             }
             SwingUtilities.invokeLater(() -> {
