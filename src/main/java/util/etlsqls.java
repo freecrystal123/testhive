@@ -66,7 +66,7 @@ public class etlsqls {
             try {
                 return sdf.parse(json.getAsString());
             } catch (Exception e) {
-                throw new JsonParseException("Unparseable date: " + json.getAsString(), e);
+                throw new JsonParseException("Unparseable date: " + timeutils.getCurrentTime() + json.getAsString(), e);
             }
         }
     };

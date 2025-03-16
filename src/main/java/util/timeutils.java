@@ -11,6 +11,12 @@ import java.time.format.DateTimeFormatter;
 
 public class timeutils {
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    public static  String getCurrentTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return sdf.format(new java.util.Date());
+    }
+
     public static String getNowTime(){
 
         long timestamp = System.currentTimeMillis(); // 获取当前时间戳（毫秒）
