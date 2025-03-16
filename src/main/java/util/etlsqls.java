@@ -78,7 +78,7 @@ public class etlsqls {
 
     // path
     public static String macbasepath = "/Users/Shared/";
-    public static String winbasepath = "C:/Users/VanAnhLe/Documents/1-Data/dailyexport/";
+    public static String winbasepath = "C:/Windows/Temp/";
     public static String basepath = null;
     static boolean macflag = true;
     static {
