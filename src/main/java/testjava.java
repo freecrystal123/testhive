@@ -126,7 +126,7 @@ public class testjava {
 
                         outputSet.add(person.uid);
 //                        writer.write(person.uid+","+person.first_order_time+","+person.first_order_amount+","+person.lottery_type+","+person.register_time);
-                        writer.write(person.uid+","+person.first_visit_source+","+person.register_time+","+person.kyc_state+","+person.ekyc_state+","+person.first_recharge_time+","+person.last_recharge_time+","+person.first_order_time + "," + person.last_order_time + "," + person.first_recharge_amount+ "," +person.first_winning_time + "," + person.first_withdraw_time+ "," +person.last_withdraw_time);
+                        writer.write(person.uid+","+person.first_visit_source+","+person.register_time);
 //                        writer.write(person.uid+","+person.register_time);
                         writer.newLine();
                     }

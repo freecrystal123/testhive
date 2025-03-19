@@ -129,8 +129,8 @@ public class SwingPanelEtl {
                             break;
                         case "trafficdata":
                             util.etlsqls.traffic_data_temp(starttime, endtime);
-                            util.etlsqls.ftd();
-                            util.etlsqls.trafficdataandftdDMLSQL(starttime, endtime);
+//                            util.etlsqls.ftd();
+//                            util.etlsqls.trafficdataandftdDMLSQL(starttime, endtime);
                             break;
                         case "failreason":
                             util.etlsqls.failreason(starttime, endtime);

@@ -624,7 +624,7 @@ public class etlsqls {
             // 通过 excel load fail 导入
             InLog("failreason2FilePath:"+failreason2FilePath);
             InLog(dmlacid.loadfailreason(mysqljdbcconn.getInstance().getConnection(),failreason2FilePath,starttime,endtime));
-
+        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),trafficdatatempFilePath,"fact_login_fail_reason_d",failreason.class,starttime,endtime));
 
             return 0;
     }
@@ -689,7 +689,7 @@ public class etlsqls {
 
         writer.close();
 
-        InLog(dmlacid.loaddataitemsgeneral(mysqljdbcconn.getInstance().getConnection(),trafficdatatempFilePath,"traffic_data_temp",trafficdatatemp.class,starttime,endtime));
+        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),trafficdatatempFilePath,"traffic_data_temp",trafficdatatemp.class,starttime,endtime));
 
         return 0;
 
@@ -864,8 +864,7 @@ public class etlsqls {
             // 开始插入操作
 //            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
             // 通过 excel load fail 导入
-            InLog(dmlacid.loaddatafileUserInfo(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),userinfo2FilePath));
-
+        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),userinfo2FilePath,"userinfo",userinfo.class,null,null));
         return 0;
 
     }

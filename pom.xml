@@ -50,7 +50,7 @@
      <dependency>
          <groupId>com.microsoft.sqlserver</groupId>
          <artifactId>mssql-jdbc</artifactId>
-         <version>10.2.0.jre8</version> <!-- 确保选择与您的 JDK 版本兼容的驱动版本 -->
+         <version>12.2.0.jre11</version>  <!-- 推荐使用 jre11 版本，兼容 JDK 11+ -->
      </dependency>
 
      <dependency>

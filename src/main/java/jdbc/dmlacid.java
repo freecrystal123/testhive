@@ -179,30 +179,6 @@ public class dmlacid {
     }
 
 
-    public static String loaddatafileUserInfo(Connection connection,String path) throws Exception {
-
-        StringBuffer logger = new StringBuffer();
-        String query = "LOAD DATA LOCAL INFILE '"+path+"' INTO TABLE userinfo " +
-                "FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' " +
-                "(uid,first_visit_source,register_time,country,city,birthday)";
-
-
-        try ( Statement stmt = connection.createStatement())
-        {
-            String sql = "delete from userinfo where 1=1";  // 替换为你要清空的表名
-            stmt.executeUpdate(sql);
-            int rowsAffected = stmt.executeUpdate(query);
-            System.out.println(rowsAffected + " rows inserted");
-            logger.append(rowsAffected + " rows inserted");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            logger.append(e.getMessage());
-            logger.append("database update failed !");
-        }
-        return logger.toString();
-
-
-    }
 
     public static String insertandupdate (Connection connection,String etldate) throws  Exception {
 
