@@ -817,7 +817,7 @@ public class etlsqls {
                 "                  city,  \n" +
                 "                  EPOCH_TO_TIMESTAMP(birthday/1000) birthday  \n" +
                 "               FROM users \n" +
-                "WHERE first_visit_source is not null limit 100 ",
+                "WHERE first_visit_source is not null  ",
                 "--data-urlencode", "format=json",
         };
 

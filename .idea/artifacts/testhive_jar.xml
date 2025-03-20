@@ -20,6 +20,28 @@
       <element id="library" level="project" name="Maven: org.apache.poi:poi:5.2.3" />
       <element id="library" level="project" name="Maven: org.apache.xmlbeans:xmlbeans:5.1.1" />
       <element id="library" level="project" name="Maven: xml-apis:xml-apis:1.4.01" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:17.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:mac:17.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:17.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:mac:17.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:17.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:mac:17.0.2" />
+      <element id="library" level="project" name="Maven: com.microsoft.sqlserver:mssql-jdbc:9.4.1.jre16" />
+      <element id="library" level="project" name="Maven: com.microsoft.azure:msal4j:1.11.0" />
+      <element id="library" level="project" name="Maven: com.nimbusds:oauth2-oidc-sdk:9.7" />
+      <element id="library" level="project" name="Maven: com.github.stephenc.jcip:jcip-annotations:1.0-1" />
+      <element id="library" level="project" name="Maven: com.nimbusds:content-type:2.1" />
+      <element id="library" level="project" name="Maven: net.minidev:json-smart:2.4.7" />
+      <element id="library" level="project" name="Maven: net.minidev:accessors-smart:2.4.7" />
+      <element id="library" level="project" name="Maven: org.ow2.asm:asm:9.1" />
+      <element id="library" level="project" name="Maven: com.nimbusds:lang-tag:1.5" />
+      <element id="library" level="project" name="Maven: com.nimbusds:nimbus-jose-jwt:9.9.3" />
+      <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.28" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.12.1" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.12.1" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.12.1" />
+      <element id="library" level="project" name="Maven: com.zaxxer:HikariCP:5.0.1" />
+      <element id="library" level="project" name="Maven: com.toedter:jcalendar:1.4" />
     </root>
   </artifact>
 </component>

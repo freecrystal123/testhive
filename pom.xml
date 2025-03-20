@@ -8,7 +8,6 @@
     <artifactId>testhive</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-
  <dependencies>
      <!--<dependency>-->
          <!--<groupId>org.apache.hive</groupId>-->
@@ -50,7 +49,7 @@
      <dependency>
          <groupId>com.microsoft.sqlserver</groupId>
          <artifactId>mssql-jdbc</artifactId>
-         <version>12.2.0.jre11</version>  <!-- 推荐使用 jre11 版本，兼容 JDK 11+ -->
+         <version>9.4.1.jre16</version>  <!-- 推荐使用 jre11 版本，兼容 JDK 11+ -->
      </dependency>
 
      <dependency>
@@ -73,7 +72,6 @@
      </dependency>
 
  </dependencies>
-
 
 
  <build>

@@ -11,7 +11,7 @@ public class sqlserverjdbcconn {
 
 
     private static String vivianLink = "jdbc:sqlserver://hco65xnsg6dulio4raop7psqwe-zh66nixkejeezfkd7c3mvabosy.database.fabric.microsoft.com:1433;"
-            + "database=NL_Database-85d4d454-81b4-4800-a950-2fdc4becb320;"
+            + "database={NL_Database-85d4d454-81b4-4800-a950-2fdc4becb320};"
             + "encrypt=true;"
             + "trustServerCertificate=true;"
             + "authentication=ActiveDirectoryPassword;"
