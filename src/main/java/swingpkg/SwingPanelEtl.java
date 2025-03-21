@@ -125,7 +125,7 @@ public class SwingPanelEtl {
                 try {
                     switch (selectedAction) {
                         case "userinfo":
-                            util.etlsqls.userinfo2SQL();
+                            util.etlsqls.userinfo2SQL(starttime, endtime);
                             break;
                         case "trafficdata":
                             util.etlsqls.traffic_data_temp(starttime, endtime);

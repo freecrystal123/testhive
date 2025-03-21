@@ -53,6 +53,8 @@ public class JavaFXPanelEtl extends Application {
 
         // 创建按钮点击事件
         userinfo.setOnAction(event -> {
+            String starttime = startFieldTrafficData.getText();
+            String endtime = endFieldTrafficData.getText();
             userinfo.setDisable(true);
             trafficdata.setDisable(true);
             newregister.setDisable(true);
@@ -65,7 +67,7 @@ public class JavaFXPanelEtl extends Application {
 
             try {
                 // 执行 SQL 操作（此部分需要你实际的方法实现）
-                util.etlsqls.userinfo2SQL();
+                util.etlsqls.userinfo2SQL(starttime, endtime);
                 Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                 successAlert.setContentText("Successful!");
                 successAlert.showAndWait();

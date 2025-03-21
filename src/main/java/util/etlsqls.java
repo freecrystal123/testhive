@@ -623,8 +623,7 @@ public class etlsqls {
 //            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
             // 通过 excel load fail 导入
             InLog("failreason2FilePath:"+failreason2FilePath);
-            InLog(dmlacid.loadfailreason(mysqljdbcconn.getInstance().getConnection(),failreason2FilePath,starttime,endtime));
-        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),trafficdatatempFilePath,"fact_login_fail_reason_d",failreason.class,starttime,endtime));
+        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),failreason2FilePath,"fact_login_fail_reason_d",failreason.class,starttime,endtime));
 
             return 0;
     }
@@ -794,7 +793,7 @@ public class etlsqls {
         return 0;
 
     }
-    public static int userinfo2SQL() throws Exception{
+    public static int userinfo2SQL(String starttime,String endtime) throws Exception{
 
 
         String[] command = {
@@ -806,18 +805,13 @@ public class etlsqls {
                 "                  first_visit_source,\n" +
                 "                  EPOCH_TO_TIMESTAMP(register_time ) register_time  ,\n" +
                 "                   kyc_state, ekyc_state,\n" +
-                "                  case when first_recharge_time is null then '1970-01-01 00:00:00' else substr(cast(EPOCH_TO_TIMESTAMP(first_recharge_time) as string),1,19) end first_recharge_time , \n" +
-                "                  case when last_recharge_time  is null then '1970-01-01 00:00:00' else  substr(cast(EPOCH_TO_TIMESTAMP(last_recharge_time ) as string),1,19) end last_recharge_time  ,\n" +
-                "                  case when first_order_time  is null then '1970-01-01 00:00:00' else substr(cast( EPOCH_TO_TIMESTAMP(first_order_time) as string),1,19) end first_order_time,\n" +
-                "                  case when last_order_time  is null then '1970-01-01 00:00:00' else   substr(cast(EPOCH_TO_TIMESTAMP( last_order_time)  as string),1,19) end last_order_time,\n" +
-                "                  case when first_winning_time  is null then '1970-01-01 00:00:00' else  substr(cast(EPOCH_TO_TIMESTAMP(first_winning_time)  as string),1,19) end first_winning_time,\n" +
-                "                  case when first_withdraw_time  is null then '1970-01-01 00:00:00' else  substr(cast(EPOCH_TO_TIMESTAMP(first_withdraw_time) as string),1,19) end first_withdraw_time  ,\n" +
-                "                  case when last_withdraw_time  is null then '1970-01-01 00:00:00' else    substr(cast(EPOCH_TO_TIMESTAMP(last_withdraw_time ) as string),1,19) end last_withdraw_time,  \n" +
                 "                  countries country,  \n" +
                 "                  city,  \n" +
-                "                  EPOCH_TO_TIMESTAMP(birthday/1000) birthday  \n" +
+                "                  TO_DATE(EPOCH_TO_TIMESTAMP(birthday/1000)) birthday  \n" +
                 "               FROM users \n" +
-                "WHERE first_visit_source is not null  ",
+                "WHERE first_visit_source is not null " +
+                "and substr(cast(EPOCH_TO_TIMESTAMP($update_time ) as string),1,19)>= '"+starttime+" 00:00:00' " +
+                "and substr(cast(EPOCH_TO_TIMESTAMP($update_time ) as string),1,19)< '"+endtime+" 00:00:00' ",
                 "--data-urlencode", "format=json",
         };
 
