@@ -1,5 +1,6 @@
 package jdbc;
 
+import au.com.bytecode.opencsv.CSVReader;
 import pojp.bussinfo;
 import pojp.factjobscheduler;
 import pojp.optdata;
@@ -129,27 +130,35 @@ public class dmlacid {
                         : "DELETE FROM " + tablename + " WHERE dateid >= '" + startdate + "' AND dateid <= '" + enddate + "'";
                 stmt.executeUpdate(sql);
             }
-            try (BufferedReader br = new BufferedReader(new FileReader(tablepath));
+            try (CSVReader csvReader = new CSVReader(new FileReader(tablepath));
                  PreparedStatement pstmt = connection.prepareStatement(insertSQL)) {
 
-                String line;
-                boolean firstLine = true;
+                String[] values;
+                boolean firstLine = true; // 如果第一行是表头，可以跳过
                 int batchSize = 0;
-                while ((line = br.readLine()) != null) {
-//                    if (firstLine) {
-//                        firstLine = false;
-//                        continue;
-//                    }
-                    String[] values = line.split(",");
+
+                while ((values = csvReader.readNext()) != null) {
+                    // 如果 CSV 第一行是表头，取消下面的注释以跳过
+//                if (firstLine) {
+//                    firstLine = false;
+//                    continue;
+//                }
+
                     for (int i = 0; i < values.length; i++) {
-                        pstmt.setString(i + 1, values[i]);
+                        pstmt.setString(i + 1, values[i].trim()); // 处理每个字段，去掉多余空格
+                        System.out.println(values.length + ": " + values[i]);
                     }
+
                     pstmt.addBatch();
                     batchSize++;
+
+                    // 每 1000 行执行一次批量插入，提高效率
                     if (batchSize % 1000 == 0) {
                         pstmt.executeBatch();
                     }
                 }
+
+                // 处理剩余数据
                 pstmt.executeBatch();
                 logger.append("Data inserted successfully!");
             } catch (Exception e) {

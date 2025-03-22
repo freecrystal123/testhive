@@ -103,7 +103,10 @@ public class etlsqls {
 
     public static String failreason2FilePath  = basepath+"failreason2FilePath.csv";
 
+    public static String failreasondetails2FilePath  = basepath+"failreasondetails2FilePath.csv";
+
     public static String failreasonhis2FilePath  = basepath+"failreasonhis2FilePath.csv";
+
     public static String rgusersstatics2FilePath  = basepath+"rgusersstatics2FilePath.csv";
 
 
@@ -119,8 +122,9 @@ public class etlsqls {
     public static void main(String[] args) throws Exception{
 //        last7days_rate();
 //        fail_reason_monitoring();
-        rgusersstatics();
-        rgdispositedlimitselftimeout();
+        fail_reason_monitordetail();
+//        rgusersstatics();
+//        rgdispositedlimitselftimeout();
 
     }
     public static String logs1 ;
@@ -310,8 +314,85 @@ public class etlsqls {
 
     }
 
+     public static int fail_reason_monitordetail()  throws Exception {
 
-     public static int fail_reason_monitoring(String Job_Name) throws Exception{
+         String starttime = timeutils.getDayStart();
+         String endtime = timeutils.getNowTime();
+         String[] command = {
+                 "curl",
+                 "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
+                 "-X", "POST",
+                 "--data-urlencode", "q= SELECT \n" +
+                 "    SUBSTR(CAST(time AS STRING), 12, 2) AS hour,\n" +
+                 "    fail_reason,\n" +
+                 "    COUNT(1) AS fail_count,\n" +
+                 "    round(COUNT(1) * 1.0 / SUM(COUNT(1)) OVER (PARTITION BY SUBSTR(CAST(time AS STRING), 12, 2)) ,2) AS fail_ratio\n" +
+                 "FROM events\n" +
+                 "WHERE event = 'recharge_result' \n" +
+                 "    AND recharge_method = 'PayBy Direct Payment'\n" +
+                 "    and time > '"+starttime+"'\n" +
+                 "    and time < '"+endtime+"'\n" +
+                 "    AND fail_reason IS NOT NULL and fail_reason != 'TIMEOUT' \n" +
+                 "GROUP BY \n" +
+                 "    SUBSTR(CAST(time AS STRING), 12, 2),\n" +
+                 "    recharge_method,\n" +
+                 "    fail_reason;\n" +
+                 "      ",
+                 "--data-urlencode", "format=json",
+         };
+
+
+         // 输出 逻辑
+
+
+         BufferedWriter writer = new BufferedWriter(new FileWriter(failreasondetails2FilePath));
+
+         // 执行 curl 命令
+         Process process = Runtime.getRuntime().exec(command);
+         // 读取命令输出
+         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+         String line;
+         int databaseoutputcount = 0;
+         while ((line = reader.readLine()) != null) {
+             failmonitorindetail person = gson.fromJson(line, failmonitorindetail.class);
+             writer.write(person.hour + "," + "\"" + person.fail_reason + "\"" + "," + person.fail_count + "," + person.fail_ratio);
+             writer.newLine();
+             databaseoutputcount ++;
+             if(databaseoutputcount%10==0){
+                 System.out.println(" 目前是"+databaseoutputcount+"\n");
+             }
+         }
+         InLog(msg.toString());
+         // 等待命令执行完成
+
+         if(databaseoutputcount==0){
+             InLog("please check vpn !");
+             throw new Exception("please check vpn!");
+         }
+
+         int exitCode = process.waitFor();
+         if (exitCode == 0) {
+             System.out.println("Curl command executed successfully ！");
+             InLog( msg + "Curl command executed successfully ！");
+         } else {
+             System.out.println("Curl command failed with exit code: " + exitCode);
+             InLog( msg + "Curl command failed with exit code: " + exitCode);
+
+         }
+
+         writer.close();
+         /** 阿里云插入限制 **/
+         // 开始插入操作
+//            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
+         // 通过 excel load fail 导入
+         InLog("failreasondetails2FilePath:"+failreasondetails2FilePath);
+         InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),failreasondetails2FilePath,"fact_fail_monitoring_details_h",failmonitorindetail.class,null,null));
+         return 0;
+
+
+     }
+
+     public static int fail_reason_monitoring() throws Exception{
 
         String starttime = timeutils.getDayStart();
         String endtime = timeutils.getNowTime();
@@ -805,9 +886,9 @@ public class etlsqls {
                 "                  first_visit_source,\n" +
                 "                  EPOCH_TO_TIMESTAMP(register_time ) register_time  ,\n" +
                 "                   kyc_state, ekyc_state,\n" +
-                "                  countries country,  \n" +
+        "                  countries country,  \n" +
                 "                  city,  \n" +
-                "                  TO_DATE(EPOCH_TO_TIMESTAMP(birthday/1000)) birthday  \n" +
+                "                  nvl(EPOCH_TO_TIMESTAMP(birthday),'1988-01-06 00:00:00') birthday  \n" +
                 "               FROM users \n" +
                 "WHERE first_visit_source is not null " +
                 "and substr(cast(EPOCH_TO_TIMESTAMP($update_time ) as string),1,19)>= '"+starttime+" 00:00:00' " +

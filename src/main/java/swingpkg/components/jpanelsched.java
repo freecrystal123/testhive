@@ -171,7 +171,11 @@ public class jpanelsched extends JPanel {
             List<factjobscheduler> listjobs = etlsqls.listScheduerInfos();
             for(factjobscheduler factjobschedulerItem:listjobs){
                if("running".equals( factjobschedulerItem.getStatus())){
-                   etlsqls.fail_reason_monitoring(factjobschedulerItem.getJob_name());
+                   // 启动小时任务
+                   // 实时比率
+                   etlsqls.fail_reason_monitoring();
+                   // 实时比率明细
+
                    factjobscheduler factjobschedulerItemUpdate = new factjobscheduler();
                    factjobschedulerItemUpdate.setJob_id(factjobschedulerItem.getJob_id());
                    factjobschedulerItemUpdate.setStatus("running");
