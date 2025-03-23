@@ -93,7 +93,7 @@ public class etlsqls {
     }
 
     // 默认输出路径
-    public static String output2FilePath = basepath+"output2FilePath.csv";
+    public static String orderwintosqlserver2FilePath = basepath+"orderwintosqlserver2FilePath.csv";
 
     public static String trafficdatatempFilePath = basepath+"trafficdatatempFilePath.csv";
 
@@ -123,8 +123,9 @@ public class etlsqls {
 //        last7days_rate();
 //        fail_reason_monitoring();
 //        fail_reason_monitordetail();
-        rgusersstatics();
-        rgdispositedlimitselftimeout();
+        orderwintosqlserver();
+        //rgusersstatics();
+        //rgdispositedlimitselftimeout();
 
     }
     public static String logs1 ;
@@ -944,27 +945,30 @@ public class etlsqls {
 
     }
 
-    public static int output2SQL(String starttime,String endtime) {
+    public static int orderwintosqlserver() {
 
-
-        List<orderwin0122> orderwin0122s = new ArrayList<>();
+        String starttime = timeutils.getDayStart();
+        String endtime = timeutils.getNowTime();
+        String creation_date = starttime.substring(0,10);
+        List<orderwintosqlserver> orderwintosqlserver = new ArrayList<>();
         String[] command = {
                 "curl",
                 "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
                 "-X", "POST",
                 "--data-urlencode", "q= \n" +
                 "select \n" +
-                "zz.uid,\n" +
-                "abcd.lottery_type,\n" +
+                "zz.uid user_id,\n" +
+                "abcd.lottery_type lottery,\n" +
                 "abcd.order_id,\n" +
-                "estimated_price investment_amount,\n" +
-                "lottery_entries,\n" +
+                "estimated_price  amount,\n" +
+                "'"+creation_date+"' creation_date,\n" +
+                "lottery_entries entries,\n" +
                 "substr(cast(time as string),1,19) ordertime,\n" +
-                "series_number,\n" +
-                "case when winning_amount is NULL then 'Not won' else 'won' end winning_flag,\n" +
-                "case when winning_amount is NULL then 0 else winning_amount end winning_amount,\n" +
-                "Draw_series draw_period,\n" +
-                "substr(cast(time as string),1,10) DateID\n"+
+                "series_number series_no,\n" +
+                "case when winning_amount is NULL then 'Not won' else 'won' end  winning_status,\n" +
+                "case when winning_amount is NULL then 0 else winning_amount end  prize,\n" +
+                "substr(cast(time as string),1,10) dateid, \n"+
+                "from_unixtime(unix_timestamp()) modified_time\n"+
                 "from (\n" +
                 "select \n" +
                 "user_id,\n" +
@@ -974,24 +978,13 @@ public class etlsqls {
                 "series_number,\n" +
                 "lottery_entries,\n" +
                 "estimated_price,\n" +
-                "time,\n" +
-                "case when lottery_type='Lucky Day' and time<'2024-12-14 19:00:00' then '241214' \n" +
-                "     when lottery_type !='Lucky Day' and time<'2024-12-14 19:00:00' then '241214' \n" +
-                "     when  lottery_type ='Lucky Day' and  time>'2024-12-14 21:00:00' and time< '2024-12-28 19:00:00'  then '241228' \n" +
-                "     when  lottery_type !='Lucky Day' and  time>'2024-12-14 19:00:00' and time< '2024-12-28 19:00:00'  then '241228'   \n" +
-                "     when  lottery_type ='Lucky Day' and time>'2024-12-28 21:00:00' and time< '2025-01-11 19:00:00' then '250111' \n" +
-                "     when  lottery_type !='Lucky Day' and time>'2024-12-28 19:00:00' and time< '2025-01-11 19:00:00' then '250111' \n" +
-                "     when  lottery_type ='Lucky Day'  and time>'2025-01-11 21:00:00'  and time< '2025-01-25 19:00:00' then '250125' \n" +
-                "     when  lottery_type !='Lucky Day'  and time>'2025-01-11 19:00:00'  and time< '2025-01-25 19:00:00' then '250125' \n" +
-                "     when  lottery_type ='Lucky Day' and  time>'2025-01-25 21:00:00'  and time< '2025-02-08 19:00:00' then '250208' \n" +
-                "       when  lottery_type !='Lucky Day' and  time>'2025-01-25 19:00:00'  and time< '2025-02-08 19:00:00' then '250208' \n" +
-                "     end draw_series\n" +
+                "time\n" +
                 "from  events \n" +
                 "where event = 'lottery_order_result'\n" +
                 "and is_success = 1\n" +
                 "and lottery_type in ('Lucky Day','GOLDEN 7','MEGA SAILS','COPPER CUPS','OASIS BONANZA')\n" +
-                "and time >= '"+starttime+" 00:00:00'\n" +
-                "and time  < '"+endtime+" 00:00:00'\n" +
+                "and time >= '"+starttime+"'\n" +
+                "and time  < '"+endtime+"'\n" +
                 ") abcd\n" +
                 "left join (\n" +
                 " select  user_id, sum(winning_amount) winning_amount ,lottery_type,order_id  \n" +
@@ -1010,7 +1003,7 @@ public class etlsqls {
 
         // 输出 逻辑
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(output2FilePath));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(orderwintosqlserver2FilePath));
 //            writer.write("uid,lottery_type,order_id,investment_amount,lottery_entries,ordertime,series_number,winning_flag,winning_amount,draw_period,dateid");
 //            writer.newLine();
 
@@ -1022,9 +1015,19 @@ public class etlsqls {
             int databaseoutputcount = 0;
             while ((line = reader.readLine()) != null) {
 //                        System.out.println(line);  // 打印输出
-                orderwin0122 person = gson.fromJson(line, orderwin0122.class);
-                orderwin0122s.add(person);
-                writer.write(person.order_id+","+person.uid+","+person.investment_amount+","+person.lottery_entries+","+person.ordertime+","+person.series_number+","+person.winning_flag+","+person.winning_amount + "," + person.draw_period + "," + person.dateid);
+                orderwintosqlserver person = gson.fromJson(line, orderwintosqlserver.class);
+                orderwintosqlserver.add(person);
+                writer.write(person.order_id+","+
+                        person.user_id+","+
+                        person.lottery+","+
+                        person.series_no+","+
+                        person.entries+","+
+                        person.amount+","+
+                        person.creation_date+","+
+                        person.prize+","+
+                        person.winning_status + "," +
+                        person.dateid + "," +
+                        person.modified_time);
                 writer.newLine();
                 databaseoutputcount ++;
                 if(databaseoutputcount%10==0){
@@ -1049,16 +1052,10 @@ public class etlsqls {
             }
 
             writer.close();
-            /** 阿里云插入限制 **/
-            // 开始插入操作
-//            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
-            // 通过 excel load fail 导入
-            InLog(dmlacid.loaddatafile(mysqljdbcconn.getInstance().getConnection(),output2FilePath));
 
-            // 通过 创建备份表和 更新全量表
 
-            InLog(dmlacid.insertandupdate(mysqljdbcconn.getInstance().getConnection(),endtime));
-            // 等待命令执行完成
+            InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),orderwintosqlserver2FilePath,"stg.incre_orders",orderwintosqlserver.class,starttime,endtime));
+
 
             return 0;
         } catch (Exception e) {

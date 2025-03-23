@@ -1,7 +1,6 @@
 package swingpkg.components;
 
 import util.deduplication;
-import util.executesql;
 import util.minus;
 
 import javax.swing.*;
