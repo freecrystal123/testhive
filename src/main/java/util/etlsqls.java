@@ -122,9 +122,9 @@ public class etlsqls {
     public static void main(String[] args) throws Exception{
 //        last7days_rate();
 //        fail_reason_monitoring();
-        fail_reason_monitordetail();
-//        rgusersstatics();
-//        rgdispositedlimitselftimeout();
+//        fail_reason_monitordetail();
+        rgusersstatics();
+        rgdispositedlimitselftimeout();
 
     }
     public static String logs1 ;

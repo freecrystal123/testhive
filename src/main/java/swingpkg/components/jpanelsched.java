@@ -175,7 +175,7 @@ public class jpanelsched extends JPanel {
                    // 实时比率
                    etlsqls.fail_reason_monitoring();
                    // 实时比率明细
-
+                   etlsqls.fail_reason_monitordetail();
                    factjobscheduler factjobschedulerItemUpdate = new factjobscheduler();
                    factjobschedulerItemUpdate.setJob_id(factjobschedulerItem.getJob_id());
                    factjobschedulerItemUpdate.setStatus("running");
