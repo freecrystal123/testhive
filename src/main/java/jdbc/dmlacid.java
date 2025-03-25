@@ -124,10 +124,17 @@ public class dmlacid {
             String fieldNames = fieldstr.substring(0, fieldstr.length() - 1);
             String placeholders = fieldNames.replaceAll("[a-zA-Z0-9_]+", "?");
             String insertSQL = "INSERT INTO " + tablename + " (" + fieldNames + ") VALUES (" + placeholders + ")";
-
+            String DelSQL = "";
+            if("userinfo".equals(tablename)){
+                 DelSQL = "DELETE FROM " + tablename + " WHERE update_date >= '" + startdate + "' AND update_date <= '" + enddate + "'";
+            }
+            else
+            {
+                 DelSQL = "DELETE FROM " + tablename + " WHERE dateid >= '" + startdate + "' AND dateid <= '" + enddate + "'";
+            }
             try (Statement stmt = connection.createStatement()) {
                 String sql = (startdate == null) ? "DELETE FROM " + tablename + " WHERE 1=1"
-                        : "DELETE FROM " + tablename + " WHERE dateid >= '" + startdate + "' AND dateid <= '" + enddate + "'";
+                        : DelSQL;
                 stmt.executeUpdate(sql);
             }
             try (CSVReader csvReader = new CSVReader(new FileReader(tablepath));

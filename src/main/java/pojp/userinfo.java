@@ -10,6 +10,7 @@ public class userinfo {
     public String country;
     public String city;
     public String birthday;
+    public String update_date;
 
     public String getCountry() {
         return country;
@@ -59,5 +60,11 @@ public class userinfo {
         this.register_time = register_time;
     }
 
+    public String getUpdate_date() {
+        return update_date;
+    }
 
+    public void setUpdate_date(String update_date) {
+        this.update_date = update_date;
+    }
 }

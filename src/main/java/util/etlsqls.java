@@ -719,14 +719,14 @@ public class etlsqls {
                 "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
                 "-X", "POST",
                 "--data-urlencode", "q= select \n" +
-                "datadate DateID,first_visit_source_type Channel,\n" +
+                "datadate DateID,nvl(first_visit_source_type,'0') Channel,\n" +
                 "count(distinct user_id) UV,\n" +
                 "count(1) PV \n" +
                 " from users join ( \n" +
                 "select substr(cast (time as string),1,10) datadate\n" +
                 ",user_id\n" +
                 "from events\n" +
-                "where event = '$pageview' and time >= '"+starttime+" 00:00:00' and time <='" + endtime +"' \n" +
+                "where event = '$pageview'   and time >= '"+starttime+" 00:00:00' and time <='" + endtime +"' \n" +
                 ") aa on users.id = aa.user_id \n" +
                 "group by first_visit_source_type,datadate  ",
                 "--data-urlencode", "format=json",
@@ -889,13 +889,14 @@ public class etlsqls {
                 "                   kyc_state, ekyc_state,\n" +
         "                  countries country,  \n" +
                 "                  city,  \n" +
-                "                  nvl(EPOCH_TO_TIMESTAMP(birthday),'1988-01-06 00:00:00') birthday  \n" +
+                "                  nvl(case when birthday <0 then FROM_UNIXTIME(cast(birthday/1000 as int))  else EPOCH_TO_TIMESTAMP(birthday) end, '1988-01-06 00:00:00') birthday, \n" +
+                "                  substr(cast(EPOCH_TO_TIMESTAMP($update_time ) as string),1,10) update_date \n" +
                 "               FROM users \n" +
                 "WHERE first_visit_source is not null " +
                 "and substr(cast(EPOCH_TO_TIMESTAMP($update_time ) as string),1,19)>= '"+starttime+" 00:00:00' " +
                 "and substr(cast(EPOCH_TO_TIMESTAMP($update_time ) as string),1,19)< '"+endtime+" 00:00:00' ",
                 "--data-urlencode", "format=json",
-        };
+    };
 
 
         // 输出 逻辑
@@ -911,7 +912,7 @@ public class etlsqls {
 //                        System.out.println(line);  // 打印输出
                 userinfo person = gson.fromJson(line, userinfo.class);
                 //+person.kyc_state+","+person.ekyc_state+","+person.first_recharge_time+","+person.last_recharge_time+","+person.first_order_time + "," + person.last_order_time + "," +person.first_winning_time + "," + person.first_withdraw_time+ "," +person.last_withdraw_time+","
-                writer.write(person.uid+","+person.first_visit_source+","+person.register_time+","+person.country+","+person.city+","+person.birthday);
+                writer.write(person.uid+","+person.first_visit_source+","+person.register_time+","+person.country+","+person.city+","+person.birthday+","+person.update_date);
 //                        writer.write(person.uid+","+person.register_time);
                 writer.newLine();
                 databaseoutputcount ++;
@@ -940,7 +941,7 @@ public class etlsqls {
             // 开始插入操作
 //            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
             // 通过 excel load fail 导入
-        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),userinfo2FilePath,"userinfo",userinfo.class,null,null));
+        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),userinfo2FilePath,"userinfo",userinfo.class,starttime,endtime));
         return 0;
 
     }
