@@ -96,7 +96,6 @@ public class jpanelsched extends JPanel {
             List<factjobscheduler> listjobs = etlsqls.listScheduerInfos();
             for (int i = 0; i < tableModel.getRowCount(); i++) {
                 boolean needUpdate = false;
-
                 Boolean isSelected = (Boolean) tableModel.getValueAt(i, 0);
                 // 如果JobId被选中了，而且是Down 状态可以启动
                 if (isSelected != null && isSelected) {
@@ -118,7 +117,6 @@ public class jpanelsched extends JPanel {
                                         invokeflag = true;
                                     }
                                 }
-
                             }
                             if(needUpdate){
                                 if("Down".equals(factjobschedulerItem.getStatus())){
@@ -127,12 +125,10 @@ public class jpanelsched extends JPanel {
                                     factjobschedulerItemUpdate.setJob_name(tableModel.getValueAt(i, 2).toString());
                                     factjobschedulerItemUpdate.setJob_frequency(Integer.parseInt("15"));
                                 }
-
                             }
                         }
                         factjobschedulerItemUpdate.setStatus("running");
                         factjobschedulerItemUpdate.setNum_of_calls(0);
-
                     }
                     try {
                         if(needUpdate){
@@ -175,7 +171,7 @@ public class jpanelsched extends JPanel {
                    // 实时比率
                    etlsqls.fail_reason_monitoring();
                    // 实时比率明细
-                   etlsqls.fail_reason_monitordetail();
+                   etlsqls.fail_current_fail_count();
                    factjobscheduler factjobschedulerItemUpdate = new factjobscheduler();
                    factjobschedulerItemUpdate.setJob_id(factjobschedulerItem.getJob_id());
                    factjobschedulerItemUpdate.setStatus("running");

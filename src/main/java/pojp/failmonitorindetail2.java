@@ -1,18 +1,15 @@
 package pojp;
 
-public class failmonitorindetail {
+public class failmonitorindetail2 {
 
     public String hour;
 
     public String city;
     public String province;
     public String country;
-
     public String fail_reason;
-
-    public Integer fail_count;
-
-    public double fail_ratio;
+    public Integer fail_total_num;
+    public Integer fail_num;
 
 
     public String getHour() {
@@ -31,20 +28,20 @@ public class failmonitorindetail {
         this.fail_reason = fail_reason;
     }
 
-    public Integer getFail_count() {
-        return fail_count;
+    public Integer getFail_total_num() {
+        return fail_total_num;
     }
 
-    public void setFail_count(Integer fail_count) {
-        this.fail_count = fail_count;
+    public void setFail_total_num(Integer fail_total_num) {
+        this.fail_total_num = fail_total_num;
     }
 
-    public double getFail_ratio() {
-        return fail_ratio;
+    public Integer getFail_num() {
+        return fail_num;
     }
 
-    public void setFail_ratio(double fail_ratio) {
-        this.fail_ratio = fail_ratio;
+    public void setFail_num(Integer fail_num) {
+        this.fail_num = fail_num;
     }
 
     public String getCity() {

@@ -11,7 +11,14 @@ import java.time.format.DateTimeFormatter;
 
 public class timeutils {
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static DateTimeFormatter formatHours = DateTimeFormatter.ofPattern("dd/HH");
 
+    public static void main(String[] args) {
+       String[] aa =  timeutils.getPastAndFutureHours();
+        for(String ss:aa){
+            System.out.println(ss);
+        }
+    }
     public static  String getCurrentTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(new java.util.Date());
@@ -29,12 +36,60 @@ public class timeutils {
         System.out.println("转换后的时间：" + formattedTime);
         return formattedTime;
     }
+
+    public static String getPast24Hours() {
+        // 获取当前时间
+        LocalDateTime now = LocalDateTime.now();
+
+        // 获取当前时间减去24小时
+        LocalDateTime past24Hours = now.minusHours(24);
+
+        // 格式化并返回过去24小时的时间
+        return past24Hours.format(formatter);
+    }
+
     public static String getDayStart(){
         // 获取今天的 00:00:00
         LocalDateTime todayStart = LocalDate.now().atStartOfDay();
         // 格式化输出
         System.out.println("今天开始时间：" + todayStart.format(formatter));
         return todayStart.format(formatter);
+    }
+
+
+
+
+    public static String[] getPastAndFutureHours() {
+        // 获取当前时间
+        LocalDateTime now = LocalDateTime.now();
+
+        // 创建一个数组来存储过去24小时和未来7小时的日期
+        String[] hoursArray = new String[31]; // 24 + 7 = 31
+
+        // 填充过去24小时的时间
+        for (int i = 0; i < 24; i++) {
+            // 获取当前时间减去i小时的时间
+            LocalDateTime pastHour = now.minusHours(i); // 需要加1，因为i从0开始
+            hoursArray[i] = pastHour.format(formatHours); // 格式化为"MM/dd"
+        }
+
+        // 填充接下来的7小时
+        for (int i = 0; i < 7; i++) {
+            // 获取当前时间加上i小时的时间
+            LocalDateTime futureHour = now.plusHours(i + 1); // 需要加1，因为i从0开始
+            hoursArray[24 + i] = futureHour.format(formatHours); // 格式化为"MM/dd"
+        }
+
+        return hoursArray;
+    }
+
+
+    public static String getTwoDaysAgoStart() {
+        // 获取2天前的开始时间 (00:00:00)
+        LocalDateTime twoDaysAgoStart = LocalDate.now().minusDays(2).atStartOfDay();
+        // 格式化输出
+        System.out.println("两天前开始时间：" + twoDaysAgoStart.format(formatter));
+        return twoDaysAgoStart.format(formatter);
     }
     public static Date getConvertDate(String date){
         java.sql.Date sqlDate = null;

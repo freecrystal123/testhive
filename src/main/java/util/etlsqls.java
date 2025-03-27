@@ -103,6 +103,8 @@ public class etlsqls {
 
     public static String failreason2FilePath  = basepath+"failreason2FilePath.csv";
 
+    public static String currentfailcount2FilePath = basepath+"currentfailcount2FilePath.csv";
+
     public static String failreasondetails2FilePath  = basepath+"failreasondetails2FilePath.csv";
 
     public static String failreasonhis2FilePath  = basepath+"failreasonhis2FilePath.csv";
@@ -123,9 +125,11 @@ public class etlsqls {
 //        last7days_rate();
 //        fail_reason_monitoring();
 //        fail_reason_monitordetail();
-        orderwintosqlserver();
+//        fail_reason_monitordetail2();
+//        orderwintosqlserver();
         //rgusersstatics();
         //rgdispositedlimitselftimeout();
+        fail_current_fail_count();
 
     }
     public static String logs1 ;
@@ -315,6 +319,114 @@ public class etlsqls {
 
     }
 
+
+    public static int fail_reason_monitordetail2()  throws Exception {
+
+        String starttime = timeutils.getTwoDaysAgoStart();
+        String endtime = timeutils.getNowTime();
+        String[] command = {
+                "curl",
+                "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
+                "-X", "POST",
+                "--data-urlencode", "q= select \n" +
+                "aaa.hour,\n" +
+                " country,\n" +
+                "    city,\n" +
+                "    fail_reason,\n" +
+                "    fail_total_num,\n" +
+                "    fail_num\n" +
+                "from (\n" +
+                " SELECT \n" +
+                "    concat(SUBSTR(CAST(time AS STRING), 9, 2),'-',SUBSTR(CAST(time AS STRING), 12, 2)) AS hour,\n" +
+                "    count(1) fail_total_num\n" +
+                "   FROM events\n" +
+                "WHERE event = 'recharge_result' \n" +
+                "    AND recharge_method = 'PayBy Direct Payment'\n" +
+                "    and time > '"+starttime+"'\n" +
+                "    and time < '"+endtime+"'\n" +
+                "    AND fail_reason IS NOT NULL and fail_reason != 'TIMEOUT' \n" +
+                "group by concat(SUBSTR(CAST(time AS STRING), 9, 2),'-',SUBSTR(CAST(time AS STRING), 12, 2)) ) aaa \n" +
+                "left join (\n" +
+                "select \n" +
+                "    hour,\n" +
+                "    country,\n" +
+                "    city,\n" +
+                "    fail_reason,\n" +
+                "    count(1) fail_num\n" +
+                "    from (\n" +
+                "SELECT \n" +
+                "    user_id,\n" +
+                "    concat(SUBSTR(CAST(time AS STRING), 9, 2),'-',SUBSTR(CAST(time AS STRING), 12, 2)) AS hour,\n" +
+                "    fail_reason\n" +
+                "   FROM events\n" +
+                "WHERE event = 'recharge_result' \n" +
+                "    AND recharge_method = 'PayBy Direct Payment'\n" +
+                "    and time > '"+starttime+"'\n" +
+                "    and time < '"+endtime+"'\n" +
+                "    AND fail_reason IS NOT NULL and fail_reason != 'TIMEOUT' \n" +
+                ") aa left join users on aa.user_id = users.id \n" +
+                "group by  hour,\n" +
+                "    country,\n" +
+                "    city,\n" +
+                "    fail_reason\n" +
+                "    ) bbb on aaa.hour = bbb.hour\n" +
+                "      ",
+                "--data-urlencode", "format=json",
+        };
+
+
+        // 输出 逻辑
+
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(failreasondetails2FilePath));
+
+        // 执行 curl 命令
+        Process process = Runtime.getRuntime().exec(command);
+        // 读取命令输出
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        int databaseoutputcount = 0;
+        while ((line = reader.readLine()) != null) {
+            failmonitorindetail2 person = gson.fromJson(line, failmonitorindetail2.class);
+            writer.write(person.hour + "," +person.city + ","  +person.province + "," +person.country + ","  +"\""+ person.fail_reason + "\"" + "," + person.fail_total_num  + "," + person.fail_num);
+            writer.newLine();
+            databaseoutputcount ++;
+            if(databaseoutputcount%10==0){
+                System.out.println(" 目前是"+databaseoutputcount+"\n");
+            }
+        }
+        InLog(msg.toString());
+        // 等待命令执行完成
+
+        if(databaseoutputcount==0){
+            InLog("please check vpn !");
+            throw new Exception("please check vpn!");
+        }
+
+        int exitCode = process.waitFor();
+        if (exitCode == 0) {
+            System.out.println("Curl command executed successfully ！");
+            InLog( msg + "Curl command executed successfully ！");
+        } else {
+            System.out.println("Curl command failed with exit code: " + exitCode);
+            InLog( msg + "Curl command failed with exit code: " + exitCode);
+
+        }
+
+        writer.close();
+        /** 阿里云插入限制 **/
+        // 开始插入操作
+//            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
+        // 通过 excel load fail 导入
+        InLog("failreasondetails2FilePath:"+failreasondetails2FilePath);
+        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),failreasondetails2FilePath,"fact_fail_monitoring_details2_h",failmonitorindetail2.class,null,null));
+        return 0;
+
+
+    }
+
+
+
      public static int fail_reason_monitordetail()  throws Exception {
 
          String starttime = timeutils.getDayStart();
@@ -325,6 +437,9 @@ public class etlsqls {
                  "-X", "POST",
                  "--data-urlencode", "q= SELECT \n" +
                  "    SUBSTR(CAST(time AS STRING), 12, 2) AS hour,\n" +
+                 "    $city AS city,\n" +
+                 "    $province AS province,\n" +
+                 "    $country AS country,\n" +
                  "    fail_reason,\n" +
                  "    COUNT(1) AS fail_count,\n" +
                  "    round(COUNT(1) * 1.0 / SUM(COUNT(1)) OVER (PARTITION BY SUBSTR(CAST(time AS STRING), 12, 2)) ,2) AS fail_ratio\n" +
@@ -336,7 +451,10 @@ public class etlsqls {
                  "    AND fail_reason IS NOT NULL and fail_reason != 'TIMEOUT' \n" +
                  "GROUP BY \n" +
                  "    SUBSTR(CAST(time AS STRING), 12, 2),\n" +
-                 "    recharge_method,\n" +
+                 "    recharge_method," +
+                 "    $city,\n" +
+                 "    $country,\n" +
+                 "    $province,\n" +
                  "    fail_reason;\n" +
                  "      ",
                  "--data-urlencode", "format=json",
@@ -356,7 +474,7 @@ public class etlsqls {
          int databaseoutputcount = 0;
          while ((line = reader.readLine()) != null) {
              failmonitorindetail person = gson.fromJson(line, failmonitorindetail.class);
-             writer.write(person.hour + "," + "\"" + person.fail_reason + "\"" + "," + person.fail_count + "," + person.fail_ratio);
+             writer.write(person.hour + "," +person.city + ","  +person.province + "," +person.country + ","  +"\""+ person.fail_reason + "\"" + "," + person.fail_count  + "," + person.fail_ratio);
              writer.newLine();
              databaseoutputcount ++;
              if(databaseoutputcount%10==0){
@@ -393,88 +511,151 @@ public class etlsqls {
 
      }
 
-     public static int fail_reason_monitoring() throws Exception{
+
+
+    public static int fail_current_fail_count() throws Exception{
 
         String starttime = timeutils.getDayStart();
         String endtime = timeutils.getNowTime();
+
+        StringBuffer SQLBuffer = new StringBuffer();
+
+        SQLBuffer.append("\n" +
+                "SELECT\n" +
+                "    hour,\n" +
+                "    current_fail_count\n" +
+                "FROM (\n" +
+                "    SELECT \n" +
+                "        CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 12, 2)) AS hour,\n" +
+                "        SUM(CASE WHEN is_success = 0 THEN 1 ELSE 0 END) AS current_fail_count,\n" +
+                "        SUM(1) AS all_count,\n" +
+                "        ROW_NUMBER() OVER (ORDER BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 12, 2))) AS rn\n" +
+                "    FROM events\n" +
+                "    WHERE event = 'recharge_result'\n" +
+                "        AND time > '"+starttime+"'\n" +
+                "        AND time < '"+endtime+"'\n" +
+                "    GROUP BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 12, 2))\n" +
+                ") AS result\n" +
+                "WHERE rn = (SELECT MAX(rn) FROM (\n" +
+                "                SELECT \n" +
+                "                    ROW_NUMBER() OVER (ORDER BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 12, 2))) AS rn\n" +
+                "                FROM events\n" +
+                "                WHERE event = 'recharge_result'\n" +
+                "                    AND time > '"+starttime+"'\n" +
+                "                    AND time < '"+endtime+"'\n" +
+                "                GROUP BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 12, 2))\n" +
+                "            ) AS subquery);");
+
+
+
+        String[] command = {
+                "curl",
+                "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
+                "-X", "POST",
+                "--data-urlencode", "q= "+SQLBuffer,
+                "--data-urlencode", "format=json",
+        };
+        BufferedWriter writer = new BufferedWriter(new FileWriter(currentfailcount2FilePath));
+
+        // 执行 curl 命令
+        Process process = Runtime.getRuntime().exec(command);
+        // 读取命令输出
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        int databaseoutputcount = 0;
+        while ((line = reader.readLine()) != null) {
+            currentfailcount person = gson.fromJson(line, currentfailcount.class);
+            writer.write(person.hour+","+person.current_fail_count);
+            databaseoutputcount ++;
+        }
+        InLog(msg.toString());
+        // 等待命令执行完成
+
+        if(databaseoutputcount==0){
+            InLog("please check vpn !");
+            throw new Exception("please check vpn!");
+        }
+
+        int exitCode = process.waitFor();
+        if (exitCode == 0) {
+            System.out.println("Curl command executed successfully ！");
+            InLog( msg + "Curl command executed successfully ！");
+        } else {
+            System.out.println("Curl command failed with exit code: " + exitCode);
+            InLog( msg + "Curl command failed with exit code: " + exitCode);
+
+        }
+
+        writer.close();
+        /** 阿里云插入限制 **/
+        // 开始插入操作
+//            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
+        // 通过 excel load fail 导入
+        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),currentfailcount2FilePath,"fact_current_fail_count_h",currentfailcount.class,null,null));
+        return 0;
+
+
+    }
+
+
+
+
+
+     public static int fail_reason_monitoring() throws Exception{
+
+        String starttime = timeutils.getDayStart();
+        String past24Hours = timeutils.getPast24Hours();
+        String endtime = timeutils.getNowTime();
         String before7days =  timeutils.get7DayAgo();
+
+        StringBuffer SQLBuffer = new StringBuffer();
+         SQLBuffer.append(
+                         "select \n" +
+                         "aahour.hour,\n" +
+                         "avg7days_count,\n" +
+                         "round(nvl(fail_count/all_count,0),2) fail_rate,\n" +
+                         "nvl(fail_count,0) fail_count,\n" +
+                         "nvl(all_count,0) all_count\n" +
+                         "from (\n" );
+         int totalcount = timeutils.getPastAndFutureHours().length;
+         int processint = 0;
+         for(String hours:timeutils.getPastAndFutureHours()){
+             processint ++;
+                 if(processint==totalcount){
+                 SQLBuffer.append("SELECT ").append("'"+hours+"'").append(" as hour");
+             } else{
+                 SQLBuffer.append("SELECT ").append("'"+hours+"'").append(" as hour").append("\n union ");
+             }
+
+         }
+         String sqlLast = ") aahour cross join (\n" +
+                 "select round(avg(sum7days_rate),0) avg7days_count from (\n" +
+                 "select \n" +
+                 "round(sum(case when is_success=0 then 1 else 0 end ) ,2) sum7days_rate,\n" +
+                 "CONCAT(substr(cast(time as string),9,2),'/',substr(cast(time as string),12,2)) hour\n" +
+                 "from  events " +
+                 "where event = 'recharge_result' " +
+                 "and time > '"+before7days+"'\n" +
+                 "and time < '"+starttime+"'\n" +
+                 "group by CONCAT(substr(cast(time as string),9,2),'/',substr(cast(time as string),12,2))) abc" +
+                 ") bb left join (select \n" +
+                 "CONCAT(substr(cast(time as string),9,2),'/',substr(cast(time as string),12,2)) hour\n" +
+                 ",sum(case when is_success=0 then 1 else 0 end ) fail_count\n" +
+                 ",sum(1) all_count\n" +
+                 "from  events \n" +
+                 "where event = 'recharge_result'\n" +
+                 "and time > '"+past24Hours+"'\n" +
+                 "and time < '"+endtime+"'\n" +
+                 "group by CONCAT(substr(cast(time as string),9,2),'/',substr(cast(time as string),12,2))) aa on aahour.hour=aa.hour  ";
+         SQLBuffer.append(sqlLast);
+
+
+
          String[] command = {
                  "curl",
                  "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
                  "-X", "POST",
-                 "--data-urlencode", "q= \n" +
-                 "select \n" +
-                 "aahour.hour,\n" +
-                 "avg7days_rate,\n" +
-                 "nvl(success_count,0) success_count,\n" +
-                 "nvl(all_count,0) all_count,\n" +
-                 "nvl(success_rate,avg7days_rate+0.1) success_rate\n" +
-                 "from (\n" +
-                 "SELECT '00' AS hour\n" +
-                 "UNION\n" +
-                 "SELECT '01'\n" +
-                 "UNION\n" +
-                 "SELECT '02'\n" +
-                 "UNION\n" +
-                 "SELECT '03'\n" +
-                 "UNION\n" +
-                 "SELECT '04'\n" +
-                 "UNION\n" +
-                 "SELECT '05'\n" +
-                 "UNION\n" +
-                 "SELECT '06'\n" +
-                 "UNION\n" +
-                 "SELECT '07'\n" +
-                 "UNION\n" +
-                 "SELECT '08'\n" +
-                 "UNION\n" +
-                 "SELECT '09'\n" +
-                 "UNION\n" +
-                 "SELECT '10'\n" +
-                 "UNION\n" +
-                 "SELECT '11'\n" +
-                 "UNION\n" +
-                 "SELECT '12'\n" +
-                 "UNION\n" +
-                 "SELECT '13'\n" +
-                 "UNION\n" +
-                 "SELECT '14'\n" +
-                 "UNION\n" +
-                 "SELECT '15'\n" +
-                 "UNION\n" +
-                 "SELECT '16'\n" +
-                 "UNION\n" +
-                 "SELECT '17'\n" +
-                 "UNION\n" +
-                 "SELECT '18'\n" +
-                 "UNION\n" +
-                 "SELECT '19'\n" +
-                 "UNION\n" +
-                 "SELECT '20'\n" +
-                 "UNION\n" +
-                 "SELECT '21'\n" +
-                 "UNION\n" +
-                 "SELECT '22'\n" +
-                 "UNION\n" +
-                 "SELECT '23'\n" +
-                 ") aahour cross join (\n" +
-                 "select \n" +
-                 "round(sum(case when is_success=1 then 1 else 0 end )/sum(1)-0.1 ,2) avg7days_rate\n" +
-                 "from  events \n" +
-                 "where event = 'recharge_result'\n" +
-                 "and time > '"+before7days+"'\n" +
-                 "and time < '"+starttime+"'\n" +
-                 ") bb left join (\n" +
-                 "select \n" +
-                 "substr(cast(time as string),12,2) hour\n" +
-                 ",sum(case when is_success=1 then 1 else 0 end ) success_count\n" +
-                 ",sum(1) all_count\n" +
-                 ",round(sum(case when is_success=1 then 1 else 0 end )/sum(1),2) success_rate\n" +
-                 "from  events \n" +
-                 "where event = 'recharge_result'\n" +
-                 "and time > '"+starttime+"'\n" +
-                 "and time < '"+endtime+"'\n" +
-                 "group by substr(cast(time as string),12,2)) aa on aahour.hour=aa.hour  ",
+                 "--data-urlencode", "q= "+SQLBuffer,
                  "--data-urlencode", "format=json",
          };
 
@@ -491,8 +672,8 @@ public class etlsqls {
          String line;
          int databaseoutputcount = 0;
          while ((line = reader.readLine()) != null) {
-             failmonitoring person = gson.fromJson(line, failmonitoring.class);
-             writer.write(person.hour+","+person.success_count+","+person.all_count+","+person.success_rate+","+person.avg7days_rate);
+             failmonitoring2 person = gson.fromJson(line, failmonitoring2.class);
+             writer.write(person.hour+","+person.avg7days_count+","+person.fail_rate+","+person.fail_count+","+person.all_count);
              writer.newLine();
              databaseoutputcount ++;
              if(databaseoutputcount%10==0){
@@ -523,7 +704,7 @@ public class etlsqls {
 //            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
          // 通过 excel load fail 导入
          InLog("failreason2FilePath:"+failreason2FilePath);
-         InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),failreason2FilePath,"fact_fail_monitoring_rate_h",failmonitoring.class,null,null));
+         InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),failreason2FilePath,"fact_fail_monitoring2_rate_h",failmonitoring2.class,null,null));
          return 0;
 
 
