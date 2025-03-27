@@ -26,6 +26,7 @@ swingpkg/components/jpanelshowandaddreplenish.class
 swingpkg/components/jpaneldiffdedup$4.class
 jdbc/sqlserverjdbcconn.class
 pojp/orderwin0122.class
+pojp/currentfailcount.class
 Scheduled/scheduledfailreason.class
 swingpkg/JavaFXPanelEtl.class
 swingpkg/components/jpanelsched$1.class
@@ -34,6 +35,7 @@ winnerperson.class
 swingpkg/SwingPanelEtl$2.class
 swingpkg/components/jpaneldiffdedup.class
 swingpkg/components/jpaneladd.class
+pojp/failmonitorindetail2.class
 swingpkg/components/jpaneldiffdedup$3.class
 util/fileHander.class
 pojp/dbconntype$sqlserverconn.class
@@ -47,6 +49,7 @@ util/deduplication.class
 pojp/usercnt.class
 pojp/optdata.class
 pojp/userdata.class
+pojp/failmonitoring2.class
 pojp/orderwintosqlserver.class
 util/etlsqls$1.class
 testparse.class
