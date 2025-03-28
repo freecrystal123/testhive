@@ -126,11 +126,11 @@ public class dmlacid {
             String insertSQL = "INSERT INTO " + tablename + " (" + fieldNames + ") VALUES (" + placeholders + ")";
             String DelSQL = "";
             if("userinfo".equals(tablename)){
-                 DelSQL = "DELETE FROM " + tablename + " WHERE update_date >= '" + startdate + "' AND update_date <= '" + enddate + "'";
+                 DelSQL = "DELETE FROM " + tablename + " WHERE update_date >= '" + startdate + "' AND update_date < '" + enddate + "'";
             }
             else
             {
-                 DelSQL = "DELETE FROM " + tablename + " WHERE dateid >= '" + startdate + "' AND dateid <= '" + enddate + "'";
+                 DelSQL = "DELETE FROM " + tablename + " WHERE dateid >= '" + startdate + "' AND dateid < '" + enddate + "'";
             }
             try (Statement stmt = connection.createStatement()) {
                 String sql = (startdate == null) ? "DELETE FROM " + tablename + " WHERE 1=1"
@@ -143,24 +143,28 @@ public class dmlacid {
                 String[] values;
                 boolean firstLine = true; // 如果第一行是表头，可以跳过
                 int batchSize = 0;
-
+                StringBuffer useridbuffer = new StringBuffer();
                 while ((values = csvReader.readNext()) != null) {
-                    // 如果 CSV 第一行是表头，取消下面的注释以跳过
-//                if (firstLine) {
-//                    firstLine = false;
-//                    continue;
-//                }
-
                     for (int i = 0; i < values.length; i++) {
                         pstmt.setString(i + 1, values[i].trim()); // 处理每个字段，去掉多余空格
+                        if("userinfo".equals(tablename)){
+                            useridbuffer.append("'"+values[0]+"',");
+                        }
                         System.out.println(values.length + ": " + values[i]);
                     }
 
                     pstmt.addBatch();
                     batchSize++;
 
-                    // 每 1000 行执行一次批量插入，提高效率
-                    if (batchSize % 1000 == 0) {
+                    // 每 3000 行执行一次批量插入，提高效率
+                    if (batchSize % 3000 == 0) {
+                        if("userinfo".equals(tablename)){
+                            try (Statement stmt = connection.createStatement()) {
+                                String sql =  "DELETE FROM " + tablename + " WHERE uid in ("+useridbuffer.toString().substring(0,useridbuffer.toString().length()-1)+");";
+                                stmt.executeUpdate(sql);
+                                useridbuffer = new StringBuffer();
+                            }
+                        }
                         pstmt.executeBatch();
                     }
                 }
