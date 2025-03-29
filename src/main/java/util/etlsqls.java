@@ -123,7 +123,7 @@ public class etlsqls {
 
     public static void main(String[] args) throws Exception{
 //        last7days_rate();
-//        fail_reason_monitoring();
+        fail_reason_monitoring();
 //        fail_reason_monitordetail();
 //        fail_reason_monitordetail2();
 //        orderwintosqlserver();
@@ -328,48 +328,49 @@ public class etlsqls {
                 "curl",
                 "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
                 "-X", "POST",
-                "--data-urlencode", "q= select \n" +
-                "aaa.hour,\n" +
-                " country,\n" +
-                "    city,\n" +
-                "    fail_reason,\n" +
-                "    fail_total_num,\n" +
-                "    fail_num\n" +
-                "from (\n" +
-                " SELECT \n" +
-                "    concat(SUBSTR(CAST(time AS STRING), 9, 2),'-',SUBSTR(CAST(time AS STRING), 12, 2)) AS hour,\n" +
-                "    count(1) fail_total_num\n" +
-                "   FROM events\n" +
-                "WHERE event = 'recharge_result' \n" +
-                "    AND recharge_method = 'PayBy Direct Payment'\n" +
-                "    and time > '"+starttime+"'\n" +
-                "    and time < '"+endtime+"'\n" +
-                "    AND fail_reason IS NOT NULL and fail_reason != 'TIMEOUT' \n" +
-                "group by concat(SUBSTR(CAST(time AS STRING), 9, 2),'-',SUBSTR(CAST(time AS STRING), 12, 2)) ) aaa \n" +
-                "left join (\n" +
-                "select \n" +
-                "    hour,\n" +
-                "    country,\n" +
-                "    city,\n" +
-                "    fail_reason,\n" +
-                "    count(1) fail_num\n" +
-                "    from (\n" +
-                "SELECT \n" +
-                "    user_id,\n" +
-                "    concat(SUBSTR(CAST(time AS STRING), 9, 2),'-',SUBSTR(CAST(time AS STRING), 12, 2)) AS hour,\n" +
-                "    fail_reason\n" +
-                "   FROM events\n" +
-                "WHERE event = 'recharge_result' \n" +
-                "    AND recharge_method = 'PayBy Direct Payment'\n" +
-                "    and time > '"+starttime+"'\n" +
-                "    and time < '"+endtime+"'\n" +
-                "    AND fail_reason IS NOT NULL and fail_reason != 'TIMEOUT' \n" +
-                ") aa left join users on aa.user_id = users.id \n" +
-                "group by  hour,\n" +
-                "    country,\n" +
-                "    city,\n" +
-                "    fail_reason\n" +
-                "    ) bbb on aaa.hour = bbb.hour\n" +
+                "--data-urlencode", "q= SELECT \n" +
+                "    aaa.hour,\n" +
+                "    bbb.country,\n" +
+                "    case when (bbb.city = 'null' or bbb.city is null)  then 'Other' else bbb.city end  city,\n" +
+                "    bbb.fail_reason,\n" +
+                "    aaa.fail_total_num,\n" +
+                "    bbb.fail_num\n" +
+                "FROM (\n" +
+                "    -- Subquery aaa: Counts total number of failed recharge attempts per hour\n" +
+                "    SELECT \n" +
+                "        CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2)) AS hour,\n" +
+                "        COUNT(1) AS fail_total_num\n" +
+                "    FROM events\n" +
+                "    WHERE event = 'recharge_result' \n" +
+                "        AND recharge_method = 'PayBy Direct Payment'\n" +
+                "        AND time > '"+starttime+"'\n" +
+                "        AND time < '"+endtime+"'\n" +
+                "        AND fail_reason IS NOT NULL \n" +
+                "        AND fail_reason != 'TIMEOUT'\n" +
+                "    GROUP BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2))\n" +
+                ") aaa\n" +
+                "LEFT JOIN (\n" +
+                "    -- Subquery bbb: Counts failed recharge attempts per hour, country, city, and reason\n" +
+                "    SELECT \n" +
+                "        CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2)) AS hour,\n" +
+                "        users.country,\n" +
+                "        users.city,\n" +
+                "        fail_reason,\n" +
+                "        COUNT(1) AS fail_num\n" +
+                "    FROM events\n" +
+                "    JOIN users ON events.user_id = users.id\n" +
+                "    WHERE event = 'recharge_result' \n" +
+                "        AND recharge_method = 'PayBy Direct Payment'\n" +
+                "        AND time > '"+starttime+"'\n" +
+                "        AND time < '"+endtime+"'\n" +
+                "        AND fail_reason IS NOT NULL \n" +
+                "        AND fail_reason != 'TIMEOUT'\n" +
+                "    GROUP BY \n" +
+                "        CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2)),\n" +
+                "        users.country,\n" +
+                "        users.city,\n" +
+                "        fail_reason\n" +
+                ") bbb ON aaa.hour = bbb.hour " +
                 "      ",
                 "--data-urlencode", "format=json",
         };
@@ -520,31 +521,37 @@ public class etlsqls {
 
         StringBuffer SQLBuffer = new StringBuffer();
 
-        SQLBuffer.append("\n" +
-                "SELECT\n" +
+        SQLBuffer.append("SELECT\n" +
                 "    hour,\n" +
                 "    current_fail_count\n" +
                 "FROM (\n" +
                 "    SELECT \n" +
-                "        CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 12, 2)) AS hour,\n" +
+                "        CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2)) AS hour,\n" +
                 "        SUM(CASE WHEN is_success = 0 THEN 1 ELSE 0 END) AS current_fail_count,\n" +
                 "        SUM(1) AS all_count,\n" +
-                "        ROW_NUMBER() OVER (ORDER BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 12, 2))) AS rn\n" +
+                "        ROW_NUMBER() OVER (ORDER BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2))) AS rn\n" +
                 "    FROM events\n" +
                 "    WHERE event = 'recharge_result'\n" +
+                "    and recharge_method = 'PayBy Direct Payment' " +
+                "    and fail_reason IS NOT NULL  AND fail_reason != 'TIMEOUT'" +
                 "        AND time > '"+starttime+"'\n" +
                 "        AND time < '"+endtime+"'\n" +
-                "    GROUP BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 12, 2))\n" +
+                "    GROUP BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2))\n" +
                 ") AS result\n" +
-                "WHERE rn = (SELECT MAX(rn) FROM (\n" +
-                "                SELECT \n" +
-                "                    ROW_NUMBER() OVER (ORDER BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 12, 2))) AS rn\n" +
-                "                FROM events\n" +
-                "                WHERE event = 'recharge_result'\n" +
-                "                    AND time > '"+starttime+"'\n" +
-                "                    AND time < '"+endtime+"'\n" +
-                "                GROUP BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 12, 2))\n" +
-                "            ) AS subquery);");
+                "WHERE rn = (\n" +
+                "    SELECT MAX(rn)\n" +
+                "    FROM (\n" +
+                "        SELECT \n" +
+                "            ROW_NUMBER() OVER (ORDER BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2))) AS rn\n" +
+                "        FROM events\n" +
+                "        WHERE event = 'recharge_result'\n" +
+                "    and recharge_method = 'PayBy Direct Payment' " +
+                "    and fail_reason IS NOT NULL  AND fail_reason != 'TIMEOUT'" +
+                "            AND time > '"+starttime+"'\n" +
+                "            AND time < '"+endtime+"'\n" +
+                "        GROUP BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2))\n" +
+                "    ) AS subquery\n" +
+                ");");
 
 
 
@@ -631,22 +638,22 @@ public class etlsqls {
          String sqlLast = ") aahour cross join (\n" +
                  "select round(avg(sum7days_rate),0) avg7days_count from (\n" +
                  "select \n" +
-                 "round(sum(case when is_success=0 then 1 else 0 end ) ,2) sum7days_rate,\n" +
-                 "CONCAT(substr(cast(time as string),9,2),'/',substr(cast(time as string),12,2)) hour\n" +
+                 "round(sum(case when is_success=0  AND recharge_method = 'PayBy Direct Payment' and fail_reason IS NOT NULL  AND fail_reason != 'TIMEOUT' then 1 else 0 end ) ,2) sum7days_rate,\n" +
+                 "CONCAT(SUBSTR(CAST(time AS STRING), 9, 2),'/',SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2)) hour\n" +
                  "from  events " +
-                 "where event = 'recharge_result' " +
+                 "where event = 'recharge_result'" +
                  "and time > '"+before7days+"'\n" +
                  "and time < '"+starttime+"'\n" +
-                 "group by CONCAT(substr(cast(time as string),9,2),'/',substr(cast(time as string),12,2))) abc" +
+                 "group by CONCAT(SUBSTR(CAST(time AS STRING), 9, 2),'/',SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2))) abc" +
                  ") bb left join (select \n" +
-                 "CONCAT(substr(cast(time as string),9,2),'/',substr(cast(time as string),12,2)) hour\n" +
-                 ",sum(case when is_success=0 then 1 else 0 end ) fail_count\n" +
+                 "CONCAT(SUBSTR(CAST(time AS STRING), 9, 2),'/',SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2)) hour\n" +
+                 ",sum(case when is_success=0 and fail_reason IS NOT NULL  AND fail_reason != 'TIMEOUT' then 1 else 0 end ) fail_count\n" +
                  ",sum(1) all_count\n" +
                  "from  events \n" +
                  "where event = 'recharge_result'\n" +
                  "and time > '"+past24Hours+"'\n" +
                  "and time < '"+endtime+"'\n" +
-                 "group by CONCAT(substr(cast(time as string),9,2),'/',substr(cast(time as string),12,2))) aa on aahour.hour=aa.hour  ";
+                 "group by CONCAT(SUBSTR(CAST(time AS STRING), 9, 2),'/',SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2))) aa on aahour.hour=aa.hour  ";
          SQLBuffer.append(sqlLast);
 
 
