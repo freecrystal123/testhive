@@ -37,7 +37,7 @@ public class jpanelsched extends JPanel {
         String[] columnNames = {"Select", "Job Id","Job Name", "Job CallTime", "Job EndTime", "Job frequency", "Num of calls"};
         Object[][] data = {
                 {false,"1","Monitor Lottery", timeutils.getCurrentTime(), timeutils.getCurrentTime(), "15", 0},
-                {false,"2","Monitor TW", timeutils.getCurrentTime(), timeutils.getCurrentTime(), "15", 0}
+                {false,"2","Order Lottery", timeutils.getCurrentTime(), timeutils.getCurrentTime(), "15", 0}
         };
 
         // 初始化表格模型
@@ -99,37 +99,28 @@ public class jpanelsched extends JPanel {
                 Boolean isSelected = (Boolean) tableModel.getValueAt(i, 0);
                 // 如果JobId被选中了，而且是Down 状态可以启动
                 if (isSelected != null && isSelected) {
-                    hasSelection = true;
                     factjobscheduler  factjobschedulerItemUpdate = new factjobscheduler();
-                    StringBuilder rowContent = new StringBuilder();
-                    for (int j = 0; j < tableModel.getColumnCount(); j++) {
-                        rowContent.append(tableModel.getColumnName(j)).append(": ")
-                                .append(tableModel.getValueAt(i, j)).append(" | ");
-
                         for(factjobscheduler factjobschedulerItem:listjobs){
+                            Integer job_id = Integer.parseInt(tableModel.getValueAt(i, 1).toString());
+                            Integer job_id_database = factjobschedulerItem.getJob_id();
 
-                            if(j==1){
-                                Integer Job_Id = Integer.parseInt(tableModel.getValueAt(i, j).toString());
-                                if(Job_Id.equals(factjobschedulerItem.getJob_id()) ){
-                                    if("Down".equals(factjobschedulerItem.getStatus())){
-                                        factjobschedulerItemUpdate.setJob_id(Job_Id);
-                                        needUpdate = true;
-                                        invokeflag = true;
-                                    }
+                            if(job_id.equals(job_id_database)){
+                                if("Down".equals(factjobschedulerItem.getStatus())){
+                                    factjobschedulerItemUpdate.setJob_id(factjobschedulerItem.getJob_id());
+                                    needUpdate = true;
+                                    invokeflag = true;
                                 }
                             }
                             if(needUpdate){
-                                if("Down".equals(factjobschedulerItem.getStatus())){
                                     factjobschedulerItemUpdate.setCall_start_time(timeutils.getConvertDate(timeutils.getCurrentTime()));
                                     factjobschedulerItemUpdate.setLast_call_time(timeutils.getConvertDate(timeutils.getCurrentTime()));
                                     factjobschedulerItemUpdate.setJob_name(tableModel.getValueAt(i, 2).toString());
                                     factjobschedulerItemUpdate.setJob_frequency(Integer.parseInt("15"));
-                                }
+                                    factjobschedulerItemUpdate.setStatus("running");
+                                    factjobschedulerItemUpdate.setNum_of_calls(0);
                             }
                         }
-                        factjobschedulerItemUpdate.setStatus("running");
-                        factjobschedulerItemUpdate.setNum_of_calls(0);
-                    }
+
                     try {
                         if(needUpdate){
                             dmlacid.updateTableRecord(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),"fact_job_scheduler",factjobschedulerItemUpdate,"job_id" );
@@ -167,13 +158,18 @@ public class jpanelsched extends JPanel {
             List<factjobscheduler> listjobs = etlsqls.listScheduerInfos();
             for(factjobscheduler factjobschedulerItem:listjobs){
                if("running".equals( factjobschedulerItem.getStatus())){
-                   // 启动小时任务
-                   // 实时比率
-                   etlsqls.fail_reason_monitoring();
-                   // 实时比率明细
-                   etlsqls.fail_reason_monitordetail2();
-                   // current fail
-                   etlsqls.fail_current_fail_count();
+                   if("Monitor Lottery".equals(factjobschedulerItem.getJob_name()))
+                   {
+                       // 启动小时任务
+                       // 实时比率
+//                       etlsqls.fail_reason_monitoring();
+//                       // 实时比率明细
+//                       etlsqls.fail_reason_monitordetail2();
+//                       // current fail
+//                       etlsqls.fail_current_fail_count();
+                   } else if( "Order Lottery".equals(factjobschedulerItem.getJob_name())){
+                       etlsqls.orderwintosqlserver();
+                   }
                    factjobscheduler factjobschedulerItemUpdate = new factjobscheduler();
                    factjobschedulerItemUpdate.setJob_id(factjobschedulerItem.getJob_id());
                    factjobschedulerItemUpdate.setStatus("running");

@@ -22,6 +22,14 @@ public class jpanelshowandaddreplenish extends JPanel {
     static Properties financeJDBC = null;
 
 
+    static {
+        financeJDBC = new Properties();
+        financeJDBC.put("jdbcurl", "jdbc:mysql://20.174.38.36:3306/lottery_reporting?allowLoadLocalInfile=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useCompression=true");
+        financeJDBC.put("username", "Viviene");
+        financeJDBC.put("password", "VALe@1234");
+    }
+
+
     private DefaultTableModel tableModel1 = new DefaultTableModel();
 
     public jpanelshowandaddreplenish() {

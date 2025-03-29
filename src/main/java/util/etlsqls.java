@@ -31,18 +31,12 @@ public class etlsqls {
 
     // 定义JDBC 数据库连接
     static Properties financeJDBC = null;
-    static Properties alibabaJDBC = null;
     static {
         financeJDBC = new Properties();
         financeJDBC.put("jdbcurl", "jdbc:mysql://20.174.38.36:3306/lottery_reporting?allowLoadLocalInfile=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useCompression=true");
         financeJDBC.put("username","Viviene");
         financeJDBC.put("password","VALe@1234");
 
-
-        alibabaJDBC = new Properties();
-        alibabaJDBC.put("jdbcurl", "jdbc:mysql://47.99.103.128:3306/Lottery?allowLoadLocalInfile=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useCompression=true");
-        alibabaJDBC.put("username","root");
-        alibabaJDBC.put("password","1234");
 
         try {
             SSLContext context = SSLContext.getInstance("TLS");
@@ -126,7 +120,7 @@ public class etlsqls {
         fail_reason_monitoring();
 //        fail_reason_monitordetail();
 //        fail_reason_monitordetail2();
-//        orderwintosqlserver();
+        orderwintosqlserver();
         //rgusersstatics();
         //rgdispositedlimitselftimeout();
         fail_current_fail_count();
@@ -1034,12 +1028,7 @@ public class etlsqls {
     }
 
 
-    public static int userbussinessinfoDMLSQL() throws Exception{
 
-        InLog(dmlacid.executeSQLGeneral(mysqljdbcconn.getInstance().getConnection(),"delete from fact_user_bussinessinfo_d where 1=1;",alibabaJDBC));
-
-        return 0;
-    }
 
 
     public static int trafficdataandftdDMLSQL(String starttime,String endtime) throws Exception{
@@ -1243,7 +1232,7 @@ public class etlsqls {
             writer.close();
 
 
-            InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),orderwintosqlserver2FilePath,"stg.incre_orders",orderwintosqlserver.class,starttime,endtime));
+            InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),orderwintosqlserver2FilePath,"stg.incre_orders",orderwintosqlserver.class,null,null));
 
 
             return 0;
