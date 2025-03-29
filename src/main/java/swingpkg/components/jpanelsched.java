@@ -162,11 +162,11 @@ public class jpanelsched extends JPanel {
                    {
                        // 启动小时任务
                        // 实时比率
-//                       etlsqls.fail_reason_monitoring();
-//                       // 实时比率明细
-//                       etlsqls.fail_reason_monitordetail2();
-//                       // current fail
-//                       etlsqls.fail_current_fail_count();
+                       etlsqls.fail_reason_monitoring();
+                       // 实时比率明细
+                       etlsqls.fail_reason_monitordetail2();
+                       // current fail
+                       etlsqls.fail_current_fail_count();
                    } else if( "Order Lottery".equals(factjobschedulerItem.getJob_name())){
                        etlsqls.orderwintosqlserver();
                    }
