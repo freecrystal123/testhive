@@ -117,7 +117,7 @@ public class etlsqls {
 
     public static void main(String[] args) throws Exception{
 //        last7days_rate();
-        fail_reason_monitoring();
+//        fail_reason_monitoring();
 //        fail_reason_monitordetail();
 //        fail_reason_monitordetail2();
         orderwintosqlserver();
@@ -1182,8 +1182,6 @@ public class etlsqls {
         // 输出 逻辑
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(orderwintosqlserver2FilePath));
-//            writer.write("uid,lottery_type,order_id,investment_amount,lottery_entries,ordertime,series_number,winning_flag,winning_amount,draw_period,dateid");
-//            writer.newLine();
 
             // 执行 curl 命令
             Process process = Runtime.getRuntime().exec(command);
@@ -1192,7 +1190,6 @@ public class etlsqls {
             String line;
             int databaseoutputcount = 0;
             while ((line = reader.readLine()) != null) {
-//                        System.out.println(line);  // 打印输出
                 orderwintosqlserver person = gson.fromJson(line, orderwintosqlserver.class);
                 orderwintosqlserver.add(person);
                 writer.write(person.order_id+","+
@@ -1210,7 +1207,6 @@ public class etlsqls {
                 databaseoutputcount ++;
                 if(databaseoutputcount%10==0){
                     System.out.println(" 目前是"+databaseoutputcount+"\n");
-//                    msg.append(" 目前是"+databaseoutputcount+"\n");
                 }
             }
             InLog(msg.toString());
@@ -1232,7 +1228,7 @@ public class etlsqls {
             writer.close();
 
 
-            InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),orderwintosqlserver2FilePath,"stg.incre_orders",orderwintosqlserver.class,null,null));
+            InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),orderwintosqlserver2FilePath,"stg.incre_orders",orderwintosqlserver.class,starttime,endtime));
 
 
             return 0;
