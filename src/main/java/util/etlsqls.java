@@ -1129,7 +1129,6 @@ public class etlsqls {
         String endtime = timeutils.getNowTime();
 //        String starttime = "2025-03-28 00:00:00";
 //        String endtime = "2025-03-30 00:00:00";
-        String creation_date = starttime.substring(0,10);
         List<orderwintosqlserver> orderwintosqlserver = new ArrayList<>();
         String[] command = {
                 "curl",
@@ -1141,7 +1140,7 @@ public class etlsqls {
                 "abcd.lottery_type lottery,\n" +
                 "abcd.order_id,\n" +
                 "estimated_price  turnover,\n" +
-                "'"+creation_date+"' creation_date,\n" +
+                "substr(cast(time as string),1,19)  creation_date,\n" +
                 "lottery_entries entries,\n" +
                 "substr(cast(time as string),1,19) ordertime,\n" +
                 "series_number series_no,\n" +
