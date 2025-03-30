@@ -123,7 +123,7 @@ public class etlsqls {
         orderwintosqlserver();
         //rgusersstatics();
         //rgdispositedlimitselftimeout();
-        fail_current_fail_count();
+//        fail_current_fail_count();
 
     }
     public static String logs1 ;
@@ -1127,6 +1127,8 @@ public class etlsqls {
 
         String starttime = timeutils.getDayStart();
         String endtime = timeutils.getNowTime();
+//        String starttime = "2025-03-28 00:00:00";
+//        String endtime = "2025-03-30 00:00:00";
         String creation_date = starttime.substring(0,10);
         List<orderwintosqlserver> orderwintosqlserver = new ArrayList<>();
         String[] command = {
@@ -1138,7 +1140,7 @@ public class etlsqls {
                 "zz.uid user_id,\n" +
                 "abcd.lottery_type lottery,\n" +
                 "abcd.order_id,\n" +
-                "estimated_price  amount,\n" +
+                "estimated_price  turnover,\n" +
                 "'"+creation_date+"' creation_date,\n" +
                 "lottery_entries entries,\n" +
                 "substr(cast(time as string),1,19) ordertime,\n" +
@@ -1197,7 +1199,7 @@ public class etlsqls {
                         person.lottery+","+
                         person.series_no+","+
                         person.entries+","+
-                        person.amount+","+
+                        person.turnover+","+
                         person.creation_date+","+
                         person.prize+","+
                         person.winning_status + "," +

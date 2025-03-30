@@ -10,7 +10,7 @@ public class orderwintosqlserver {
     public String lottery;
     public String series_no;
     public Integer entries;
-    public float amount;
+    public float turnover;
     public String creation_date;
     public float prize;
     public String winning_status;
@@ -58,14 +58,13 @@ public class orderwintosqlserver {
         this.entries = entries;
     }
 
-    public float getAmount() {
-        return amount;
+    public float getTurnover() {
+        return turnover;
     }
 
-    public void setAmount(float amount) {
-        this.amount = amount;
+    public void setTurnover(float turnover) {
+        this.turnover = turnover;
     }
-
 
     public float getPrize() {
         return prize;
