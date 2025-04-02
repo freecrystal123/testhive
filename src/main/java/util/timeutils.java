@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 
 public class timeutils {
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    private static DateTimeFormatter formatHours = DateTimeFormatter.ofPattern("dd/MM:HH");
+    private static DateTimeFormatter formatHours = DateTimeFormatter.ofPattern("dd/MM HH:00");
 
     public static void main(String[] args) {
        String[] aa =  timeutils.getPastAndFutureHours();

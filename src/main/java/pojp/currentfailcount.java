@@ -4,6 +4,15 @@ public class currentfailcount {
 
     public String hour;
     public int current_fail_count;
+    public int all_count;
+
+    public int getAll_count() {
+        return all_count;
+    }
+
+    public void setAll_count(int all_count) {
+        this.all_count = all_count;
+    }
 
     public String getHour() {
         return hour;

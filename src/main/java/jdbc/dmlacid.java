@@ -125,7 +125,7 @@ public class dmlacid {
             String placeholders = fieldNames.replaceAll("[a-zA-Z0-9_]+", "?");
             String insertSQL = "INSERT INTO " + tablename + " (" + fieldNames + ") VALUES (" + placeholders + ")";
             String DelSQL = "";
-            if("userinfo".equals(tablename)){
+            if("stg.user_info".equals(tablename)){
                  DelSQL = "DELETE FROM " + tablename + " WHERE update_date >= '" + startdate + "' AND update_date < '" + enddate + "'";
             }
             else

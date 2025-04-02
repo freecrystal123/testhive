@@ -117,13 +117,13 @@ public class etlsqls {
 
     public static void main(String[] args) throws Exception{
 //        last7days_rate();
-//        fail_reason_monitoring();
+        fail_reason_monitoring();
 //        fail_reason_monitordetail();
-//        fail_reason_monitordetail2();
-        orderwintosqlserver();
+        fail_reason_monitordetail2();
+//        orderwintosqlserver();
         //rgusersstatics();
         //rgdispositedlimitselftimeout();
-//        fail_current_fail_count();
+        fail_current_fail_count();
 
     }
     public static String logs1 ;
@@ -332,7 +332,7 @@ public class etlsqls {
                 "FROM (\n" +
                 "    -- Subquery aaa: Counts total number of failed recharge attempts per hour\n" +
                 "    SELECT \n" +
-                "        CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2)) AS hour,\n" +
+                "        CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ' ', SUBSTR(CAST(time AS STRING), 12, 2),':00') AS hour,\n" +
                 "        COUNT(1) AS fail_total_num\n" +
                 "    FROM events\n" +
                 "    WHERE event = 'recharge_result' \n" +
@@ -341,12 +341,12 @@ public class etlsqls {
                 "        AND time < '"+endtime+"'\n" +
                 "        AND fail_reason IS NOT NULL \n" +
                 "        AND fail_reason != 'TIMEOUT'\n" +
-                "    GROUP BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2))\n" +
+                "    GROUP BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ' ', SUBSTR(CAST(time AS STRING), 12, 2),':00') \n" +
                 ") aaa\n" +
                 "LEFT JOIN (\n" +
                 "    -- Subquery bbb: Counts failed recharge attempts per hour, country, city, and reason\n" +
                 "    SELECT \n" +
-                "        CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2)) AS hour,\n" +
+                "        CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ' ', SUBSTR(CAST(time AS STRING), 12, 2),':00') AS hour,\n" +
                 "        users.country,\n" +
                 "        users.city,\n" +
                 "        fail_reason,\n" +
@@ -360,7 +360,7 @@ public class etlsqls {
                 "        AND fail_reason IS NOT NULL \n" +
                 "        AND fail_reason != 'TIMEOUT'\n" +
                 "    GROUP BY \n" +
-                "        CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2)),\n" +
+                "        CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ' ', SUBSTR(CAST(time AS STRING), 12, 2),':00'),\n" +
                 "        users.country,\n" +
                 "        users.city,\n" +
                 "        fail_reason\n" +
@@ -513,37 +513,36 @@ public class etlsqls {
         String starttime = timeutils.getDayStart();
         String endtime = timeutils.getNowTime();
 
+        String past24Hours = timeutils.getPast24Hours();
+
         StringBuffer SQLBuffer = new StringBuffer();
 
         SQLBuffer.append("SELECT\n" +
                 "    hour,\n" +
-                "    current_fail_count\n" +
+                "    current_fail_count," +
+                "    all_count \n" +
                 "FROM (\n" +
                 "    SELECT \n" +
-                "        CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2)) AS hour,\n" +
-                "        SUM(CASE WHEN is_success = 0 THEN 1 ELSE 0 END) AS current_fail_count,\n" +
+                "        CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ' ', SUBSTR(CAST(time AS STRING), 12, 2),':00') AS hour,\n" +
+                "        sum(case when is_success=0 and fail_reason IS NOT NULL  AND fail_reason != 'TIMEOUT' then 1 else 0 end )  AS current_fail_count,\n" +
                 "        SUM(1) AS all_count,\n" +
-                "        ROW_NUMBER() OVER (ORDER BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2))) AS rn\n" +
+                "        ROW_NUMBER() OVER (ORDER BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ' ', SUBSTR(CAST(time AS STRING), 12, 2),':00')) AS rn\n" +
                 "    FROM events\n" +
                 "    WHERE event = 'recharge_result'\n" +
-                "    and recharge_method = 'PayBy Direct Payment' " +
-                "    and fail_reason IS NOT NULL  AND fail_reason != 'TIMEOUT'" +
-                "        AND time > '"+starttime+"'\n" +
+                "        AND time > '"+past24Hours+"'\n" +
                 "        AND time < '"+endtime+"'\n" +
-                "    GROUP BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2))\n" +
+                "    GROUP BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ' ', SUBSTR(CAST(time AS STRING), 12, 2),':00')\n" +
                 ") AS result\n" +
                 "WHERE rn = (\n" +
                 "    SELECT MAX(rn)\n" +
                 "    FROM (\n" +
                 "        SELECT \n" +
-                "            ROW_NUMBER() OVER (ORDER BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2))) AS rn\n" +
+                "            ROW_NUMBER() OVER (ORDER BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ' ', SUBSTR(CAST(time AS STRING), 12, 2),':00')) AS rn\n" +
                 "        FROM events\n" +
                 "        WHERE event = 'recharge_result'\n" +
-                "    and recharge_method = 'PayBy Direct Payment' " +
-                "    and fail_reason IS NOT NULL  AND fail_reason != 'TIMEOUT'" +
-                "            AND time > '"+starttime+"'\n" +
+                "            AND time > '"+past24Hours+"'\n" +
                 "            AND time < '"+endtime+"'\n" +
-                "        GROUP BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2))\n" +
+                "        GROUP BY CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ' ', SUBSTR(CAST(time AS STRING), 12, 2),':00')\n" +
                 "    ) AS subquery\n" +
                 ");");
 
@@ -566,7 +565,7 @@ public class etlsqls {
         int databaseoutputcount = 0;
         while ((line = reader.readLine()) != null) {
             currentfailcount person = gson.fromJson(line, currentfailcount.class);
-            writer.write(person.hour+","+person.current_fail_count);
+            writer.write(person.hour+","+person.current_fail_count+","+person.all_count);
             databaseoutputcount ++;
         }
         InLog(msg.toString());
@@ -633,21 +632,21 @@ public class etlsqls {
                  "select round(avg(sum7days_rate),0) avg7days_count from (\n" +
                  "select \n" +
                  "round(sum(case when is_success=0  AND recharge_method = 'PayBy Direct Payment' and fail_reason IS NOT NULL  AND fail_reason != 'TIMEOUT' then 1 else 0 end ) ,2) sum7days_rate,\n" +
-                 "CONCAT(SUBSTR(CAST(time AS STRING), 9, 2),'/',SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2)) hour\n" +
+                 "CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ' ', SUBSTR(CAST(time AS STRING), 12, 2),':00') hour\n" +
                  "from  events " +
                  "where event = 'recharge_result'" +
                  "and time > '"+before7days+"'\n" +
                  "and time < '"+starttime+"'\n" +
-                 "group by CONCAT(SUBSTR(CAST(time AS STRING), 9, 2),'/',SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2))) abc" +
+                 "group by CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ' ', SUBSTR(CAST(time AS STRING), 12, 2),':00')) abc" +
                  ") bb left join (select \n" +
-                 "CONCAT(SUBSTR(CAST(time AS STRING), 9, 2),'/',SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2)) hour\n" +
+                 "CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ' ', SUBSTR(CAST(time AS STRING), 12, 2),':00') hour\n" +
                  ",sum(case when is_success=0 and fail_reason IS NOT NULL  AND fail_reason != 'TIMEOUT' then 1 else 0 end ) fail_count\n" +
                  ",sum(1) all_count\n" +
                  "from  events \n" +
                  "where event = 'recharge_result'\n" +
                  "and time > '"+past24Hours+"'\n" +
                  "and time < '"+endtime+"'\n" +
-                 "group by CONCAT(SUBSTR(CAST(time AS STRING), 9, 2),'/',SUBSTR(CAST(time AS STRING), 6, 2), ':', SUBSTR(CAST(time AS STRING), 12, 2))) aa on aahour.hour=aa.hour  ";
+                 "group by CONCAT(SUBSTR(CAST(time AS STRING), 9, 2), '/', SUBSTR(CAST(time AS STRING), 6, 2), ' ', SUBSTR(CAST(time AS STRING), 12, 2),':00')) aa on aahour.hour=aa.hour  ";
          SQLBuffer.append(sqlLast);
 
 
@@ -1118,7 +1117,7 @@ public class etlsqls {
             // 开始插入操作
 //            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
             // 通过 excel load fail 导入
-        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),userinfo2FilePath,"userinfo",userinfo.class,starttime,endtime));
+        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.vivian).getConnection(),userinfo2FilePath,"stg.user_info",userinfo.class,starttime,endtime));
         return 0;
 
     }
