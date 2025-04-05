@@ -4,6 +4,8 @@ public class failmonitoring2 {
 
     public String hour;
 
+    public String report_time;
+
     public Integer avg7days_count;
 
     public double fail_rate;
@@ -14,6 +16,14 @@ public class failmonitoring2 {
 
     public String getHour() {
         return hour;
+    }
+
+    public String getReport_time() {
+        return report_time;
+    }
+
+    public void setReport_time(String report_time) {
+        this.report_time = report_time;
     }
 
     public void setHour(String hour) {
