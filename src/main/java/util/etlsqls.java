@@ -5,20 +5,16 @@ import jdbc.dmlacid;
 import jdbc.mysqljdbcconn;
 import jdbc.sqlserverjdbcconn;
 import pojp.*;
-
 import javax.net.ssl.SSLContext;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.math.BigInteger;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -118,13 +114,13 @@ public class etlsqls {
 
     public static void main(String[] args) throws Exception{
 //        last7days_rate();
-        fail_reason_monitoring();
+//        fail_reason_monitoring();
 //        fail_reason_monitordetail();
 //        fail_reason_monitordetail2();
 //        orderwintosqlserver();
         //rgusersstatics();
         //rgdispositedlimitselftimeout();
-//        fail_current_fail_count();
+        fail_current_fail_count();
 
     }
     public static String logs1 ;
@@ -333,12 +329,7 @@ public class etlsqls {
                 "FROM (\n" +
                 "    -- Subquery aaa: Counts total number of failed recharge attempts per hour\n" +
                 "    SELECT \n" +
-                "      CONCAT(" +
-                "                            SUBSTR(CAST(time AS STRING), 9, 2), '/', " +
-                "                            SUBSTR(CAST(time AS STRING), 6, 2), ':', " +
-                "                            SUBSTR(CAST(time AS STRING), 12, 2), '-'," +
-                "                            LPAD(CAST(CAST(SUBSTR(CAST(time AS STRING), 12, 2) AS INT) + 1 AS STRING), 2, '0')" +
-                "                         ) AS hour,\n" +
+                "    SUBSTR(CAST(time AS STRING), 1, 13) AS hour,\n" +
                 "        COUNT(1) AS fail_total_num\n" +
                 "    FROM events\n" +
                 "    WHERE event = 'recharge_result' \n" +
@@ -347,22 +338,12 @@ public class etlsqls {
                 "        AND time < '"+endtime+"'\n" +
                 "        AND fail_reason IS NOT NULL \n" +
                 "        AND fail_reason != 'TIMEOUT'\n" +
-                "    GROUP BY CONCAT( " +
-                "                            SUBSTR(CAST(time AS STRING), 9, 2), '/', " +
-                "                             SUBSTR(CAST(time AS STRING), 6, 2), ':', "  +
-                "                             SUBSTR(CAST(time AS STRING), 12, 2), '-', "  +
-                "                             LPAD(CAST(CAST(SUBSTR(CAST(time AS STRING), 12, 2) AS INT) + 1 AS STRING), 2, '0')" +
-                "                         )  \n" +
+                "    GROUP BY SUBSTR(CAST(time AS STRING), 1, 13)  \n" +
                 ") aaa\n" +
                 "LEFT JOIN (\n" +
                 "    -- Subquery bbb: Counts failed recharge attempts per hour, country, city, and reason\n" +
                 "    SELECT \n" +
-                "        CONCAT( \n" +
-                "                             SUBSTR(CAST(time AS STRING), 9, 2), '/', \n" +
-                "                             SUBSTR(CAST(time AS STRING), 6, 2), ':', \n" +
-                "                             SUBSTR(CAST(time AS STRING), 12, 2), '-',\n" +
-                "                             LPAD(CAST(CAST(SUBSTR(CAST(time AS STRING), 12, 2) AS INT) + 1 AS STRING), 2, '0') " +
-                "                         )  AS hour,\n" +
+                "       SUBSTR(CAST(time AS STRING), 1, 13) AS hour,\n" +
                 "        users.country,\n" +
                 "        $ip city,\n" +
                 "        fail_reason,\n" +
@@ -376,12 +357,7 @@ public class etlsqls {
                 "        AND fail_reason IS NOT NULL \n" +
                 "        AND fail_reason != 'TIMEOUT'\n" +
                 "    GROUP BY \n" +
-                "        CONCAT(" +
-                "                           SUBSTR(CAST(time AS STRING), 9, 2), '/'," +
-                "                           SUBSTR(CAST(time AS STRING), 6, 2), ':', " +
-                "                           SUBSTR(CAST(time AS STRING), 12, 2), '-', " +
-                "                           LPAD(CAST(CAST(SUBSTR(CAST(time AS STRING), 12, 2) AS INT) + 1 AS STRING), 2, '0')" +
-                "                       ) ,\n" +
+                "       SUBSTR(CAST(time AS STRING), 1, 13),\n" +
                 "        users.country,\n" +
                 "        $ip ,\n" +
                 "        fail_reason\n" +
@@ -559,12 +535,7 @@ public class etlsqls {
         SQLBuffer.append("WITH formatted_data AS (\n" +
                 "    SELECT \n" +
                 "        -- Formatting the 'hour' field\n" +
-                "        CONCAT(\n" +
-                "            SUBSTR(CAST(time AS STRING), 9, 2), '/',  -- Extract day part (DD)\n" +
-                "            SUBSTR(CAST(time AS STRING), 6, 2), ':',  -- Extract month part (MM)\n" +
-                "            SUBSTR(CAST(time AS STRING), 12, 2), '-', -- Extract hour part (HH)\n" +
-                "            LPAD(CAST(CAST(SUBSTR(CAST(time AS STRING), 12, 2) AS INT) + 1 AS STRING), 2, '0')  -- Increment hour by 1\n" +
-                "        ) AS hour,\n" +
+                "         SUBSTR(CAST(time AS STRING), 1, 13) AS hour,\n" +
                 "        \n" +
                 "        -- Counting failed events that aren't 'TIMEOUT'\n" +
                 "        SUM(CASE \n" +
@@ -580,24 +551,14 @@ public class etlsqls {
                 "        -- Row number for sorting\n" +
                 "        ROW_NUMBER() OVER (\n" +
                 "            ORDER BY \n" +
-                "                CONCAT(\n" +
-                "                    SUBSTR(CAST(time AS STRING), 9, 2), '/', \n" +
-                "                    SUBSTR(CAST(time AS STRING), 6, 2), ':', \n" +
-                "                    SUBSTR(CAST(time AS STRING), 12, 2), '-', \n" +
-                "                    LPAD(CAST(CAST(SUBSTR(CAST(time AS STRING), 12, 2) AS INT) + 1 AS STRING), 2, '0')\n" +
-                "                )\n" +
+                "                SUBSTR(CAST(time AS STRING), 1, 13)\n" +
                 "        ) AS rn\n" +
                 "    FROM events\n" +
                 "    WHERE event = 'recharge_result'\n" +
                 "        AND time > '"+past24Hours+"'\n" +
                 "        AND time < '"+endtime+"'\n" +
                 "    GROUP BY \n" +
-                "        CONCAT(\n" +
-                "            SUBSTR(CAST(time AS STRING), 9, 2), '/', \n" +
-                "            SUBSTR(CAST(time AS STRING), 6, 2), ':', \n" +
-                "            SUBSTR(CAST(time AS STRING), 12, 2), '-', \n" +
-                "            LPAD(CAST(CAST(SUBSTR(CAST(time AS STRING), 12, 2) AS INT) + 1 AS STRING), 2, '0')\n" +
-                "        )\n" +
+                "        SUBSTR(CAST(time AS STRING), 1, 13)\n" +
                 ")\n" +
                 "\n" +
                 "-- Final selection of data with the maximum row number (i.e., the latest)\n" +
