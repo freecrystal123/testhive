@@ -19,7 +19,7 @@ import java.util.List;
 import org.json.JSONObject;
 public class timeutils {
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    private static DateTimeFormatter formatHours = DateTimeFormatter.ofPattern("dd/MM:HH");
+    private static DateTimeFormatter formatHours = DateTimeFormatter.ofPattern("dd/MM HH");
 
     public static void main(String[] args) {
         System.out.println(getTimezone("5.195.113.230"));

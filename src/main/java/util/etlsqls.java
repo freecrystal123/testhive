@@ -114,13 +114,13 @@ public class etlsqls {
 
     public static void main(String[] args) throws Exception{
 //        last7days_rate();
-//        fail_reason_monitoring();
+        fail_reason_monitoring();
 //        fail_reason_monitordetail();
 //        fail_reason_monitordetail2();
 //        orderwintosqlserver();
         //rgusersstatics();
         //rgdispositedlimitselftimeout();
-        fail_current_fail_count();
+//        fail_current_fail_count();
 
     }
     public static String logs1 ;
@@ -636,7 +636,7 @@ public class etlsqls {
                  "    SELECT \n" +
                  "        CONCAT(\n" +
                  "            SUBSTR(CAST(time AS STRING), 9, 2), '/', \n" +
-                 "            SUBSTR(CAST(time AS STRING), 6, 2), ':', \n" +
+                 "            SUBSTR(CAST(time AS STRING), 6, 2), ' ', \n" +
                  "            SUBSTR(CAST(time AS STRING), 12, 2), '-', \n" +
                  "            LPAD(CAST(CAST(SUBSTR(CAST(time AS STRING), 12, 2) AS INT) + 1 AS STRING), 2, '0')\n" +
                  "        ) AS hour,\n" +
