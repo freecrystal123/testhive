@@ -30,6 +30,24 @@ public class timeutils {
         return sdf.format(new java.util.Date());
     }
 
+    public static long convertToTimeStamp(String inputdate){
+        long timestamp = 0;
+        try {
+            // 将字符串解析为日期
+            // 将字符串解析为 LocalDateTime
+            LocalDateTime dateTime = LocalDateTime.parse(inputdate, formatter);
+
+            // 获取时间戳（秒）
+             timestamp = dateTime.atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli();
+
+
+            // 输出时间戳
+            return timestamp;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       return timestamp;
+    }
 
     public static String getTimezone(String ip) {
         try {

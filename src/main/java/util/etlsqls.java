@@ -118,13 +118,13 @@ public class etlsqls {
 
     public static void main(String[] args) throws Exception{
 //        last7days_rate();
-//        fail_reason_monitoring();
+        fail_reason_monitoring();
 //        fail_reason_monitordetail();
 //        fail_reason_monitordetail2();
 //        orderwintosqlserver();
         //rgusersstatics();
         //rgdispositedlimitselftimeout();
-        fail_current_fail_count();
+//        fail_current_fail_count();
 
     }
     public static String logs1 ;
@@ -550,7 +550,6 @@ public class etlsqls {
 
     public static int fail_current_fail_count() throws Exception{
 
-        String starttime = timeutils.getDayStart();
         String endtime = timeutils.getNowTime();
 
         String past24Hours = timeutils.getPast24Hours();
@@ -669,9 +668,10 @@ public class etlsqls {
 
         String endtime = timeutils.getNowTime();
         String before7days =  timeutils.get7DayAgo();
+        String starttime = timeutils.getPast24Hours();
 
-         StringBuffer SQLBuffer = new StringBuffer();
-         SQLBuffer.append(  "WITH HourlyEvents AS (\n" +
+        StringBuffer SQLBuffer = new StringBuffer();
+        SQLBuffer.append(  "WITH HourlyEvents AS (\n" +
                  "    SELECT \n" +
                  "        CONCAT(\n" +
                  "            SUBSTR(CAST(time AS STRING), 9, 2), '/', \n" +
@@ -756,7 +756,7 @@ public class etlsqls {
              failmonitoring2s.add(person);
          }
          // 新的 ArrayList 用于存放最后两位相同的元素
-         // 中位数逻辑
+         // 平均数逻辑
          HashMap<String,Integer> stringListHashMap = new HashMap<>();
          for(int i = 0; i < failmonitoring2s.size(); i++){
              List<Integer> failcountArray = new ArrayList<>();
@@ -795,6 +795,15 @@ public class etlsqls {
          }
 
          for(failmonitoring2 person:failmonitoring2s){
+
+             // exclude date older then 24 hours /
+
+             String actualData  = person.report_time+":00:00";
+             long lactualData = timeutils.convertToTimeStamp(actualData);
+             long lthreadhold = timeutils.convertToTimeStamp(starttime);
+             if(lactualData<lthreadhold){
+                 continue;
+             }
              writer.write(person.hour+","+person.report_time+","+person.avg7days_count+","+person.fail_rate+","+person.fail_count+","+person.all_count);
              writer.newLine();
              databaseoutputcount ++;
