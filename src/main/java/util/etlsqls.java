@@ -112,14 +112,17 @@ public class etlsqls {
 
 
 
+
     public static void main(String[] args) throws Exception{
+//        testSql();
 //        last7days_rate();
-        fail_reason_monitoring();
+//        fail_reason_monitoring();
 //        fail_reason_monitordetail();
 //        fail_reason_monitordetail2();
 //        orderwintosqlserver();
-        //rgusersstatics();
-        //rgdispositedlimitselftimeout();
+        rgusersstatics();
+        rgdispositedlimitselftimeout();
+
 //        fail_current_fail_count();
 
     }
@@ -238,6 +241,18 @@ public class etlsqls {
 
 
 
+    }
+
+
+
+
+
+    public static int betting_count() throws Exception {
+
+        
+
+
+        return 0;
     }
 
     public static int last7days_rate() throws Exception{
