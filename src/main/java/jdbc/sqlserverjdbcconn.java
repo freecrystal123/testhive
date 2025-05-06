@@ -28,8 +28,8 @@ public class sqlserverjdbcconn {
     private static String generalLink = "jdbc:sqlserver://hco65xnsg6dulio4raop7psqwe-dngoeut2h7lubnqjvyommvf4vq.database.fabric.microsoft.com:1433;"
             + "database={NLAndTWDatabase-b839fe70-24a3-4802-89fe-2db1618b846d};"
             + "encrypt=true;"
-            + "trustServerCertificate=true;"
-            + "authentication=ActiveDirectoryPassword;"
+            + "trustServerCertificate=false;"
+            + "authentication=ActiveDirectoryInteractive;"
             + "user=zchai@mcorp.ae;"
             + "password=Adgjl@159357321";
     // 创建两个静态数据源实例

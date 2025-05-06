@@ -102,9 +102,12 @@ public class etlsqls {
 
     public static String rgusersstatics2FilePath  = basepath+"rgusersstatics2FilePath.csv";
 
+    public static String factbetcountFilePath  = basepath+"factbetcountFilePath.csv";
+
 
     public static String rgdispositedlimitselftimeout2FilePath =  basepath +"rgdispositedlimitselftimeout2FilePath.csv";
 
+    public static String spendmoney2FilePath =  basepath +"spendmoney2FilePath.csv";
 
 
     public static StringBuffer msg = new StringBuffer();
@@ -118,12 +121,14 @@ public class etlsqls {
 //        last7days_rate();
 //        fail_reason_monitoring();
 //        fail_reason_monitordetail();
-//        fail_reason_monitordetail2();
+//        fail_reason_monitordetail2();Betting users
 //        orderwintosqlserver();
-        rgusersstatics();
-        rgdispositedlimitselftimeout();
-
+//        rgusersstatics();
+//        rgdispositedlimitselftimeout();
+//        betting_count();
 //        fail_current_fail_count();
+
+        spendmoney();
 
     }
     public static String logs1 ;
@@ -144,6 +149,114 @@ public class etlsqls {
         }
         return factjobschedulers;
     }
+
+
+    /*  */
+    public static int spendmoney() throws Exception {
+
+        // 获取昨天的日期
+        LocalDate yesterday = LocalDate.now();
+
+        // 定义日期格式化器
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // 将昨天的日期格式化为字符串
+        String formattedDate = yesterday.format(formatter);
+        String[] command = {
+                "curl",
+                "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
+                "-X", "POST",
+                "--data-urlencode", "q= SELECT \n" +
+                "  aa.month monthid,\n" +
+                "  u.uid user_id,\n" +
+                "  ROUND(\n" +
+                "    aa.total_recharge - COALESCE(bb.total_withdraw_amount, 0), \n" +
+                "    2\n" +
+                "  ) AS spend_money\n" +
+                "FROM users u\n" +
+                "JOIN (\n" +
+                "  SELECT \n" +
+                "    user_id, \n" +
+                "    SUM(estimated_price) AS total_recharge,\n" +
+                "    SUBSTR(CAST(time AS STRING), 1, 7) AS month\n" +
+                "  FROM events \n" +
+                "  WHERE event = 'recharge_result'\n" +
+                "    AND is_success = 1\n" +
+                "  GROUP BY user_id, SUBSTR(CAST(time AS STRING), 1, 7)\n" +
+                ") aa ON u.id = aa.user_id\n" +
+                "LEFT JOIN (\n" +
+                "  SELECT \n" +
+                "    user_id, \n" +
+                "    SUM(withdraw_amount) AS total_withdraw_amount,\n" +
+                "    SUBSTR(CAST(time AS STRING), 1, 7) AS month\n" +
+                "  FROM events \n" +
+                "  WHERE event = 'withdraw_result'\n" +
+                "    AND is_success = 1\n" +
+                "  GROUP BY user_id, SUBSTR(CAST(time AS STRING), 1, 7)\n" +
+                ") bb ON u.id = bb.user_id AND aa.month = bb.month\n" +
+                " where ROUND(\n" +
+                "    aa.total_recharge - COALESCE(bb.total_withdraw_amount, 0), \n" +
+                "    2\n" +
+                "  )>1000" ,
+                "--data-urlencode", "format=json",
+        };
+
+
+
+        // 输出 逻辑
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(spendmoney2FilePath));
+
+        // 执行 curl 命令
+        Process process = Runtime.getRuntime().exec(command);
+        // 读取命令输出
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        int databaseoutputcount = 0;
+        while ((line = reader.readLine()) != null) {
+            spendmoney person = gson.fromJson(line, spendmoney.class);
+            writer.write(person.monthid+","+person.user_id+","+person.spend_money);
+            writer.newLine();
+            databaseoutputcount ++;
+            if(databaseoutputcount%10==0){
+                System.out.println(" 目前是"+databaseoutputcount+"\n");
+            }
+        }
+        InLog(msg.toString());
+        // 等待命令执行完成
+
+        if(databaseoutputcount==0){
+            InLog("please check vpn !");
+            throw new Exception("please check vpn!");
+        }
+
+        int exitCode = process.waitFor();
+        if (exitCode == 0) {
+            System.out.println("Curl command executed successfully ！");
+            InLog( msg + "Curl command executed successfully ！");
+        } else {
+            System.out.println("Curl command failed with exit code: " + exitCode);
+            InLog( msg + "Curl command failed with exit code: " + exitCode);
+
+        }
+
+        writer.close();
+        /** 阿里云插入限制 **/
+        // 开始插入操作
+//            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
+        // 通过 excel load fail 导入
+        InLog("spendmoney2FilePath:"+spendmoney2FilePath);
+
+        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),spendmoney2FilePath,"fact_lottery_spendmoney_d",spendmoney.class,null,null));
+
+        return 0;
+
+
+
+    }
+
+
+
     /*  */
     public static int rgdispositedlimitselftimeout(  ) throws Exception {
 
@@ -244,15 +357,92 @@ public class etlsqls {
     }
 
 
-
-
-
     public static int betting_count() throws Exception {
 
-        
+        String[] command = {
+                "curl",
+                "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
+                "-X", "POST",
+                "--data-urlencode", "q= \n" +
+                "select uid user_id, \n" +
+                "'recharge' bus_type,\n" +
+                "deposit_times bet_count,\n" +
+                "recharge_date dateid\n" +
+                " from users join (\t\t\t\t\t\n" +
+                "select count(1) deposit_times,user_id,substr(cast(time as string),1,10) recharge_date\t\t\t\n" +
+                "from events \t\t\t\t\t\n" +
+                "where event = 'recharge_result'\t\t\t\t\t\n" +
+                "and is_success = 1\t\t\t\t\t\n" +
+                "group by user_id,recharge_date\t\t\t\t\t\n" +
+                ") aa on users.id = aa.user_id\t\t\t\t\t\n" +
+                "and deposit_times > 25\t\t\n" +
+                "union all\n" +
+                "select uid,\n" +
+                "'bettings' dimension_type,\n" +
+                "lottery_entries,\n" +
+                "order_date\n" +
+                "from users join (\n" +
+                "select user_id,\n" +
+                "substr(cast(time as string),1,10) order_date\n" +
+                ",sum(lottery_entries) lottery_entries\n" +
+                "from events \n" +
+                "where event = 'lottery_order_result'\n" +
+                "and is_success = 1\n" +
+                "and lottery_type not in ('Lucky Day')\n" +
+                "group by substr(cast(time as string),1,10),user_id\n" +
+                "having sum(lottery_entries) >200) aa on users.id = aa.user_id\n  ",
+                "--data-urlencode", "format=json",
+        };
 
 
+        // 输出 逻辑
+
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(factbetcountFilePath));
+
+        // 执行 curl 命令
+        Process process = Runtime.getRuntime().exec(command);
+        // 读取命令输出
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        int databaseoutputcount = 0;
+        while ((line = reader.readLine()) != null) {
+            factbetcount person = gson.fromJson(line, factbetcount.class);
+            writer.write(person.getDateid()+","+person.getUser_id()+","+person.getBus_type()+","+person.getBet_count());
+            writer.newLine();
+            databaseoutputcount ++;
+            if(databaseoutputcount%10==0){
+                System.out.println(" 目前是"+databaseoutputcount+"\n");
+            }
+        }
+        InLog(msg.toString());
+        // 等待命令执行完成
+
+        if(databaseoutputcount==0){
+            InLog("please check vpn !");
+            throw new Exception("please check vpn!");
+        }
+
+        int exitCode = process.waitFor();
+        if (exitCode == 0) {
+            System.out.println("Curl command executed successfully ！");
+            InLog( msg + "Curl command executed successfully ！");
+        } else {
+            System.out.println("Curl command failed with exit code: " + exitCode);
+            InLog( msg + "Curl command failed with exit code: " + exitCode);
+
+        }
+
+        writer.close();
+        /** 阿里云插入限制 **/
+        // 开始插入操作
+//            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
+        // 通过 excel load fail 导入
+        InLog("factbetcountFilePath:"+factbetcountFilePath);
+        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),factbetcountFilePath,"fact_bet_count_h",factbetcount.class,null,null));
         return 0;
+
+
     }
 
     public static int last7days_rate() throws Exception{
@@ -396,16 +586,6 @@ public class etlsqls {
         List<failmonitorindetail2> failmonitorindetail2s = new ArrayList<>();
         while ((line = reader.readLine()) != null) {
             failmonitorindetail2 person = gson.fromJson(line, failmonitorindetail2.class);
-//            if(cityIP.get(person.getCity())==null){
-//                String City = timeutils.getTimezone(person.getCity());
-//                cityIP.put(person.getCity(),City);
-//                person.setCity(City);
-//            }else{
-//                String City  = cityIP.get(person.getCity());
-//                person.setCity(City);
-//            }
-//
-
             failmonitorindetail2s.add(person);
 
         }
@@ -827,8 +1007,8 @@ public class etlsqls {
         LocalDate yesterday = LocalDate.now().minusDays(0);
 
 
-        // 获取昨天的日期
-        LocalDate lastMonthday = LocalDate.now().minusDays(8);
+        // 最近一个月
+        LocalDate lastMonthday = LocalDate.now().minusDays(30);
 
         // 定义日期格式化器
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd 00:00:00");

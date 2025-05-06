@@ -169,6 +169,10 @@ public class jpanelsched extends JPanel {
                        etlsqls.fail_current_fail_count();
                    } else if( "Order Lottery".equals(factjobschedulerItem.getJob_name())){
                        etlsqls.orderwintosqlserver();
+                   } else if ("GR Limit".equals(factjobschedulerItem.getJob_name())){
+                       etlsqls.rgusersstatics();
+                       etlsqls.betting_count();
+                       etlsqls.rgdispositedlimitselftimeout();
                    }
                    factjobscheduler factjobschedulerItemUpdate = new factjobscheduler();
                    factjobschedulerItemUpdate.setJob_id(factjobschedulerItem.getJob_id());
