@@ -37,7 +37,8 @@ public class jpanelsched extends JPanel {
         String[] columnNames = {"Select", "Job Id","Job Name", "Job CallTime", "Job EndTime", "Job frequency", "Num of calls"};
         Object[][] data = {
                 {false,"1","Monitor Lottery", timeutils.getCurrentTime(), timeutils.getCurrentTime(), "15", 0},
-                {false,"2","Order Lottery", timeutils.getCurrentTime(), timeutils.getCurrentTime(), "15", 0}
+                {false,"2","Order Lottery", timeutils.getCurrentTime(), timeutils.getCurrentTime(), "15", 0},
+                {false,"3","GR Limit", timeutils.getCurrentTime(), timeutils.getCurrentTime(), "15", 0}
         };
 
         // 初始化表格模型
