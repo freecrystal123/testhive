@@ -123,11 +123,10 @@ public class etlsqls {
 //        fail_reason_monitordetail();
 //        fail_reason_monitordetail2();Betting users
 //        orderwintosqlserver();
-//        rgusersstatics();
-//        rgdispositedlimitselftimeout();
-//        betting_count();
+        rgusersstatics();
+        rgdispositedlimitselftimeout();
+        betting_count();
 //        fail_current_fail_count();
-
         spendmoney();
 
     }
@@ -182,6 +181,7 @@ public class etlsqls {
                 "  FROM events \n" +
                 "  WHERE event = 'recharge_result'\n" +
                 "    AND is_success = 1\n" +
+                "  and substr(cast(time as string),1,7) < '"+formattedDate+"'" +
                 "  GROUP BY user_id, SUBSTR(CAST(time AS STRING), 1, 7)\n" +
                 ") aa ON u.id = aa.user_id\n" +
                 "LEFT JOIN (\n" +
@@ -192,6 +192,7 @@ public class etlsqls {
                 "  FROM events \n" +
                 "  WHERE event = 'withdraw_result'\n" +
                 "    AND is_success = 1\n" +
+                "    and substr(cast(time as string),1,7) < '"+formattedDate+"'" +
                 "  GROUP BY user_id, SUBSTR(CAST(time AS STRING), 1, 7)\n" +
                 ") bb ON u.id = bb.user_id AND aa.month = bb.month\n" +
                 " where ROUND(\n" +
@@ -359,6 +360,15 @@ public class etlsqls {
 
     public static int betting_count() throws Exception {
 
+        // 获取昨天的日期
+        LocalDate yesterday = LocalDate.now();
+
+        // 定义日期格式化器
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // 将昨天的日期格式化为字符串
+        String formattedDate = yesterday.format(formatter);
+
         String[] command = {
                 "curl",
                 "https://data.admin-uaenl.ae/api/sql/query?token=0303149a7f47af8d6c34e803c5b42b32e199114857e52e6d1333f7331a6d379f&project=production",  // 替换为你实际的 URL
@@ -408,6 +418,9 @@ public class etlsqls {
         int databaseoutputcount = 0;
         while ((line = reader.readLine()) != null) {
             factbetcount person = gson.fromJson(line, factbetcount.class);
+            if(formattedDate.equals(person.getDateid())){
+                continue;
+            }
             writer.write(person.getDateid()+","+person.getUser_id()+","+person.getBus_type()+","+person.getBet_count());
             writer.newLine();
             databaseoutputcount ++;
@@ -1032,7 +1045,7 @@ public class etlsqls {
                 "    FROM events \n" +
                 "    WHERE event = 'login_result'\n" +
                 "        AND is_success = 1\n" +
-                "        AND date >= '"+lastmonthformattedDate+"' AND date<='"+yesterformattedDate+"' \n" +
+                "        AND date >= '"+lastmonthformattedDate+"' AND date<'"+yesterformattedDate+"' \n" +
                 "    GROUP BY date \n" +
                 ") aa \n" +
                 "JOIN (\n" +
@@ -1042,7 +1055,7 @@ public class etlsqls {
                 "    FROM events \n" +
                 "    WHERE event = 'lottery_order_result'\n" +
                 "        AND is_success = 1 \n" +
-                "        AND date >= '"+lastmonthformattedDate+"' and date<='"+yesterformattedDate+"' \n" +
+                "        AND date >= '"+lastmonthformattedDate+"' and date<'"+yesterformattedDate+"' \n" +
                 "    GROUP BY date \n" +
                 ") bb \n" +
                 "ON aa.bettingdate = bb.logindate  ",
@@ -1052,7 +1065,6 @@ public class etlsqls {
 
 
         // 输出 逻辑
-
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(rgusersstatics2FilePath));
 
