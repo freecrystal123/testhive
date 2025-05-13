@@ -175,6 +175,7 @@ public class jpanelsched extends JPanel {
                        etlsqls.betting_count();
                        etlsqls.rgdispositedlimitselftimeout();
                        etlsqls.spendmoney();
+                       etlsqls.lossesmoney();
                    }
                    factjobscheduler factjobschedulerItemUpdate = new factjobscheduler();
                    factjobschedulerItemUpdate.setJob_id(factjobschedulerItem.getJob_id());
