@@ -125,12 +125,12 @@ public class etlsqls {
 //        fail_reason_monitordetail();
 //        fail_reason_monitordetail2();Betting users
 //        orderwintosqlserver();
-//        rgusersstatics();
-//        rgdispositedlimitselftimeout();
-//        betting_count();
-//        fail_current_fail_count();
+        rgusersstatics();
+        rgdispositedlimitselftimeout();
+        betting_count();
+//        fail_current_fail_count();`
         spendmoney();
-//        lossesmoney();
+        lossesmoney();
 
     }
     public static String logs1 ;
@@ -251,7 +251,7 @@ public class etlsqls {
         // 通过 excel load fail 导入
         InLog("spendmoney2FilePath:"+lossesmoney2FilePath);
 
-        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),lossesmoney2FilePath,"fact_losses_money_hf",lossesmoney.class,null,null));
+        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.azuresqlserver).getConnection(),lossesmoney2FilePath,"fact_losses_money_hf",lossesmoney.class,null,null));
 
         return 0;
 
@@ -358,7 +358,7 @@ public class etlsqls {
         // 通过 excel load fail 导入
         InLog("spendmoney2FilePath:"+spendmoney2FilePath);
 
-        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),spendmoney2FilePath,"fact_lottery_spendmoney_d",spendmoney.class,null,null));
+        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.azuresqlserver).getConnection(),spendmoney2FilePath,"fact_lottery_spendmoney_d",spendmoney.class,null,null));
 
         return 0;
 
@@ -459,7 +459,7 @@ public class etlsqls {
         // 通过 excel load fail 导入
         InLog("rgusersstatics2FilePath:"+rgdispositedlimitselftimeout2FilePath);
 
-        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),rgdispositedlimitselftimeout2FilePath,"fact_lottery_userrglimitinfo_d",userrglimitinfo.class,null,null));
+        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.azuresqlserver).getConnection(),rgdispositedlimitselftimeout2FilePath,"fact_lottery_userrglimitinfo_d",userrglimitinfo.class,null,null));
 
         return 0;
 
@@ -562,7 +562,7 @@ public class etlsqls {
 //            mysqljdbc.insertincremental_allOrdersTable(orderwin0122s);
         // 通过 excel load fail 导入
         InLog("factbetcountFilePath:"+factbetcountFilePath);
-        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),factbetcountFilePath,"fact_bet_count_h",factbetcount.class,null,null));
+        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.azuresqlserver).getConnection(),factbetcountFilePath,"fact_bet_count_h",factbetcount.class,null,null));
         return 0;
 
 
@@ -1218,7 +1218,7 @@ public class etlsqls {
         // 通过 excel load fail 导入
         InLog("rgusersstatics2FilePath:"+rgusersstatics2FilePath);
 
-        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.general).getConnection(),rgusersstatics2FilePath,"fact_user_bussinessinfo_d",userbussinessinfo.class,lastmonthformattedDate,yesterformattedDate));
+        InLog(dmlacid.loaddataitemsgeneral(sqlserverjdbcconn.getInstance(dbconntype.sqlserverconn.azuresqlserver).getConnection(),rgusersstatics2FilePath,"fact_user_bussinessinfo_d",userbussinessinfo.class,lastmonthformattedDate,yesterformattedDate));
 
 
         return 0;
