@@ -32,9 +32,19 @@ public class sqlserverjdbcconn {
             + "authentication=ActiveDirectoryInteractive;"
             + "user=zchai@mcorp.ae;"
             + "password=Adgjl@159357321";
+
+    private static String azureSQLServerLink = "jdbc:sqlserver://momsql01uaen.database.windows.net:1433;"
+            + "database=momfalajp;"
+            + "encrypt=true;"
+            + "trustServerCertificate=false;"
+            + "authentication=ActiveDirectoryInteractive;"
+            + "user=zchai@mcorp.ae;"
+            + "password=Adgjl@159357321";
+
     // 创建两个静态数据源实例
     private static HikariDataSource generaldataSource;
     private static HikariDataSource ViviandataSource;
+    private static HikariDataSource AzureSQLServerSource;
 
     // 私有构造函数，避免外部实例化
     private sqlserverjdbcconn() {}
@@ -45,6 +55,8 @@ public class sqlserverjdbcconn {
             return getVivianDataSource();
         } else if (connType == dbconntype.sqlserverconn.general) {
             return getGeneralDataSource();
+        } else if (connType == dbconntype.sqlserverconn.azuresqlserver){
+            return getAzureSQLServerLink();
         }
         throw new IllegalArgumentException("Invalid connection type");
     }
@@ -64,6 +76,20 @@ public class sqlserverjdbcconn {
     }
 
     // 获取 General 数据库的数据源
+    private static synchronized HikariDataSource getAzureSQLServerLink() {
+        if (AzureSQLServerSource != null) {
+            if (!isCorrectDatabase(AzureSQLServerSource, "momfalajp")) {
+                AzureSQLServerSource.close();
+                AzureSQLServerSource = null;
+            }
+        }
+        if (AzureSQLServerSource == null) {
+            AzureSQLServerSource = createDataSource(azureSQLServerLink);
+        }
+        return AzureSQLServerSource;
+    }
+
+    // 获取 General 数据库的数据源
     private static synchronized HikariDataSource getGeneralDataSource() {
         if (generaldataSource != null) {
             if (!isCorrectDatabase(generaldataSource, "NLAndTWDatabase-b839fe70-24a3-4802-89fe-2db1618b846d")) {
@@ -76,6 +102,7 @@ public class sqlserverjdbcconn {
         }
         return generaldataSource;
     }
+
 
     // 创建 Hikari 数据源
     private static HikariDataSource createDataSource(String jdbcUrl) {
@@ -107,7 +134,7 @@ public class sqlserverjdbcconn {
     }
 
     public static void main(String[] args) {
-        try (Connection connection = getInstance(dbconntype.sqlserverconn.general).getConnection()) {
+        try (Connection connection = getInstance(dbconntype.sqlserverconn.azuresqlserver).getConnection()) {
             System.out.println("Connection successful!");
         } catch (SQLException e) {
             e.printStackTrace();

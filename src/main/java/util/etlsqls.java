@@ -129,8 +129,8 @@ public class etlsqls {
 //        rgdispositedlimitselftimeout();
 //        betting_count();
 //        fail_current_fail_count();
-//        spendmoney();
-        lossesmoney();
+        spendmoney();
+//        lossesmoney();
 
     }
     public static String logs1 ;

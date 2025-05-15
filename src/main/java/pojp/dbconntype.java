@@ -6,6 +6,6 @@ public enum dbconntype {
         finance
     }
     public enum sqlserverconn{
-        vivian , general
+        vivian , general,azuresqlserver
     }
 }
